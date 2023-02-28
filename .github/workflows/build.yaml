@@ -56,6 +56,8 @@ jobs:
           password: ${{ secrets.GH_PACKAGES_TOKEN }}
       - uses: actions/checkout@v2
       - name: create image from repository
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
           curl -L -O -u $GH_ACTOR:$GH_PACKAGES_TOKEN "https://maven.pkg.github.com/avansoft/flickit-dsl-parser/org/flickit/dsl-parser/$RELEASE_VERSION/dsl-parser-$RELEASE_VERSION.jar" -o dsl-parser-$RELEASE_VERSION.jar
           docker build --build-arg MYFILE=dsl-parser-$RELEASE_VERSION.jar -t ghcr.io/avansoft/flickit-dsl-parser:${{ steps.vars.outputs.tag }} .
