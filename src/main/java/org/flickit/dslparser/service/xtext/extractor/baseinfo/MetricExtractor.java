@@ -4,7 +4,6 @@ import org.flickit.dslparser.model.profile.MetricModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
 import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractor;
 import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractorFactory;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.flickit.dsl.editor.profile.BaseInfo;
@@ -18,7 +17,6 @@ import java.util.List;
 
 @Component
 @Qualifier("metric")
-@Slf4j
 public class MetricExtractor implements BaseInfoExtractor<MetricModel, Metric> {
 
     @Autowired

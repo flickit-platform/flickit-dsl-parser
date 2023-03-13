@@ -1,5 +1,4 @@
 
-
 Metric m1 {
 	questionnaire: dev_ops
 	question: "metric question test m1?"

@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class ModelExtractor {
 
-
+    @SuppressWarnings("unchecked")
     public <T extends BaseInfo> XtextModel<T> extractModels(EList<BaseInfo> assessmentProfileElements, Class<T> clazz) {
         XtextModel<T> xtextModel = new XtextModel<>();
         List<T> models = new ArrayList<>();
