@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.flickit.dsl.editor.profile.BaseInfo;
 import org.flickit.dsl.editor.profile.impl.AssessmentProfileImpl;
+import org.flickit.dslparser.service.xtext.extractor.metric.MetricExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,6 @@ public class AssessmentProfileExtractor {
 
     @Autowired
     ResourceService resourceService;
-
-    @Autowired
-    ProfileExtractor profileExtractor;
     @Autowired
     SubjectExtractor subjectExtractor;
 
@@ -56,11 +54,9 @@ public class AssessmentProfileExtractor {
         List<SubjectModel> subjectModels = subjectExtractor.extractList(elements);
         List<QuestionnaireModel> questionnaireModels = questionnaireExtractor.extractList(elements);
         List<AttributeModel> attributeModels = attributeExtractor.extractList(elements);
-        List<ProfileModel> profileModel = profileExtractor.extractList(elements);
         List<MetricModel> metricModels = metricExtractor.extractList(elements);
 
         AssessmentProfileResponse response = new AssessmentProfileResponse();
-        response.setProfileModel(profileModel.get(0));
         response.setQuestionnaireModels(questionnaireModels);
         response.setAttributeModels(attributeModels);
         response.setSubjectModels(subjectModels);

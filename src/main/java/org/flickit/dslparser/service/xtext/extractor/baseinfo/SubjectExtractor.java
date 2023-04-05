@@ -1,37 +1,24 @@
 package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
+import org.eclipse.emf.common.util.EList;
+import org.flickit.dsl.editor.profile.BaseInfo;
+import org.flickit.dsl.editor.profile.Questionnaire;
+import org.flickit.dsl.editor.profile.Subject;
+import org.flickit.dslparser.model.profile.QuestionnaireModel;
 import org.flickit.dslparser.model.profile.SubjectModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
-import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractor;
-import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractorFactory;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.flickit.dsl.editor.profile.BaseInfo;
-import org.flickit.dsl.editor.profile.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Qualifier("subject")
 public class SubjectExtractor implements BaseInfoExtractor<SubjectModel, Subject> {
 
-    @Autowired
-    FeatureExtractorFactory extractorFactory;
 
-    @Override
-    public SubjectModel extract(Subject xtextInfo) {
-        EList<EObject> features = xtextInfo.getFeatures();
-        SubjectModel subjectModel = new SubjectModel();
-        for(EObject eObject: features) {
-            FeatureExtractor featureExtractor = extractorFactory.getExtractor(eObject);
-            featureExtractor.extract(eObject, subjectModel);
-        }
-        return subjectModel;
-    }
 
     public List<SubjectModel> extractList(EList<BaseInfo> xtextElements) {
         XtextModel<Subject> xtextModel =  extractModel(xtextElements);
@@ -39,10 +26,7 @@ public class SubjectExtractor implements BaseInfoExtractor<SubjectModel, Subject
         List<SubjectModel> subjectModels = new ArrayList<>();
         for (int i = 0; i < xtextSubjects.size(); i++) {
             SubjectModel subjectModel = extract(xtextSubjects.get(i));
-            if(subjectModel.getIndex() == null) {
-                int index = i+1;
-                subjectModel.setIndex(index);
-            }
+            setupIndex(i, subjectModel);
             subjectModels.add(subjectModel);
         }
         return subjectModels;
@@ -59,6 +43,16 @@ public class SubjectExtractor implements BaseInfoExtractor<SubjectModel, Subject
         }
         xtextModel.setModels(models);
         return xtextModel;
+    }
+
+    @Override
+    public SubjectModel extract(Subject subject) {
+        SubjectModel subjectModel = new SubjectModel();
+        subjectModel.setCode(subject.getCode());
+        subjectModel.setTitle((subject.getTitle()));
+        subjectModel.setDescription(subject.getDescription());
+        subjectModel.setQuestionnaireCodes(subject.getQuestionnaires().stream().map(Questionnaire::getCode).collect(Collectors.toList()));
+        return subjectModel;
     }
 
 }

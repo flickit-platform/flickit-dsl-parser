@@ -7,7 +7,6 @@ import java.util.List;
 
 @Data
 public class AssessmentProfileResponse {
-    private ProfileModel profileModel;
     private List<QuestionnaireModel> questionnaireModels;
     private List<AttributeModel> attributeModels;
     private List<MetricModel> metricModels;

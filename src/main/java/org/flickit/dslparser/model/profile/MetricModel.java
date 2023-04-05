@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 public class MetricModel extends BaseAssessmentModel{
     private String question;
-    private Integer index;
     private String questionnaireCode;
     private List<ImpactModel> metricImpacts;
 

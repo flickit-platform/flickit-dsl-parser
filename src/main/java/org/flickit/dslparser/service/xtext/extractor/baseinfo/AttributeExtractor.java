@@ -1,14 +1,10 @@
 package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
-import org.flickit.dslparser.model.profile.AttributeModel;
-import org.flickit.dslparser.model.xtext.XtextModel;
-import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractor;
-import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractorFactory;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.flickit.dsl.editor.profile.BaseInfo;
 import org.flickit.dsl.editor.profile.QualityAttribute;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.flickit.dslparser.model.profile.AttributeModel;
+import org.flickit.dslparser.model.xtext.XtextModel;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -18,20 +14,6 @@ import java.util.List;
 @Component
 @Qualifier("attribute")
 public class AttributeExtractor implements BaseInfoExtractor<AttributeModel, QualityAttribute> {
-
-    @Autowired
-    FeatureExtractorFactory extractorFactory;
-
-    @Override
-    public AttributeModel extract(QualityAttribute qualityAttribute) {
-        EList<EObject> features = qualityAttribute.getFeatures();
-        AttributeModel attributeModel = new AttributeModel();
-        for(EObject eObject: features) {
-            FeatureExtractor featureExtractor = extractorFactory.getExtractor(eObject);
-            featureExtractor.extract(eObject, attributeModel);
-        }
-        return attributeModel;
-    }
 
     @Override
     public List<AttributeModel> extractList(EList<BaseInfo> elements) {
@@ -44,12 +26,6 @@ public class AttributeExtractor implements BaseInfoExtractor<AttributeModel, Qua
             attributeModels.add(attributeModel);
         }
         return attributeModels;
-    }
-
-    private void setupIndex(int i, AttributeModel attributeModel) {
-        if(attributeModel.getIndex() == null) {
-            attributeModel.setIndex(i + 1);
-        }
     }
 
     @Override
@@ -66,5 +42,13 @@ public class AttributeExtractor implements BaseInfoExtractor<AttributeModel, Qua
         return xtextModel;
     }
 
-
+    @Override
+    public AttributeModel extract(QualityAttribute qualityAttribute) {
+        AttributeModel attributeModel = new AttributeModel();
+        attributeModel.setCode(qualityAttribute.getCode());
+        attributeModel.setTitle(qualityAttribute.getTitle());
+        attributeModel.setDescription(qualityAttribute.getDescription());
+        attributeModel.setSubjectCode(qualityAttribute.getSubject().getCode());
+        return attributeModel;
+    }
 }

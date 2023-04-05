@@ -1,14 +1,10 @@
 package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
-import org.flickit.dslparser.model.profile.QuestionnaireModel;
-import org.flickit.dslparser.model.xtext.XtextModel;
-import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractor;
-import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractorFactory;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.flickit.dsl.editor.profile.BaseInfo;
 import org.flickit.dsl.editor.profile.Questionnaire;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.flickit.dslparser.model.profile.QuestionnaireModel;
+import org.flickit.dslparser.model.xtext.XtextModel;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -20,20 +16,6 @@ import java.util.List;
 @Qualifier("questionnaire")
 public class QuestionnaireExtractor implements BaseInfoExtractor<QuestionnaireModel, Questionnaire> {
 
-    @Autowired
-    FeatureExtractorFactory extractorFactory;
-
-    @Override
-    public QuestionnaireModel extract(Questionnaire questionnaire) {
-        EList<EObject> features = questionnaire.getFeatures();
-        QuestionnaireModel questionnaireModel = new QuestionnaireModel();
-        for(EObject eObject: features) {
-            FeatureExtractor featureExtractor = extractorFactory.getExtractor(eObject);
-            featureExtractor.extract(eObject, questionnaireModel);
-        }
-        return questionnaireModel;
-    }
-
     @Override
     public List<QuestionnaireModel> extractList(EList<BaseInfo> elements) {
         XtextModel<Questionnaire> xtextModel =  extractModel(elements);
@@ -41,10 +23,7 @@ public class QuestionnaireExtractor implements BaseInfoExtractor<QuestionnaireMo
         List<QuestionnaireModel> questionnaireModels = new ArrayList<>();
         for (int i = 0; i < xtextQuestionnaires.size(); i++) {
             QuestionnaireModel questionnaireModel = extract(xtextQuestionnaires.get(i));
-            if(questionnaireModel.getIndex() == null) {
-                int index = i+1;
-                questionnaireModel.setIndex(index);
-            }
+            setupIndex(i, questionnaireModel);
             questionnaireModels.add(questionnaireModel);
         }
         return questionnaireModels;
@@ -63,4 +42,14 @@ public class QuestionnaireExtractor implements BaseInfoExtractor<QuestionnaireMo
         xtextModel.setModels(models);
         return xtextModel;
     }
+
+    @Override
+    public QuestionnaireModel extract(Questionnaire questionnaire) {
+        QuestionnaireModel questionnaireModel = new QuestionnaireModel();
+        questionnaireModel.setCode(questionnaire.getCode());
+        questionnaireModel.setTitle(questionnaire.getTitle());
+        questionnaireModel.setDescription(questionnaire.getDescription());
+        return questionnaireModel;
+    }
+
 }

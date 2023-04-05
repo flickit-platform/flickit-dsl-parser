@@ -1,36 +1,42 @@
-package org.flickit.dslparser.service.xtext.extractor.baseinfo;
+package org.flickit.dslparser.service.xtext.extractor.metric;
 
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.emf.common.util.EList;
+import org.flickit.dsl.editor.profile.AffectsLevel;
+import org.flickit.dsl.editor.profile.BaseInfo;
+import org.flickit.dsl.editor.profile.CustomOption;
+import org.flickit.dsl.editor.profile.Metric;
+import org.flickit.dslparser.model.profile.AnswerModel;
+
+import org.flickit.dslparser.model.profile.ImpactModel;
+import org.flickit.dslparser.model.profile.Level;
 import org.flickit.dslparser.model.profile.MetricModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
-import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractor;
-import org.flickit.dslparser.service.xtext.extractor.feature.FeatureExtractorFactory;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.flickit.dsl.editor.profile.BaseInfo;
-import org.flickit.dsl.editor.profile.Metric;
+import org.flickit.dslparser.service.xtext.extractor.baseinfo.BaseInfoExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 @Qualifier("metric")
+@Slf4j
 public class MetricExtractor implements BaseInfoExtractor<MetricModel, Metric> {
 
     @Autowired
-    FeatureExtractorFactory extractorFactory;
+    MetricOptionExtractor metricOptionExtractor;
 
+    @Autowired
+    MetricImpactExtractor metricImpactExtractor;
 
     @Override
-    public MetricModel extract(Metric xtextInfo) {
-        EList<EObject> features = xtextInfo.getFeatures();
+    public MetricModel extract(Metric metric) {
         MetricModel metricModel = new MetricModel();
-        for(EObject eObject: features) {
-            FeatureExtractor featureExtractor = extractorFactory.getExtractor(eObject);
-            featureExtractor.extract(eObject, metricModel);
-        }
+        metricModel.setQuestion(metric.getQuestion());
+        metricModel.setQuestionnaireCode(metric.getQuestionnaire().getCode());
+        metricOptionExtractor.setupMetricOptions(metricModel, metric.getOptions());
+        metricImpactExtractor.setupMetricImpacts(metricModel, metric);
         return metricModel;
     }
 
@@ -41,10 +47,7 @@ public class MetricExtractor implements BaseInfoExtractor<MetricModel, Metric> {
         List<MetricModel> metricModels = new ArrayList<>();
         for (int i = 0; i < xtextMetrics.size(); i++) {
             MetricModel metricModel = extract(xtextMetrics.get(i));
-            if(metricModel.getIndex() == null) {
-                int index = i+1;
-                metricModel.setIndex(index);
-            }
+            setupIndex(i, metricModel);
             metricModels.add(metricModel);
         }
         return metricModels;
@@ -63,4 +66,5 @@ public class MetricExtractor implements BaseInfoExtractor<MetricModel, Metric> {
         xtextModel.setModels(models);
         return xtextModel;
     }
+
 }
