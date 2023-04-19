@@ -7,6 +7,8 @@ import org.flickit.dsl.editor.profile.Subject;
 import org.flickit.dslparser.model.profile.QuestionnaireModel;
 import org.flickit.dslparser.model.profile.SubjectModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
+import org.flickit.dslparser.service.CodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +20,8 @@ import java.util.stream.Collectors;
 @Qualifier("subject")
 public class SubjectExtractor implements BaseInfoExtractor<SubjectModel, Subject> {
 
-
+    @Autowired
+    CodeGenerator codeGenerator;
 
     public List<SubjectModel> extractList(EList<BaseInfo> xtextElements) {
         XtextModel<Subject> xtextModel =  extractModel(xtextElements);
@@ -38,6 +41,7 @@ public class SubjectExtractor implements BaseInfoExtractor<SubjectModel, Subject
         for(BaseInfo element : elements) {
             if(Subject.class.isAssignableFrom(element.getClass())) {
                 Subject model = (Subject) element;
+                model.setCode(codeGenerator.generate());
                 models.add(model);
             }
         }

@@ -5,6 +5,8 @@ import org.flickit.dsl.editor.profile.BaseInfo;
 import org.flickit.dsl.editor.profile.Questionnaire;
 import org.flickit.dslparser.model.profile.QuestionnaireModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
+import org.flickit.dslparser.service.CodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,9 @@ import java.util.List;
 @Component
 @Qualifier("questionnaire")
 public class QuestionnaireExtractor implements BaseInfoExtractor<QuestionnaireModel, Questionnaire> {
+
+    @Autowired
+    CodeGenerator codeGenerator;
 
     @Override
     public List<QuestionnaireModel> extractList(EList<BaseInfo> elements) {
@@ -36,6 +41,7 @@ public class QuestionnaireExtractor implements BaseInfoExtractor<QuestionnaireMo
         for(BaseInfo element : elements) {
             if(Questionnaire.class.isAssignableFrom(element.getClass())) {
                 Questionnaire model = (Questionnaire) element;
+                model.setCode(codeGenerator.generate());
                 models.add(model);
             }
         }

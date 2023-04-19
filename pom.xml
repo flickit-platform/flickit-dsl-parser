@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.flickit</groupId>
 	<artifactId>dsl-parser</artifactId>
-	<version>0.0.1</version>
+	<version>0.2.0</version>
 	<name>dsl-parser</name>
 	<description>A profile dsl parser</description>
 	<properties>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.flickit.dsl.editor</groupId>
 			<artifactId>org.flickit.dsl.editor</artifactId>
-			<version>0.1.0</version>
+			<version>0.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
@@ -59,6 +59,13 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

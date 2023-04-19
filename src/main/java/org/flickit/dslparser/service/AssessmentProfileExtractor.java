@@ -51,15 +51,15 @@ public class AssessmentProfileExtractor {
 
     private AssessmentProfileResponse convert (AssessmentProfileImpl assessmentProfile) {
         EList<BaseInfo> elements = assessmentProfile.getElements();
-        List<SubjectModel> subjectModels = subjectExtractor.extractList(elements);
         List<QuestionnaireModel> questionnaireModels = questionnaireExtractor.extractList(elements);
+        List<SubjectModel> subjectModels = subjectExtractor.extractList(elements);
         List<AttributeModel> attributeModels = attributeExtractor.extractList(elements);
         List<MetricModel> metricModels = metricExtractor.extractList(elements);
 
         AssessmentProfileResponse response = new AssessmentProfileResponse();
-        response.setQuestionnaireModels(questionnaireModels);
-        response.setAttributeModels(attributeModels);
         response.setSubjectModels(subjectModels);
+        response.setAttributeModels(attributeModels);
+        response.setQuestionnaireModels(questionnaireModels);
         response.setMetricModels(metricModels);
         return response;
     }

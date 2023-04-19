@@ -5,6 +5,8 @@ import org.flickit.dsl.editor.profile.BaseInfo;
 import org.flickit.dsl.editor.profile.QualityAttribute;
 import org.flickit.dslparser.model.profile.AttributeModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
+import org.flickit.dslparser.service.CodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,9 @@ import java.util.List;
 @Component
 @Qualifier("attribute")
 public class AttributeExtractor implements BaseInfoExtractor<AttributeModel, QualityAttribute> {
+
+    @Autowired
+    CodeGenerator codeGenerator;
 
     @Override
     public List<AttributeModel> extractList(EList<BaseInfo> elements) {
@@ -35,6 +40,7 @@ public class AttributeExtractor implements BaseInfoExtractor<AttributeModel, Qua
         for(BaseInfo element : elements) {
             if(QualityAttribute.class.isAssignableFrom(element.getClass())) {
                 QualityAttribute model = (QualityAttribute) element;
+                model.setCode(codeGenerator.generate());
                 models.add(model);
             }
         }
