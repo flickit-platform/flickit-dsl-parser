@@ -35,7 +35,7 @@ public class CodeGenerator {
         try {
             File file = new File(codeFilePath);
             if (file.exists()) {
-                return Long.valueOf(FileUtils.readFileToString(file, Charset.defaultCharset()));
+                return Long.valueOf(FileUtils.readFileToString(file, Charset.defaultCharset()).trim());
             }
         } catch (IOException e) {
             // handle exception
