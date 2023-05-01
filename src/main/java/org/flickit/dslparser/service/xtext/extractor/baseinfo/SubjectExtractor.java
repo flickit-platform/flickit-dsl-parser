@@ -4,7 +4,6 @@ import org.eclipse.emf.common.util.EList;
 import org.flickit.dsl.editor.profile.BaseInfo;
 import org.flickit.dsl.editor.profile.Questionnaire;
 import org.flickit.dsl.editor.profile.Subject;
-import org.flickit.dslparser.model.profile.QuestionnaireModel;
 import org.flickit.dslparser.model.profile.SubjectModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
 import org.flickit.dslparser.service.CodeGenerator;
@@ -41,7 +40,7 @@ public class SubjectExtractor implements BaseInfoExtractor<SubjectModel, Subject
         for(BaseInfo element : elements) {
             if(Subject.class.isAssignableFrom(element.getClass())) {
                 Subject model = (Subject) element;
-                model.setCode(codeGenerator.generate());
+                model.setDescription(codeGenerator.generate());
                 models.add(model);
             }
         }
@@ -52,10 +51,10 @@ public class SubjectExtractor implements BaseInfoExtractor<SubjectModel, Subject
     @Override
     public SubjectModel extract(Subject subject) {
         SubjectModel subjectModel = new SubjectModel();
-        subjectModel.setCode(subject.getCode());
+        subjectModel.setCode(subject.getDescription());
         subjectModel.setTitle((subject.getTitle()));
         subjectModel.setDescription(subject.getDescription());
-        subjectModel.setQuestionnaireCodes(subject.getQuestionnaires().stream().map(Questionnaire::getCode).collect(Collectors.toList()));
+        subjectModel.setQuestionnaireCodes(subject.getQuestionnaires().stream().map(Questionnaire::getDescription).collect(Collectors.toList()));
         return subjectModel;
     }
 

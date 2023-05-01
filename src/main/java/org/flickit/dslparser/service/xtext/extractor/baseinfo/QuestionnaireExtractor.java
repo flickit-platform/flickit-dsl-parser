@@ -41,7 +41,7 @@ public class QuestionnaireExtractor implements BaseInfoExtractor<QuestionnaireMo
         for(BaseInfo element : elements) {
             if(Questionnaire.class.isAssignableFrom(element.getClass())) {
                 Questionnaire model = (Questionnaire) element;
-                model.setCode(codeGenerator.generate());
+                model.setDescription(codeGenerator.generate());
                 models.add(model);
             }
         }
@@ -52,7 +52,7 @@ public class QuestionnaireExtractor implements BaseInfoExtractor<QuestionnaireMo
     @Override
     public QuestionnaireModel extract(Questionnaire questionnaire) {
         QuestionnaireModel questionnaireModel = new QuestionnaireModel();
-        questionnaireModel.setCode(questionnaire.getCode());
+        questionnaireModel.setCode(questionnaire.getDescription());
         questionnaireModel.setTitle(questionnaire.getTitle());
         questionnaireModel.setDescription(questionnaire.getDescription());
         return questionnaireModel;

@@ -26,14 +26,14 @@ public class MetricImpactExtractor {
         for(AffectsLevel affectLevel: metric.getAffects()) {
             ImpactModel impactModel = new ImpactModel();
             impactModel.setLevel(Level.valueOf(affectLevel.getLevel()).getValue());
-            impactModel.setAttributeCode(affectLevel.getQualityAttribute().getCode());
+            impactModel.setAttributeCode(affectLevel.getQualityAttribute().getDescription());
             extractMetricImpacts(affectLevel, impactModel, metricModel);
         }
 
         for(CustomOption customOption: metric.getCustomOptions()) {
             ImpactModel impactModel = new ImpactModel();
             impactModel.setLevel(Level.valueOf(customOption.getOptionLevel().get(0)).getValue());
-            impactModel.setAttributeCode(customOption.getQualityAttribute().get(0).getCode());
+            impactModel.setAttributeCode(customOption.getQualityAttribute().get(0).getDescription());
             extractCustomMetricImpact(customOption, impactModel, metricModel);
         }
 

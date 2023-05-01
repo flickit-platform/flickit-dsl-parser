@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.flickit</groupId>
 	<artifactId>dsl-parser</artifactId>
-	<version>0.2.1</version>
+	<version>0.2.2</version>
 	<name>dsl-parser</name>
 	<description>A profile dsl parser</description>
 	<properties>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.flickit.dsl.editor</groupId>
 			<artifactId>org.flickit.dsl.editor</artifactId>
-			<version>0.2.0</version>
+			<version>0.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>

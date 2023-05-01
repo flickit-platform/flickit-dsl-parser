@@ -34,7 +34,7 @@ public class MetricExtractor implements BaseInfoExtractor<MetricModel, Metric> {
     public MetricModel extract(Metric metric) {
         MetricModel metricModel = new MetricModel();
         metricModel.setQuestion(metric.getQuestion());
-        metricModel.setQuestionnaireCode(metric.getQuestionnaire().getCode());
+        metricModel.setQuestionnaireCode(metric.getQuestionnaire().getDescription());
         metricOptionExtractor.setupMetricOptions(metricModel, metric.getOptions());
         metricImpactExtractor.setupMetricImpacts(metricModel, metric);
         return metricModel;
