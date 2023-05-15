@@ -5,7 +5,7 @@ import org.flickit.dsl.editor.profile.AffectsLevel;
 import org.flickit.dsl.editor.profile.CustomOption;
 import org.flickit.dsl.editor.profile.Metric;
 import org.flickit.dslparser.model.profile.ImpactModel;
-import org.flickit.dslparser.model.profile.Level;
+import org.flickit.dslparser.model.profile.LevelModel;
 import org.flickit.dslparser.model.profile.MetricModel;
 import org.springframework.stereotype.Component;
 
@@ -25,14 +25,18 @@ public class MetricImpactExtractor {
     public void setupMetricImpacts(MetricModel metricModel, Metric metric) {
         for(AffectsLevel affectLevel: metric.getAffects()) {
             ImpactModel impactModel = new ImpactModel();
-            impactModel.setLevel(Level.valueOf(affectLevel.getLevel()).getValue());
+            LevelModel levelModel = new LevelModel();
+            levelModel.setTitle(affectLevel.getLevel().getTitle());
+            impactModel.setLevel(levelModel);
             impactModel.setAttributeCode(affectLevel.getQualityAttribute().getDescription());
             extractMetricImpacts(affectLevel, impactModel, metricModel);
         }
 
         for(CustomOption customOption: metric.getCustomOptions()) {
             ImpactModel impactModel = new ImpactModel();
-            impactModel.setLevel(Level.valueOf(customOption.getOptionLevel().get(0)).getValue());
+            LevelModel levelModel = new LevelModel();
+            levelModel.setTitle(customOption.getOptionLevel().get(0).getTitle());
+            impactModel.setLevel(levelModel);
             impactModel.setAttributeCode(customOption.getQualityAttribute().get(0).getDescription());
             extractCustomMetricImpact(customOption, impactModel, metricModel);
         }
@@ -46,7 +50,7 @@ public class MetricImpactExtractor {
         for(int i = customOption.getOptionFrom().get(0); i <= customOption.getOptionTo().get(0); i ++) {
             String value = values.get(j);
             j++;
-            String formattedValue = value.charAt(0) + "." + value.charAt(1);
+            String formattedValue = value.charAt(0) + "." + value.charAt(2);
             optionValueMap.put(i, Double.valueOf(formattedValue));
         }
         impactModel.setOptionValues(optionValueMap);
@@ -60,7 +64,7 @@ public class MetricImpactExtractor {
             EList<String> values = affectLevel.getValues();
             for(int i = 0; i < optionNumber; i ++) {
                 String value = values.get(i);
-                String formattedValue = value.charAt(0) + "." + value.charAt(1);
+                String formattedValue = value.charAt(0) + "." + value.charAt(2);
                 optionValueMap.put(i + 1, Double.valueOf(formattedValue));
             }
             impactModel.setOptionValues(optionValueMap);

@@ -2,14 +2,9 @@ package org.flickit.dslparser.service.xtext.extractor.metric;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.util.EList;
-import org.flickit.dsl.editor.profile.AffectsLevel;
 import org.flickit.dsl.editor.profile.BaseInfo;
-import org.flickit.dsl.editor.profile.CustomOption;
 import org.flickit.dsl.editor.profile.Metric;
-import org.flickit.dslparser.model.profile.AnswerModel;
 
-import org.flickit.dslparser.model.profile.ImpactModel;
-import org.flickit.dslparser.model.profile.Level;
 import org.flickit.dslparser.model.profile.MetricModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
 import org.flickit.dslparser.service.xtext.extractor.baseinfo.BaseInfoExtractor;

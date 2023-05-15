@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 public class ImpactModel {
     private String attributeCode;
-    private Integer level;
+    private LevelModel level;
     private MetricModel metric;
 
     private Map<Integer, Double> optionValues;
