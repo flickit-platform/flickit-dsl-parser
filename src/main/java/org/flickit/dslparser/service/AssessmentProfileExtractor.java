@@ -1,5 +1,6 @@
 package org.flickit.dslparser.service;
 
+import org.checkerframework.checker.units.qual.A;
 import org.flickit.dslparser.controller.AssessmentProfileResponse;
 import org.flickit.dslparser.model.profile.*;
 import org.flickit.dslparser.service.xtext.ResourceService;
@@ -33,8 +34,14 @@ public class AssessmentProfileExtractor {
     @Autowired
     MetricExtractor metricExtractor;
 
+    @Autowired
+    LevelExtractor levelExtractor;
+    @Autowired
+    CodeGenerator codeGenerator;
+
 
     public AssessmentProfileResponse extract(String dslContent) {
+        Long lastCode = codeGenerator.readLastCodeFromFile();
         try {
             Resource resource = resourceService.setupResource(dslContent);
             AssessmentProfileImpl assessmentProfile = (AssessmentProfileImpl) resource.getContents().get(0);
@@ -42,6 +49,7 @@ public class AssessmentProfileExtractor {
         } catch (Exception ex) {
             AssessmentProfileResponse response = new AssessmentProfileResponse();
             response.setHasError(true);
+            codeGenerator.saveNewCodeToFile(String.valueOf(lastCode));
             log.error("Error in parsing dsl to assessment profile", ex);
             return response;
         }
@@ -55,12 +63,14 @@ public class AssessmentProfileExtractor {
         List<SubjectModel> subjectModels = subjectExtractor.extractList(elements);
         List<AttributeModel> attributeModels = attributeExtractor.extractList(elements);
         List<MetricModel> metricModels = metricExtractor.extractList(elements);
+        List<LevelModel> levelModels = levelExtractor.extractList(elements);
 
         AssessmentProfileResponse response = new AssessmentProfileResponse();
         response.setSubjectModels(subjectModels);
         response.setAttributeModels(attributeModels);
         response.setQuestionnaireModels(questionnaireModels);
         response.setMetricModels(metricModels);
+        response.setLevelModels(levelModels);
         return response;
     }
 

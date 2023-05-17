@@ -7,4 +7,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AttributeModel extends BaseAssessmentModel {
     private String subjectCode;
+    private Integer weight;
 }

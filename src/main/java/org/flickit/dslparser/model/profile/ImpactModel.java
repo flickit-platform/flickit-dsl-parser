@@ -14,4 +14,6 @@ public class ImpactModel {
 
     private Map<Integer, Double> optionValues;
 
+    private Integer weight;
+
 }

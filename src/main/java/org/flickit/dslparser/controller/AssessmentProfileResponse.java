@@ -12,5 +12,7 @@ public class AssessmentProfileResponse {
     private List<MetricModel> metricModels;
     private List<SubjectModel> subjectModels;
 
+    private List<LevelModel> levelModels;
+
     private boolean hasError;
 }

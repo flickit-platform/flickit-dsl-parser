@@ -28,7 +28,8 @@ public class MetricImpactExtractor {
             LevelModel levelModel = new LevelModel();
             levelModel.setTitle(affectLevel.getLevel().getTitle());
             impactModel.setLevel(levelModel);
-            impactModel.setAttributeCode(affectLevel.getQualityAttribute().getDescription());
+            impactModel.setAttributeCode(affectLevel.getQualityAttribute().getCode());
+            impactModel.setWeight(affectLevel.getWeight() != 0 ? affectLevel.getWeight() : 1);
             extractMetricImpacts(affectLevel, impactModel, metricModel);
         }
 
@@ -37,7 +38,8 @@ public class MetricImpactExtractor {
             LevelModel levelModel = new LevelModel();
             levelModel.setTitle(customOption.getOptionLevel().get(0).getTitle());
             impactModel.setLevel(levelModel);
-            impactModel.setAttributeCode(customOption.getQualityAttribute().get(0).getDescription());
+            impactModel.setAttributeCode(customOption.getQualityAttribute().get(0).getCode());
+            impactModel.setWeight(customOption.getWeight() != 0 ? customOption.getWeight() : 1);
             extractCustomMetricImpact(customOption, impactModel, metricModel);
         }
 

@@ -31,7 +31,7 @@ public class CodeGenerator {
         return code;
     }
 
-    private Long readLastCodeFromFile() {
+    public Long readLastCodeFromFile() {
         try {
             File file = new File(codeFilePath);
             if (file.exists()) {
@@ -45,7 +45,7 @@ public class CodeGenerator {
 
 
 
-    private void saveNewCodeToFile(String newCode) {
+    public void saveNewCodeToFile(String newCode) {
         try {
             FileUtils.write(new File(codeFilePath), newCode, Charset.defaultCharset());
         } catch (IOException e) {

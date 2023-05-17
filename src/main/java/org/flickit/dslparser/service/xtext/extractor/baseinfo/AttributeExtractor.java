@@ -40,7 +40,7 @@ public class AttributeExtractor implements BaseInfoExtractor<AttributeModel, Qua
         for(BaseInfo element : elements) {
             if(QualityAttribute.class.isAssignableFrom(element.getClass())) {
                 QualityAttribute model = (QualityAttribute) element;
-                model.setDescription(codeGenerator.generate());
+                model.setCode(codeGenerator.generate());
                 models.add(model);
             }
         }
@@ -51,10 +51,11 @@ public class AttributeExtractor implements BaseInfoExtractor<AttributeModel, Qua
     @Override
     public AttributeModel extract(QualityAttribute qualityAttribute) {
         AttributeModel attributeModel = new AttributeModel();
-        attributeModel.setCode(qualityAttribute.getDescription());
+        attributeModel.setCode(qualityAttribute.getCode());
         attributeModel.setTitle(qualityAttribute.getTitle());
         attributeModel.setDescription(qualityAttribute.getDescription());
-        attributeModel.setSubjectCode(qualityAttribute.getSubject().getDescription());
+        attributeModel.setSubjectCode(qualityAttribute.getSubject().getCode());
+        attributeModel.setWeight(qualityAttribute.getWeight() != 0 ? qualityAttribute.getWeight():1);
         return attributeModel;
     }
 }
