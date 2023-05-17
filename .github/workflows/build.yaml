@@ -28,7 +28,7 @@ jobs:
         run: mvn clean package -Dmaven.test.skip
 
       - name: Deploy to GitHub Packages
-        run: mvn deploy -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/avansoft/flickit-dsl-parser
+        run: mvn deploy -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/avansoft/flickit-dsl-parser -Dmaven.test.skip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
           MAVEN_USERNAME: ${{ github.actor }}
