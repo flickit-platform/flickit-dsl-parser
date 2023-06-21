@@ -1,4 +1,4 @@
-package org.flickit.dslparser.model.profile;
+package org.flickit.dslparser.model.assessmentkit;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,18 +8,18 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class MetricModel extends BaseAssessmentModel{
-    private String question;
+public class QuestionModel extends BaseAssessmentModel{
+//    private String question;
     private String questionnaireCode;
-    private List<ImpactModel> metricImpacts;
+    private List<ImpactModel> questionImpacts;
 
     private List<AnswerModel> answers;
 
     public void addToImpacts(ImpactModel impactModel) {
-        if(getMetricImpacts() == null) {
-            setMetricImpacts(new ArrayList<>());
+        if(getQuestionImpacts() == null) {
+            setQuestionImpacts(new ArrayList<>());
         }
-        getMetricImpacts().add(impactModel);
+        getQuestionImpacts().add(impactModel);
     }
 
     public void addToAnswers(AnswerModel answer) {

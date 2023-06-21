@@ -1,7 +1,7 @@
-package org.flickit.dslparser.service.xtext.extractor.metric;
+package org.flickit.dslparser.service.xtext.extractor.question;
 
-import static org.flickit.dslparser.service.xtext.extractor.metric.MetricOptionExtractor.MIN_OPTION_NUMBER;
-import static org.flickit.dslparser.service.xtext.extractor.metric.MetricOptionExtractor.MAX_OPTION_NUMBER;
+import static org.flickit.dslparser.service.xtext.extractor.question.QuestionOptionExtractor.MIN_OPTION_NUMBER;
+import static org.flickit.dslparser.service.xtext.extractor.question.QuestionOptionExtractor.MAX_OPTION_NUMBER;
 public enum OptionIndex {
     INDEX1(0), INDEX2(1), INDEX3(2), INDEX4(3), INDEX5(4);
 

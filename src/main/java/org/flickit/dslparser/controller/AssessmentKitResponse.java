@@ -1,15 +1,15 @@
 package org.flickit.dslparser.controller;
 
-import org.flickit.dslparser.model.profile.*;
+import org.flickit.dslparser.model.assessmentkit.*;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class AssessmentProfileResponse {
+public class AssessmentKitResponse {
     private List<QuestionnaireModel> questionnaireModels;
     private List<AttributeModel> attributeModels;
-    private List<MetricModel> metricModels;
+    private List<QuestionModel> questionModels;
     private List<SubjectModel> subjectModels;
 
     private List<LevelModel> levelModels;

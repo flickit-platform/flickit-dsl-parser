@@ -12,7 +12,7 @@
 	<artifactId>dsl-parser</artifactId>
 	<version>0.2.3</version>
 	<name>dsl-parser</name>
-	<description>A profile dsl parser</description>
+	<description>An Assessment Kit dsl parser</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.flickit.dsl.editor</groupId>
 			<artifactId>org.flickit.dsl.editor</artifactId>
-			<version>0.2.3</version>
+			<version>0.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>

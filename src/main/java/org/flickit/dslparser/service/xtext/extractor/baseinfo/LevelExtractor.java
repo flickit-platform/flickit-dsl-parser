@@ -1,9 +1,8 @@
 package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
 import org.eclipse.emf.common.util.EList;
-import org.flickit.dsl.editor.profile.*;
-import org.flickit.dslparser.model.profile.LevelModel;
-import org.flickit.dslparser.model.profile.SubjectModel;
+import org.flickit.dsl.editor.assessmentKitDsl.*;
+import org.flickit.dslparser.model.assessmentkit.LevelModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class LevelExtractor implements BaseInfoExtractor<LevelModel, Level>{

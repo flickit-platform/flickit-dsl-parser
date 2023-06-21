@@ -1,10 +1,9 @@
 package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
-import org.flickit.dslparser.model.profile.BaseAssessmentModel;
-import org.flickit.dslparser.model.profile.SubjectModel;
+import org.flickit.dslparser.model.assessmentkit.BaseAssessmentModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
 import org.eclipse.emf.common.util.EList;
-import org.flickit.dsl.editor.profile.BaseInfo;
+import org.flickit.dsl.editor.assessmentKitDsl.BaseInfo;
 
 import java.util.List;
 

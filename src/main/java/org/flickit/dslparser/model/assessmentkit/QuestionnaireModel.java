@@ -1,9 +1,7 @@
-package org.flickit.dslparser.model.profile;
+package org.flickit.dslparser.model.assessmentkit;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

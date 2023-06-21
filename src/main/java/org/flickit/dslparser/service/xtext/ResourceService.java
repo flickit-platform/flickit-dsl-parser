@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.flickit.dsl.editor.ProfileStandaloneSetup;
+import org.flickit.dsl.editor.AssessmentKitDslStandaloneSetup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +25,7 @@ public class ResourceService {
 
     public Resource setupResource(String dslContent) {
         Path path = writeDslContent(dslContent);
-        Injector injector = new ProfileStandaloneSetup().createInjectorAndDoEMFRegistration();
+        Injector injector = new AssessmentKitDslStandaloneSetup().createInjectorAndDoEMFRegistration();
         XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
         resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
         Resource resource = resourceSet.getResource(URI.createFileURI(path.toString()), true);
@@ -36,7 +36,7 @@ public class ResourceService {
 
     private Path writeDslContent(String dslContent) {
         String generatedString = RandomStringUtils.randomAlphabetic(10);
-        Path path = Path.of(dslFilePath + "//" + generatedString + ".profile");
+        Path path = Path.of(dslFilePath + "//" + generatedString + ".ak");
         try {
             Files.writeString(path, dslContent);
         } catch (Exception ex) {

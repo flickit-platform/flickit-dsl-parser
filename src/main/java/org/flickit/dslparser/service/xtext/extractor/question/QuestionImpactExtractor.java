@@ -1,12 +1,12 @@
-package org.flickit.dslparser.service.xtext.extractor.metric;
+package org.flickit.dslparser.service.xtext.extractor.question;
 
 import org.eclipse.emf.common.util.EList;
-import org.flickit.dsl.editor.profile.AffectsLevel;
-import org.flickit.dsl.editor.profile.CustomOption;
-import org.flickit.dsl.editor.profile.Metric;
-import org.flickit.dslparser.model.profile.ImpactModel;
-import org.flickit.dslparser.model.profile.LevelModel;
-import org.flickit.dslparser.model.profile.MetricModel;
+import org.flickit.dsl.editor.assessmentKitDsl.AffectsLevel;
+import org.flickit.dsl.editor.assessmentKitDsl.CustomOption;
+import org.flickit.dsl.editor.assessmentKitDsl.Question;
+import org.flickit.dslparser.model.assessmentkit.ImpactModel;
+import org.flickit.dslparser.model.assessmentkit.LevelModel;
+import org.flickit.dslparser.model.assessmentkit.QuestionModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -15,37 +15,37 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class MetricImpactExtractor {
+public class QuestionImpactExtractor {
 
     public static final List<Double> DEFAULT_2_OPTION_VALUES = Arrays.asList(0d, 1d);
     public static final List<Double> DEFAULT_3_OPTION_VALUES = Arrays.asList(0d, 0.5d, 1d);
     public static final List<Double> DEFAULT_4_OPTION_VALUES = Arrays.asList(0d, 0.5d, 0.7d, 1.0d);
     public static final List<Double> DEFAULT_5_OPTION_VALUES = Arrays.asList(0d, 0.2d, 0.5d, 0.9d , 1d);
 
-    public void setupMetricImpacts(MetricModel metricModel, Metric metric) {
-        for(AffectsLevel affectLevel: metric.getAffects()) {
+    public void setupQuestionImpacts(QuestionModel questionModel, Question question) {
+        for(AffectsLevel affectLevel: question.getAffects()) {
             ImpactModel impactModel = new ImpactModel();
             LevelModel levelModel = new LevelModel();
             levelModel.setTitle(affectLevel.getLevel().getTitle());
             impactModel.setLevel(levelModel);
             impactModel.setAttributeCode(affectLevel.getQualityAttribute().getCode());
             impactModel.setWeight(affectLevel.getWeight() != 0 ? affectLevel.getWeight() : 1);
-            extractMetricImpacts(affectLevel, impactModel, metricModel);
+            extractQuestionImpacts(affectLevel, impactModel, questionModel);
         }
 
-        for(CustomOption customOption: metric.getCustomOptions()) {
+        for(CustomOption customOption: question.getCustomOptions()) {
             ImpactModel impactModel = new ImpactModel();
             LevelModel levelModel = new LevelModel();
             levelModel.setTitle(customOption.getOptionLevel().get(0).getTitle());
             impactModel.setLevel(levelModel);
             impactModel.setAttributeCode(customOption.getQualityAttribute().get(0).getCode());
             impactModel.setWeight(customOption.getWeight() != 0 ? customOption.getWeight() : 1);
-            extractCustomMetricImpact(customOption, impactModel, metricModel);
+            extractCustomQuestionImpact(customOption, impactModel, questionModel);
         }
 
     }
 
-    private void extractCustomMetricImpact(CustomOption customOption, ImpactModel impactModel, MetricModel metricModel) {
+    private void extractCustomQuestionImpact(CustomOption customOption, ImpactModel impactModel, QuestionModel questionModel) {
         Map<Integer, Double> optionValueMap = new HashMap<>();
         EList<String> values = customOption.getValues();
         int j = 0;
@@ -56,12 +56,12 @@ public class MetricImpactExtractor {
             optionValueMap.put(i, Double.valueOf(formattedValue));
         }
         impactModel.setOptionValues(optionValueMap);
-        metricModel.addToImpacts(impactModel);
+        questionModel.addToImpacts(impactModel);
     }
 
-    private void extractMetricImpacts(AffectsLevel affectLevel, ImpactModel impactModel, MetricModel metricModel) {
+    private void extractQuestionImpacts(AffectsLevel affectLevel, ImpactModel impactModel, QuestionModel questionModel) {
         Map<Integer, Double> optionValueMap = new HashMap<>();
-        int optionNumber = metricModel.getAnswers().size();
+        int optionNumber = questionModel.getAnswers().size();
         if(affectLevel.getValues() != null && !affectLevel.getValues().isEmpty()) {
             EList<String> values = affectLevel.getValues();
             for(int i = 0; i < optionNumber; i ++) {
@@ -77,7 +77,7 @@ public class MetricImpactExtractor {
             }
             impactModel.setOptionValues(optionValueMap);
         }
-        metricModel.addToImpacts(impactModel);
+        questionModel.addToImpacts(impactModel);
     }
 
     private List<Double> getDefaultImpact(int optionNumber) {

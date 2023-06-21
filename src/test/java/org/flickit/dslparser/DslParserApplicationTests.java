@@ -1,8 +1,8 @@
 package org.flickit.dslparser;
 
-import org.flickit.dslparser.controller.AssessmentProfileResponse;
-import org.flickit.dslparser.model.profile.*;
-import org.flickit.dslparser.service.AssessmentProfileExtractor;
+import org.flickit.dslparser.controller.AssessmentKitResponse;
+import org.flickit.dslparser.model.assessmentkit.*;
+import org.flickit.dslparser.service.AssessmentKitExtractor;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,17 @@ import java.util.List;
 class DslParserApplicationTests {
 
 	@Autowired
-	AssessmentProfileExtractor assessmentProfileExtractor;
+	AssessmentKitExtractor assessmentKitExtractor;
 
 
 
 	@Test
 	void extractTest() {
-		AssessmentProfileResponse resp = assessmentProfileExtractor.extract(readDslContent());
+		AssessmentKitResponse resp = assessmentKitExtractor.extract(readDslContent());
 		List<AttributeModel> atts = resp.getAttributeModels();
 		List<SubjectModel> subjects = resp.getSubjectModels();
 		List<QuestionnaireModel> questionnaires = resp.getQuestionnaireModels();
-		List<MetricModel> metrics = resp.getMetricModels();
+		List<QuestionModel> questions = resp.getQuestionModels();
 		List<LevelModel> levelModels = resp.getLevelModels();
 
 		// attribute assertion
@@ -71,63 +71,63 @@ class DslParserApplicationTests {
 		assertEquals(13, questionnaires.get(12).getIndex());
 		assertNotNull(questionnaires.get(12).getCode());
 
-		// metric assertion
-		assertEquals("Is multilingualism and the ease of adding new languages supported?", metrics.get(0).getQuestion());
-		assertEquals(1, metrics.get(0).getIndex());
-		assertEquals(questionnaires.get(7).getCode(), metrics.get(0).getQuestionnaireCode());
+		// question assertion
+		assertEquals("Is multilingualism and the ease of adding new languages supported?", questions.get(0).getTitle());
+		assertEquals(1, questions.get(0).getIndex());
+		assertEquals(questionnaires.get(7).getCode(), questions.get(0).getQuestionnaireCode());
 
-		assertEquals(2, metrics.get(0).getAnswers().size());
-		assertEquals("No", metrics.get(0).getAnswers().get(0).getCaption());
-		assertEquals(1, metrics.get(0).getAnswers().get(0).getIndex());
-		assertEquals("Yes", metrics.get(0).getAnswers().get(1).getCaption());
-		assertEquals(2, metrics.get(0).getAnswers().get(1).getIndex());
+		assertEquals(2, questions.get(0).getAnswers().size());
+		assertEquals("No", questions.get(0).getAnswers().get(0).getCaption());
+		assertEquals(1, questions.get(0).getAnswers().get(0).getIndex());
+		assertEquals("Yes", questions.get(0).getAnswers().get(1).getCaption());
+		assertEquals(2, questions.get(0).getAnswers().get(1).getIndex());
 
-		assertEquals(2, metrics.get(0).getMetricImpacts().size());
-		assertEquals(2, metrics.get(0).getMetricImpacts().get(0).getWeight());
-		assertEquals("Weak", metrics.get(0).getMetricImpacts().get(0).getLevel().getTitle());
-		assertEquals(2, metrics.get(0).getMetricImpacts().get(0).getOptionValues().size());
-		assertTrue(metrics.get(0).getMetricImpacts().get(0).getOptionValues().containsKey(1));
-		assertTrue(metrics.get(0).getMetricImpacts().get(0).getOptionValues().containsKey(2));
-		assertEquals(atts.get(3).getCode(), metrics.get(0).getMetricImpacts().get(0).getAttributeCode());
-
-
+		assertEquals(2, questions.get(0).getQuestionImpacts().size());
+		assertEquals(2, questions.get(0).getQuestionImpacts().get(0).getWeight());
+		assertEquals("Weak", questions.get(0).getQuestionImpacts().get(0).getLevel().getTitle());
+		assertEquals(2, questions.get(0).getQuestionImpacts().get(0).getOptionValues().size());
+		assertTrue(questions.get(0).getQuestionImpacts().get(0).getOptionValues().containsKey(1));
+		assertTrue(questions.get(0).getQuestionImpacts().get(0).getOptionValues().containsKey(2));
+		assertEquals(atts.get(3).getCode(), questions.get(0).getQuestionImpacts().get(0).getAttributeCode());
 
 
-		assertEquals("Are the APIs documented and tested, and are proper tools and standards employed to accomplish this?", metrics.get(3).getQuestion());
-		assertEquals(2, metrics.get(3).getIndex());
-		assertEquals(questionnaires.get(8).getCode(), metrics.get(3).getQuestionnaireCode());
 
-		assertEquals(4, metrics.get(3).getAnswers().size());
-		assertEquals("Poor", metrics.get(3).getAnswers().get(0).getCaption());
-		assertEquals(1, metrics.get(3).getAnswers().get(0).getIndex());
-		assertEquals("Weak", metrics.get(3).getAnswers().get(1).getCaption());
-		assertEquals(2, metrics.get(3).getAnswers().get(1).getIndex());
 
-		assertEquals(3, metrics.get(3).getMetricImpacts().size());
+		assertEquals("Are the APIs documented and tested, and are proper tools and standards employed to accomplish this?", questions.get(3).getTitle());
+		assertEquals(2, questions.get(3).getIndex());
+		assertEquals(questionnaires.get(8).getCode(), questions.get(3).getQuestionnaireCode());
 
-		assertEquals(1, metrics.get(3).getMetricImpacts().get(0).getWeight());
-		assertEquals("Weak", metrics.get(3).getMetricImpacts().get(0).getLevel().getTitle());
-		assertEquals(4, metrics.get(3).getMetricImpacts().get(0).getOptionValues().size());
-		assertTrue(metrics.get(3).getMetricImpacts().get(0).getOptionValues().containsKey(1));
-		assertEquals(0.0, metrics.get(3).getMetricImpacts().get(0).getOptionValues().get(1));
-		assertTrue(metrics.get(3).getMetricImpacts().get(0).getOptionValues().containsKey(2));
-		assertEquals(0.0, metrics.get(3).getMetricImpacts().get(0).getOptionValues().get(2));
-		assertTrue(metrics.get(3).getMetricImpacts().get(0).getOptionValues().containsKey(3));
-		assertEquals(0.5, metrics.get(3).getMetricImpacts().get(0).getOptionValues().get(3));
-		assertTrue(metrics.get(3).getMetricImpacts().get(0).getOptionValues().containsKey(3));
-		assertEquals(1.0, metrics.get(3).getMetricImpacts().get(0).getOptionValues().get(4));
-		assertEquals(atts.get(0).getCode(), metrics.get(3).getMetricImpacts().get(0).getAttributeCode());
+		assertEquals(4, questions.get(3).getAnswers().size());
+		assertEquals("Poor", questions.get(3).getAnswers().get(0).getCaption());
+		assertEquals(1, questions.get(3).getAnswers().get(0).getIndex());
+		assertEquals("Weak", questions.get(3).getAnswers().get(1).getCaption());
+		assertEquals(2, questions.get(3).getAnswers().get(1).getIndex());
 
-		assertEquals(1, metrics.get(3).getMetricImpacts().get(1).getWeight());
-		assertEquals("Elementary", metrics.get(3).getMetricImpacts().get(1).getLevel().getTitle());
-		assertEquals(3, metrics.get(3).getMetricImpacts().get(1).getOptionValues().size());
-		assertTrue(metrics.get(3).getMetricImpacts().get(1).getOptionValues().containsKey(1));
-		assertEquals(0.0, metrics.get(3).getMetricImpacts().get(1).getOptionValues().get(1));
-		assertTrue(metrics.get(3).getMetricImpacts().get(1).getOptionValues().containsKey(2));
-		assertEquals(0.5, metrics.get(3).getMetricImpacts().get(1).getOptionValues().get(2));
-		assertTrue(metrics.get(3).getMetricImpacts().get(1).getOptionValues().containsKey(3));
-		assertEquals(1.0, metrics.get(3).getMetricImpacts().get(1).getOptionValues().get(3));
-		assertEquals(atts.get(2).getCode(), metrics.get(3).getMetricImpacts().get(1).getAttributeCode());
+		assertEquals(3, questions.get(3).getQuestionImpacts().size());
+
+		assertEquals(1, questions.get(3).getQuestionImpacts().get(0).getWeight());
+		assertEquals("Weak", questions.get(3).getQuestionImpacts().get(0).getLevel().getTitle());
+		assertEquals(4, questions.get(3).getQuestionImpacts().get(0).getOptionValues().size());
+		assertTrue(questions.get(3).getQuestionImpacts().get(0).getOptionValues().containsKey(1));
+		assertEquals(0.0, questions.get(3).getQuestionImpacts().get(0).getOptionValues().get(1));
+		assertTrue(questions.get(3).getQuestionImpacts().get(0).getOptionValues().containsKey(2));
+		assertEquals(0.0, questions.get(3).getQuestionImpacts().get(0).getOptionValues().get(2));
+		assertTrue(questions.get(3).getQuestionImpacts().get(0).getOptionValues().containsKey(3));
+		assertEquals(0.5, questions.get(3).getQuestionImpacts().get(0).getOptionValues().get(3));
+		assertTrue(questions.get(3).getQuestionImpacts().get(0).getOptionValues().containsKey(3));
+		assertEquals(1.0, questions.get(3).getQuestionImpacts().get(0).getOptionValues().get(4));
+		assertEquals(atts.get(0).getCode(), questions.get(3).getQuestionImpacts().get(0).getAttributeCode());
+
+		assertEquals(1, questions.get(3).getQuestionImpacts().get(1).getWeight());
+		assertEquals("Elementary", questions.get(3).getQuestionImpacts().get(1).getLevel().getTitle());
+		assertEquals(3, questions.get(3).getQuestionImpacts().get(1).getOptionValues().size());
+		assertTrue(questions.get(3).getQuestionImpacts().get(1).getOptionValues().containsKey(1));
+		assertEquals(0.0, questions.get(3).getQuestionImpacts().get(1).getOptionValues().get(1));
+		assertTrue(questions.get(3).getQuestionImpacts().get(1).getOptionValues().containsKey(2));
+		assertEquals(0.5, questions.get(3).getQuestionImpacts().get(1).getOptionValues().get(2));
+		assertTrue(questions.get(3).getQuestionImpacts().get(1).getOptionValues().containsKey(3));
+		assertEquals(1.0, questions.get(3).getQuestionImpacts().get(1).getOptionValues().get(3));
+		assertEquals(atts.get(2).getCode(), questions.get(3).getQuestionImpacts().get(1).getAttributeCode());
 
 		// level assertion
 		assertEquals(5, levelModels.size());
@@ -156,7 +156,7 @@ class DslParserApplicationTests {
 
 	private String readDslContent() {
 		try{
-			byte[] encoded = Files.readAllBytes(Paths.get("src/test/resources/dsl-sample/sample.profile"));
+			byte[] encoded = Files.readAllBytes(Paths.get("src/test/resources/dsl-sample/sample.ak"));
 			return new String(encoded, StandardCharsets.UTF_8);
 		} catch (IOException ex) {
 			ex.printStackTrace();

@@ -1,4 +1,4 @@
-package org.flickit.dslparser.model.profile;
+package org.flickit.dslparser.model.assessmentkit;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,16 +1,15 @@
 package org.flickit.dslparser.service;
 
-import org.checkerframework.checker.units.qual.A;
-import org.flickit.dslparser.controller.AssessmentProfileResponse;
-import org.flickit.dslparser.model.profile.*;
+import org.flickit.dsl.editor.assessmentKitDsl.impl.RootImpl;
+import org.flickit.dslparser.controller.AssessmentKitResponse;
+import org.flickit.dslparser.model.assessmentkit.*;
 import org.flickit.dslparser.service.xtext.ResourceService;
 import org.flickit.dslparser.service.xtext.extractor.baseinfo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.flickit.dsl.editor.profile.BaseInfo;
-import org.flickit.dsl.editor.profile.impl.AssessmentProfileImpl;
-import org.flickit.dslparser.service.xtext.extractor.metric.MetricExtractor;
+import org.flickit.dsl.editor.assessmentKitDsl.BaseInfo;
+import org.flickit.dslparser.service.xtext.extractor.question.QuestionExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class AssessmentProfileExtractor {
+public class AssessmentKitExtractor {
 
     @Autowired
     ResourceService resourceService;
@@ -32,7 +31,7 @@ public class AssessmentProfileExtractor {
     QuestionnaireExtractor questionnaireExtractor;
 
     @Autowired
-    MetricExtractor metricExtractor;
+    QuestionExtractor questionExtractor;
 
     @Autowired
     LevelExtractor levelExtractor;
@@ -40,36 +39,36 @@ public class AssessmentProfileExtractor {
     CodeGenerator codeGenerator;
 
 
-    public AssessmentProfileResponse extract(String dslContent) {
+    public AssessmentKitResponse extract(String dslContent) {
         Long lastCode = codeGenerator.readLastCodeFromFile();
         try {
             Resource resource = resourceService.setupResource(dslContent);
-            AssessmentProfileImpl assessmentProfile = (AssessmentProfileImpl) resource.getContents().get(0);
-            return convert(assessmentProfile);
+            RootImpl assessmentKit = (RootImpl) resource.getContents().get(0);
+            return convert(assessmentKit);
         } catch (Exception ex) {
-            AssessmentProfileResponse response = new AssessmentProfileResponse();
+            AssessmentKitResponse response = new AssessmentKitResponse();
             response.setHasError(true);
             codeGenerator.saveNewCodeToFile(String.valueOf(lastCode));
-            log.error("Error in parsing dsl to assessment profile", ex);
+            log.error("Error in parsing dsl to assessment kit", ex);
             return response;
         }
 
 
     }
 
-    private AssessmentProfileResponse convert (AssessmentProfileImpl assessmentProfile) {
-        EList<BaseInfo> elements = assessmentProfile.getElements();
+    private AssessmentKitResponse convert (RootImpl assessmentKit) {
+        EList<BaseInfo> elements = assessmentKit.getElements();
         List<QuestionnaireModel> questionnaireModels = questionnaireExtractor.extractList(elements);
         List<SubjectModel> subjectModels = subjectExtractor.extractList(elements);
         List<AttributeModel> attributeModels = attributeExtractor.extractList(elements);
-        List<MetricModel> metricModels = metricExtractor.extractList(elements);
+        List<QuestionModel> questionModels = questionExtractor.extractList(elements);
         List<LevelModel> levelModels = levelExtractor.extractList(elements);
 
-        AssessmentProfileResponse response = new AssessmentProfileResponse();
+        AssessmentKitResponse response = new AssessmentKitResponse();
         response.setSubjectModels(subjectModels);
         response.setAttributeModels(attributeModels);
         response.setQuestionnaireModels(questionnaireModels);
-        response.setMetricModels(metricModels);
+        response.setQuestionModels(questionModels);
         response.setLevelModels(levelModels);
         return response;
     }

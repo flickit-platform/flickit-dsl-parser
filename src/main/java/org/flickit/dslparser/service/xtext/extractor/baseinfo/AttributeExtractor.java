@@ -1,9 +1,9 @@
 package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
 import org.eclipse.emf.common.util.EList;
-import org.flickit.dsl.editor.profile.BaseInfo;
-import org.flickit.dsl.editor.profile.QualityAttribute;
-import org.flickit.dslparser.model.profile.AttributeModel;
+import org.flickit.dsl.editor.assessmentKitDsl.BaseInfo;
+import org.flickit.dsl.editor.assessmentKitDsl.QualityAttribute;
+import org.flickit.dslparser.model.assessmentkit.AttributeModel;
 import org.flickit.dslparser.model.xtext.XtextModel;
 import org.flickit.dslparser.service.CodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,16 +1,14 @@
-package org.flickit.dslparser.model.profile;
+package org.flickit.dslparser.model.assessmentkit;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Data
 public class ImpactModel {
     private String attributeCode;
     private LevelModel level;
-    private MetricModel metric;
+    private QuestionModel question;
 
     private Map<Integer, Double> optionValues;
 
