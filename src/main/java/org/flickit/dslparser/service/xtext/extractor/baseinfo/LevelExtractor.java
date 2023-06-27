@@ -38,7 +38,7 @@ public class LevelExtractor implements BaseInfoExtractor<LevelModel, Level>{
         List<LevelModel> levelModels = new ArrayList<>();
         for (int i = 0; i < xtextLevels.size(); i++) {
             LevelModel levelModel = extract(xtextLevels.get(i));
-            setupIndex(i, levelModel);
+            setupIndex(i-1, levelModel);
             levelModels.add(levelModel);
         }
         return levelModels;
