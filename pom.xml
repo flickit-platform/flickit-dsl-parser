@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.flickit.dsl.editor</groupId>
 			<artifactId>org.flickit.dsl.editor</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>

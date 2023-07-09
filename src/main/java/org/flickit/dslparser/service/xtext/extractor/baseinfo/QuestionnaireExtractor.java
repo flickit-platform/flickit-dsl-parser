@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -20,7 +22,6 @@ public class QuestionnaireExtractor implements BaseInfoExtractor<QuestionnaireMo
 
     @Autowired
     CodeGenerator codeGenerator;
-
     @Override
     public List<QuestionnaireModel> extractList(EList<BaseInfo> elements) {
         XtextModel<Questionnaire> xtextModel =  extractModel(elements);
