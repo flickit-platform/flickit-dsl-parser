@@ -15,6 +15,8 @@ public class QuestionModel extends BaseAssessmentModel{
 
     private List<AnswerModel> answers;
 
+    private boolean mayNotBeApplicable;
+
     public void addToImpacts(ImpactModel impactModel) {
         if(getQuestionImpacts() == null) {
             setQuestionImpacts(new ArrayList<>());

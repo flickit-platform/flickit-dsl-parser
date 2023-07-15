@@ -31,6 +31,7 @@ public class QuestionExtractor implements BaseInfoExtractor<QuestionModel, Quest
         QuestionModel questionModel = new QuestionModel();
         questionModel.setTitle(question.getQuestion());
         questionModel.setQuestionnaireCode(question.getQuestionnaire().getCode());
+        questionModel.setMayNotBeApplicable(Boolean.valueOf(question.getMayNotBeApplicable()));
         questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions());
         questionImpactExtractor.setupQuestionImpacts(questionModel, question);
         return questionModel;
