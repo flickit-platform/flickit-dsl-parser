@@ -21,7 +21,7 @@ Level GREAT {
 Question m2 {
     questionnaire: ui_ux
     title: "Is multilingualism and the ease of adding new languages supported?"
-    options: "No", "Yes"
+    options: "  No ", " Yes "
 
     affects WEAK level of software_usability with values {0.0, 1.0} weight 2
     affects WEAK level of software_efficiency with values {0.0, 1.0}
@@ -425,8 +425,8 @@ Questionnaire technology {
 }
 
 Questionnaire ui_ux {
-	title: "UI/UX"
-	description: "llllllllll"
+	title: " UI/UX   "
+	description: " llllllllll "
 }
 
 Questionnaire api_and_integration {
@@ -456,8 +456,8 @@ Questionnaire quality_consequences {
 }
 
 Subject software {
-	title: "Software"
-	description: "gfgfgfgf"
+	title: "  Software   "
+	description: " gfgfgfgf  "
 	questionnaires: clean_architecture, code_quality, software_quality_test, software_quality_tunning, dev_ops, code_lifecycle, technology, ui_ux, api_and_integration, methodology, log_and_monitoring, quality_consequences
 }
 
@@ -468,8 +468,8 @@ Subject team {
 }
 
 QualityAttribute software_reliability {
-    title: "Software-Reliability"
-    description: "jkjkjkj"
+    title: "  Software-Reliability "
+    description: " jkjkjkj  "
     subject: software
 }
 
