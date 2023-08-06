@@ -134,7 +134,7 @@ jobs:
       - name: create image from repository
         run: |
           curl -L -O -u $GH_ACTOR:$GH_PACKAGES_TOKEN "https://maven.pkg.github.com/avansoft/flickit-dsl-parser/org/flickit/dsl-parser/$RELEASE_VERSION/dsl-parser-$RELEASE_VERSION.jar" -o dsl-parser-$RELEASE_VERSION.jar
-          docker build --build-arg MYFILE=dsl-parser-$RELEASE_VERSION.jar -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} .
+          docker build --build-arg MYFILE=dsl-parser-$RELEASE_VERSION.jar -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
       - name: push image to GitHub Container Registry
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
