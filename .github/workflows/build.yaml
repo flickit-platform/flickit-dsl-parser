@@ -15,10 +15,11 @@ env:
   IMAGE_NAME: avansoft/flickit-dsl-parser
 
 jobs:
-  build-latest:
+  build:
     runs-on: ubuntu-latest
     if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.ref_type == 'branch') }}
+      (github.event_name == 'pull_request' && github.ref_type == 'branch') ||
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) }}
 
     steps:
       - name: Checkout Repository
@@ -28,6 +29,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: adopt
 
       - name: Build with Maven
         run: mvn clean package
@@ -40,7 +42,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   test:
-    needs: [build-latest]
+    needs: [build]
     runs-on: ubuntu-latest
     if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
       (github.event_name == 'pull_request' && github.ref_type == 'branch') }}
@@ -53,6 +55,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: adopt
 
       - name: Run Tests
         run: mvn test
@@ -80,6 +83,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: adopt
 
       - name: Cache Maven packages
         uses: actions/cache@v3
