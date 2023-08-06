@@ -121,4 +121,11 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/avansoft/flickit-dsl-parser</url>
+		</repository>
+	</distributionManagement>
 </project>
