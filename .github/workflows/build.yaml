@@ -35,14 +35,14 @@ jobs:
         run: mvn clean package
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_USERNAME: avansoft
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Deploy to GitHub Packages
         run: mvn deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_USERNAME: avansoft
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   test:
