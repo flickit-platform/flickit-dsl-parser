@@ -38,7 +38,7 @@ jobs:
         run: mvn deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-          MAVEN_USERNAME: avansoft
+          MAVEN_USERNAME: sajjafari
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   test:
