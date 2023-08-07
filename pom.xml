@@ -17,6 +17,7 @@
 		<java.version>11</java.version>
 		<sonar.organization>avansoft</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
 		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
@@ -96,6 +97,24 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>${jib-maven-plugin.version}</version>
+				<configuration>
+					<container>
+						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+						<labels>
+							<org.opencontainers.image.source>
+								https://github.com/avansoft/flickit-dsl-parser
+							</org.opencontainers.image.source>
+						</labels>
+					</container>
+					<from>
+						<image>ghcr.io/avansoft/flickit-dsl-parser/jdk:11.0.19</image>
+					</from>
 				</configuration>
 			</plugin>
 			<plugin>
