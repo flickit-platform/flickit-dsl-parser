@@ -10,7 +10,7 @@ on:
     branches:
       - '*'
 env:
-  SONAR_PROJECT_KEY: avansoft_flickit-dsl-parser
+  SONAR_PROJECT_KEY: flickit-dsl-parser
   REGISTRY: ghcr.io
   IMAGE_NAME: avansoft/flickit-dsl-parser
   MAVEN_USERNAME: avansoft
