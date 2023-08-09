@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.flickit</groupId>
 	<artifactId>dsl-parser</artifactId>
-	<version>0.2.4-SNAPSHOT</version>
+	<version>0.2.4</version>
 	<name>dsl-parser</name>
 	<description>An Assessment Kit dsl parser</description>
 	<properties>
