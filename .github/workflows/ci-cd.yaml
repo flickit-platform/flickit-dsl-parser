@@ -20,8 +20,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.ref_type == 'branch') }}
 
     steps:
       - name: Checkout Repository
@@ -43,8 +41,6 @@ jobs:
   test:
     needs: [build]
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.ref_type == 'branch') }}
 
     steps:
       - name: Checkout Repository
@@ -73,8 +69,6 @@ jobs:
   sonar:
     needs: [test]
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.ref_type == 'branch') }}
 
     steps:
       - name: Checkout Repository
@@ -196,7 +190,8 @@ jobs:
           DARKUBE_DEPLOY_TOKEN: ${{ secrets.DSL_PARSER_DEPLOY_TOKEN_STAGING }}
           DARKUBE_APP_ID: ${{ secrets.DSL_PARSER_APP_ID_STAGING }}
 
-  build-deploy-package:
+  deploy-package:
+    needs: [ sonar ]
     name: deploy package
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
@@ -226,7 +221,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   build-and-push-image:
-    needs: [  build-deploy-package ]
+    needs: [ deploy-package ]
     name: deploy image
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
