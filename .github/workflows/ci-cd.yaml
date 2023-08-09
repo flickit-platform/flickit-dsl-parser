@@ -221,7 +221,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   build-and-push-image:
-    needs: [ deploy-package ]
+    needs: [ sonar ]
     name: deploy image
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
