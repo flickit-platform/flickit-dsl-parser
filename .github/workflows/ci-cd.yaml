@@ -10,7 +10,7 @@ on:
     branches:
       - '*'
 env:
-  SONAR_PROJECT_KEY: avansoft_flickit-dsl-parser
+  SONAR_PROJECT_KEY: flickit-dsl-parser
   REGISTRY: ghcr.io
   IMAGE_NAME: avansoft/flickit-dsl-parser
   MAVEN_USERNAME: avansoft
@@ -20,8 +20,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.ref_type == 'branch') }}
 
     steps:
       - name: Checkout Repository
@@ -43,8 +41,6 @@ jobs:
   test:
     needs: [build]
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.ref_type == 'branch') }}
 
     steps:
       - name: Checkout Repository
@@ -73,8 +69,6 @@ jobs:
   sonar:
     needs: [test]
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.ref_type == 'branch') }}
 
     steps:
       - name: Checkout Repository
@@ -118,7 +112,18 @@ jobs:
           java-version: 11
           distribution: adopt
 
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.project.outputs.version }}
+        run: |
+          echo $RELEASE_VERSION
+
       - name: Build with Maven
+        if: endsWith(steps.project.outputs.version, 'SNAPSHOT') == true
         run: mvn clean package
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
@@ -126,6 +131,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Deploy to GitHub Packages
+        if: endsWith(steps.project.outputs.version, 'SNAPSHOT') == true
         run: mvn deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
@@ -171,7 +177,22 @@ jobs:
           MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
-  build-deploy-package:
+  darkube-deploy-latest:
+    needs: [build-and-push-latest-image]
+    name: darkube deploy latest
+    container: hamravesh.hamdocker.ir/public/darkube-cli:v1.1
+    runs-on: ubuntu-latest
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true }}
+    steps:
+      - name: Run script
+        run: darkube deploy --ref main --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "latest" --job-id "$GITHUB_RUN_ID" --stateless-app true
+        env:
+          DARKUBE_DEPLOY_TOKEN: ${{ secrets.DSL_PARSER_DEPLOY_TOKEN_STAGING }}
+          DARKUBE_APP_ID: ${{ secrets.DSL_PARSER_APP_ID_STAGING }}
+
+  deploy-package:
+    needs: [ sonar ]
     name: deploy package
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
@@ -201,7 +222,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   build-and-push-image:
-    needs: [  build-deploy-package ]
+    needs: [ sonar ]
     name: deploy image
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
@@ -209,6 +230,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+
+    outputs:
+      project_version: ${{ steps.project.outputs.version }}
 
     steps:
       - name: Checkout repository
@@ -249,3 +273,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
           MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
+
+  darkube-deploy:
+    needs: [build-and-push-image]
+    name: darkube deploy
+    container: hamravesh.hamdocker.ir/public/darkube-cli:v1.1
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
+    steps:
+      - name: Run script
+        run: darkube deploy --ref main --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "${PROJECT_VERSION}" --job-id "$GITHUB_RUN_ID" --stateless-app true
+        env:
+          DARKUBE_DEPLOY_TOKEN: ${{ secrets.DLS_PARSER_DEPLOY_TOKEN_PROD }}
+          DARKUBE_APP_ID: ${{ secrets.DSL_PARSER_APP_ID_PROD }}
+          PROJECT_VERSION: ${{ needs.build-and-push-image.outputs.project_version }}
