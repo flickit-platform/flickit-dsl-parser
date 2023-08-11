@@ -138,6 +138,60 @@ jobs:
           MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
+  test-image:
+#    needs: [ sonar ]
+    name: deploy image
+    runs-on: ubuntu-latest
+#    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      project_version: ${{ steps.project.outputs.version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        id: vars
+
+      - name: Set output
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
+      - name: login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: avansoft
+          password: ${{ secrets.GH_PACKAGES_TOKEN }}
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: adopt
+
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
+
+      - name: Build and push image
+        if: v${{ steps.project.outputs.version }} == ${{ steps.vars.outputs.tag }}
+#        run: mvn ${{ env.JIB_OPT }} -Djib.to.image="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.project.outputs.version }}" ${{ env.JIB_CMD }}
+        run: echo "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.project.outputs.version }}"
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+#          MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
+
   build-and-push-latest-image:
     needs: [ sonar ]
     name: deploy latest image
