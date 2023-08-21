@@ -21,7 +21,7 @@ public class AssessmentKitController {
         String dslContent = request.getDslContent();
         AssessmentKitResponse response = extractor.extract(dslContent);
         if (response.isHasError()) {
-            response = extractor.extract(dslContent);
+            response = v2Extractor.extract(dslContent);
         }
         return response;
     }
