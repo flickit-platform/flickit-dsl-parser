@@ -8,6 +8,6 @@ import java.util.Map;
 @Getter
 @Setter
 public class LevelModel extends BaseAssessmentModel {
-    private Map<String, Integer> levelCompetence;
 
+    private Map<String, Integer> levelCompetence;
 }

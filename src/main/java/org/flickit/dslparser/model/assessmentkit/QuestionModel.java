@@ -9,12 +9,10 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class QuestionModel extends BaseAssessmentModel{
-//    private String question;
+
     private String questionnaireCode;
     private List<ImpactModel> questionImpacts;
-
     private List<AnswerModel> answers;
-
     private boolean mayNotBeApplicable;
 
     public void addToImpacts(ImpactModel impactModel) {

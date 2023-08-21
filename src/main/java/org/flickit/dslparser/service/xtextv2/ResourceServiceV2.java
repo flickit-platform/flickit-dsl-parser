@@ -1,24 +1,22 @@
-package org.flickit.dslparser.service.xtext;
+package org.flickit.dslparser.service.xtextv2;
 
 
 import com.google.inject.Injector;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.flickit.dsl.editor.AssessmentKitDslStandaloneSetup;
+import org.flickit.dsl.editor.v2.AssessmentKitDslStandaloneSetup;
+import org.flickit.dslparser.service.xtext.ResourceService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Component
 @Slf4j
-public class ResourceService {
+public class ResourceServiceV2 extends ResourceService {
 
     @Value("${dsl_file_path}")
     private String dslFilePath;
@@ -31,24 +29,5 @@ public class ResourceService {
         Resource resource = resourceSet.getResource(URI.createFileURI(path.toString()), true);
         deleteDslFile(path);
         return resource;
-    }
-
-    protected Path writeDslContent(String dslContent) {
-        String generatedString = RandomStringUtils.randomAlphabetic(10);
-        Path path = Path.of(dslFilePath + "//" + generatedString + ".ak");
-        try {
-            Files.writeString(path, dslContent);
-        } catch (Exception ex) {
-            log.info("Error in writing dsl content into the file", ex);
-        }
-        return path;
-    }
-
-    protected void deleteDslFile(Path path) {
-        try {
-            Files.delete(path);
-        } catch (IOException ex) {
-            log.error("Error in delete dsl File");
-        }
     }
 }
