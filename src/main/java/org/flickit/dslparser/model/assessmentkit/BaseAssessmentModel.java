@@ -5,6 +5,7 @@ import org.flickit.dslparser.utils.StringUtil;
 
 @Data
 public class BaseAssessmentModel {
+
     private String code;
     private String title;
     private String description;

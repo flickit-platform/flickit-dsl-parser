@@ -8,5 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 public class SubjectModel extends BaseAssessmentModel{
+
+    private Integer weight;
     private List<String> questionnaireCodes;
 }

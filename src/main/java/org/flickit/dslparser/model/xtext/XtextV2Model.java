@@ -2,13 +2,13 @@ package org.flickit.dslparser.model.xtext;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.flickit.dsl.editor.assessmentKitDsl.BaseInfo;
+import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 
 import java.util.List;
 
 @Getter
 @Setter
-public class XtextModel<T extends BaseInfo> {
+public class XtextV2Model<T extends BaseInfo> {
 
     private List<T> models;
 }
