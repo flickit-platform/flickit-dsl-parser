@@ -21,8 +21,8 @@ public class QuestionnaireV2Extractor implements BaseInfoExtractor<Questionnaire
 
     @Override
     public List<QuestionnaireModel> extractList(EList<BaseInfo> elements) {
-        XtextV2Model<Questionnaire> XtextV2Model = extractModel(elements);
-        List<Questionnaire> xtextQuestionnaires = XtextV2Model.getModels();
+        XtextV2Model<Questionnaire> xtextV2Model = extractModel(elements);
+        List<Questionnaire> xtextQuestionnaires = xtextV2Model.getModels();
         List<QuestionnaireModel> questionnaireModels = new ArrayList<>();
         for (int i = 0; i < xtextQuestionnaires.size(); i++) {
             QuestionnaireModel questionnaireModel = extract(xtextQuestionnaires.get(i));
@@ -34,7 +34,7 @@ public class QuestionnaireV2Extractor implements BaseInfoExtractor<Questionnaire
 
     @Override
     public XtextV2Model<Questionnaire> extractModel(EList<BaseInfo> elements) {
-        XtextV2Model<Questionnaire> XtextV2Model = new XtextV2Model<>();
+        XtextV2Model<Questionnaire> xtextV2Model = new XtextV2Model<>();
         List<Questionnaire> models = new ArrayList<>();
         for (BaseInfo element : elements) {
             if (Questionnaire.class.isAssignableFrom(element.getClass())) {
@@ -43,8 +43,8 @@ public class QuestionnaireV2Extractor implements BaseInfoExtractor<Questionnaire
                 models.add(model);
             }
         }
-        XtextV2Model.setModels(models);
-        return XtextV2Model;
+        xtextV2Model.setModels(models);
+        return xtextV2Model;
     }
 
     @Override

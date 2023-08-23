@@ -19,8 +19,8 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
 
     @Override
     public List<LevelModel> extractList(EList<BaseInfo> elements) {
-        XtextV2Model<Level> XtextV2Model = extractModel(elements);
-        List<Level> xtextLevels = XtextV2Model.getModels();
+        XtextV2Model<Level> xtextV2Model = extractModel(elements);
+        List<Level> xtextLevels = xtextV2Model.getModels();
         List<LevelModel> levelModels = new ArrayList<>();
         for (int i = 0; i < xtextLevels.size(); i++) {
             LevelModel levelModel = extract(xtextLevels.get(i));
@@ -32,7 +32,7 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
 
     @Override
     public XtextV2Model<Level> extractModel(EList<BaseInfo> elements) {
-        XtextV2Model<Level> XtextV2Model = new XtextV2Model<>();
+        XtextV2Model<Level> xtextV2Model = new XtextV2Model<>();
         List<Level> models = new ArrayList<>();
         for (BaseInfo element : elements) {
             if (Level.class.isAssignableFrom(element.getClass())) {
@@ -40,8 +40,8 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
                 models.add(model);
             }
         }
-        XtextV2Model.setModels(models);
-        return XtextV2Model;
+        xtextV2Model.setModels(models);
+        return xtextV2Model;
     }
 
     @Override

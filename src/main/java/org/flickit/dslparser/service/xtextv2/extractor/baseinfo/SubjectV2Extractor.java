@@ -23,8 +23,8 @@ public class SubjectV2Extractor implements BaseInfoExtractor<SubjectModel, Subje
     }
 
     public List<SubjectModel> extractList(EList<BaseInfo> xtextElements) {
-        XtextV2Model<Subject> XtextV2Model = extractModel(xtextElements);
-        List<Subject> xtextSubjects = XtextV2Model.getModels();
+        XtextV2Model<Subject> xtextV2Model = extractModel(xtextElements);
+        List<Subject> xtextSubjects = xtextV2Model.getModels();
         List<SubjectModel> subjectModels = new ArrayList<>();
         for (int i = 0; i < xtextSubjects.size(); i++) {
             SubjectModel subjectModel = extract(xtextSubjects.get(i));
@@ -36,7 +36,7 @@ public class SubjectV2Extractor implements BaseInfoExtractor<SubjectModel, Subje
     }
 
     public XtextV2Model<Subject> extractModel(EList<BaseInfo> elements) {
-        XtextV2Model<Subject> XtextV2Model = new XtextV2Model<>();
+        XtextV2Model<Subject> xtextV2Model = new XtextV2Model<>();
         List<Subject> models = new ArrayList<>();
         for (BaseInfo element : elements) {
             if (Subject.class.isAssignableFrom(element.getClass())) {
@@ -45,8 +45,8 @@ public class SubjectV2Extractor implements BaseInfoExtractor<SubjectModel, Subje
                 models.add(model);
             }
         }
-        XtextV2Model.setModels(models);
-        return XtextV2Model;
+        xtextV2Model.setModels(models);
+        return xtextV2Model;
     }
 
     @Override

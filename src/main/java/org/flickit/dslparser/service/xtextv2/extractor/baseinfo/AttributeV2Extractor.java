@@ -20,8 +20,8 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
 
     @Override
     public List<AttributeModel> extractList(EList<BaseInfo> elements) {
-        XtextV2Model<Attribute> XtextV2Model = extractModel(elements);
-        List<Attribute> xtextAtts = XtextV2Model.getModels();
+        XtextV2Model<Attribute> xtextV2Model = extractModel(elements);
+        List<Attribute> xtextAtts = xtextV2Model.getModels();
         List<AttributeModel> attributeModels = new ArrayList<>();
         for (int i = 0; i < xtextAtts.size(); i++) {
             AttributeModel attributeModel = extract(xtextAtts.get(i));
@@ -33,7 +33,7 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
 
     @Override
     public XtextV2Model<Attribute> extractModel(EList<BaseInfo> elements) {
-        XtextV2Model<Attribute> XtextV2Model = new XtextV2Model<>();
+        XtextV2Model<Attribute> xtextV2Model = new XtextV2Model<>();
         List<Attribute> models = new ArrayList<>();
         for (BaseInfo element : elements) {
             if (Attribute.class.isAssignableFrom(element.getClass())) {
@@ -42,8 +42,8 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
                 models.add(model);
             }
         }
-        XtextV2Model.setModels(models);
-        return XtextV2Model;
+        xtextV2Model.setModels(models);
+        return xtextV2Model;
     }
 
     @Override

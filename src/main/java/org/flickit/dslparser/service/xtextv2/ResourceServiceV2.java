@@ -21,6 +21,7 @@ public class ResourceServiceV2 extends ResourceService {
     @Value("${dsl_file_path}")
     private String dslFilePath;
 
+    @Override
     public Resource setupResource(String dslContent) {
         Path path = writeDslContent(dslContent);
         Injector injector = new AssessmentKitDslStandaloneSetup().createInjectorAndDoEMFRegistration();

@@ -50,8 +50,8 @@ public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Que
 
     @Override
     public List<QuestionModel> extractList(EList<BaseInfo> elements) {
-        XtextV2Model<Question> XtextV2Model = extractModel(elements);
-        List<Question> xtextQuestions = XtextV2Model.getModels();
+        XtextV2Model<Question> xtextV2Model = extractModel(elements);
+        List<Question> xtextQuestions = xtextV2Model.getModels();
         List<QuestionModel> questionModels = new ArrayList<>();
         for (int i = 0; i < xtextQuestions.size(); i++) {
             QuestionModel questionModel = extract(xtextQuestions.get(i));
@@ -63,7 +63,7 @@ public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Que
 
     @Override
     public XtextV2Model<Question> extractModel(EList<BaseInfo> elements) {
-        XtextV2Model<Question> XtextV2Model = new XtextV2Model<>();
+        XtextV2Model<Question> xtextV2Model = new XtextV2Model<>();
         List<Question> models = new ArrayList<>();
         for (BaseInfo element : elements) {
             if (Question.class.isAssignableFrom(element.getClass())) {
@@ -71,7 +71,7 @@ public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Que
                 models.add(model);
             }
         }
-        XtextV2Model.setModels(models);
-        return XtextV2Model;
+        xtextV2Model.setModels(models);
+        return xtextV2Model;
     }
 }
