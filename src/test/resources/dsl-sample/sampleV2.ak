@@ -1,17 +1,17 @@
 level Elementary {
     title: "Elementary"
-    index: 1
+    index: 0
 }
 
 level Weak {
     title:"Weak"
-    index: 2
+    index: 1
     competence: [Weak:60%]
 }
 
 level Moderate {
     title:"Moderate"
-    index: 3
+    index: 2
     competence: [Weak:75%, Moderate: 60%]
 }
 

@@ -55,7 +55,7 @@ public class SubjectV2Extractor implements BaseInfoExtractor<SubjectModel, Subje
         subjectModel.setCode(subject.getName());
         subjectModel.setTitle((subject.getTitle()));
         subjectModel.setDescription(subject.getDescription());
-        subjectModel.setIndex(subject.getIndex());
+        subjectModel.setIndex(subject.getIndex() == 0 ? -1 : subject.getIndex());
         subjectModel.setWeight(subject.getWeight());
         return subjectModel;
     }

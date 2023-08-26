@@ -53,7 +53,7 @@ public class QuestionnaireV2Extractor implements BaseInfoExtractor<Questionnaire
         questionnaireModel.setCode(questionnaire.getName());
         questionnaireModel.setTitle(questionnaire.getTitle());
         questionnaireModel.setDescription(questionnaire.getDescription());
-        questionnaireModel.setIndex(questionnaire.getIndex());
+        questionnaireModel.setIndex(questionnaire.getIndex() == 0 ? -1 : questionnaire.getIndex());
         return questionnaireModel;
     }
 }
