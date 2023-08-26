@@ -48,7 +48,7 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
     public LevelModel extract(Level level) {
         LevelModel levelModel = new LevelModel();
         levelModel.setTitle((level.getTitle()));
-        levelModel.setIndex(level.getIndex());
+        levelModel.setIndex(level.getIndex() == 0 ? -1 : level.getIndex());
         if (!level.getCompetence().isEmpty()) {
             Competence levelCompetence = level.getCompetence().get(0);
             EList<CompetenceValue> competenceValues = levelCompetence.getCompetenceValues();

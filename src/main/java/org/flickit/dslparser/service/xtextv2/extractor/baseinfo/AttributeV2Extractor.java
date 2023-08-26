@@ -52,7 +52,7 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
         attributeModel.setCode(qualityAttribute.getName());
         attributeModel.setTitle(qualityAttribute.getTitle());
         attributeModel.setDescription(qualityAttribute.getDescription());
-        attributeModel.setIndex(qualityAttribute.getIndex());
+        attributeModel.setIndex(qualityAttribute.getIndex() == 0 ? -1 : qualityAttribute.getIndex());
         attributeModel.setSubjectCode(qualityAttribute.getSubject().getName());
         attributeModel.setWeight(qualityAttribute.getWeight() != 0 ? qualityAttribute.getWeight() : 1);
         return attributeModel;

@@ -52,7 +52,7 @@ class DslParserV2ApplicationTests {
 
 		LevelModel levelModel = levelModels.get(LEVEL_MODERATE_INDEX);
 		assertEquals("Moderate", levelModel.getTitle());
-		assertEquals(3, levelModel.getIndex());
+		assertEquals(2, levelModel.getIndex());
 		assertTrue(Maps.difference(expectedLevelCompetence, levelModel.getLevelCompetence()).areEqual());
 	}
 

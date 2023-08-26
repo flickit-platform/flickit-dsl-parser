@@ -15,7 +15,7 @@ public interface BaseInfoExtractor<T extends BaseAssessmentModel, X extends Base
     XtextV2Model<X> extractModel(EList<BaseInfo> elements);
 
     public default void setupIndex(int i, T model) {
-        if (model.getIndex() == null) {
+        if (model.getIndex() == null || model.getIndex() == -1) {
             model.setIndex(i + 1);
         }
     }
