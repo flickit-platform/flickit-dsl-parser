@@ -24,6 +24,7 @@ subject team {
 
 subject software {
     title: "Software"
+    description: "This is a test Description for Software Subject"
     index: 2
     weight: 2
 }
@@ -50,8 +51,9 @@ attribute TeamReflection {
 
 attribute TeamSecurity {
     title: "Team-Security"
+    description: "This is a test Description for software Security"
     index: 2
-    subject: team
+    subject: software
 }
 
 question q1 {
