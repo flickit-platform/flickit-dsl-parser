@@ -32,7 +32,7 @@ jobs:
           distribution: adopt
 
       - name: Build with Maven
-        run: mvn clean package
+        run: mvn clean compile
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
           MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
