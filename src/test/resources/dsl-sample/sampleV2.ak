@@ -58,7 +58,7 @@ attribute TeamSecurity {
 
 question q1 {
     questionnaire: DevOps
-    guide: "Answer to the question of this metric has 3 options. This metric has impact on one attribute."
+    hint: "Answer to the question of this metric has 3 options. This metric has impact on one attribute."
 
     title: "metric question test m1?"
     options: "Cap1", "Cap2", "Cap3"
@@ -68,7 +68,7 @@ question q1 {
 
 question q2 {
     questionnaire: DevOps
-    guide: "This metric has impact on 3 attributes."
+    hint: "This metric has impact on 3 attributes."
 
     title: "metric question test m2?"
     options: "Cap1", "Cap2", "Cap3"
