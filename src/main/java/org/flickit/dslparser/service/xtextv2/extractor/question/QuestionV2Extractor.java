@@ -40,7 +40,7 @@ public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Que
     public QuestionModel extract(Question question) {
         QuestionModel questionModel = new QuestionModel();
         questionModel.setQuestionnaireCode(question.getQuestionnaire().getName());
-        questionModel.setDescription(question.getGuide());
+        questionModel.setDescription(question.getHint());
         questionModel.setTitle(question.getTitle());
         questionModel.setMayNotBeApplicable(Boolean.valueOf(question.getMayNotBeApplicable()));
         questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions());
