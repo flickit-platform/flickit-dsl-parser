@@ -24,7 +24,7 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
         List<LevelModel> levelModels = new ArrayList<>();
         for (int i = 0; i < xtextLevels.size(); i++) {
             LevelModel levelModel = extract(xtextLevels.get(i));
-            setupIndex(i - 1, levelModel);
+            setupIndex(i, levelModel);
             levelModels.add(levelModel);
         }
         return levelModels;
@@ -48,7 +48,7 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
     public LevelModel extract(Level level) {
         LevelModel levelModel = new LevelModel();
         levelModel.setTitle((level.getTitle()));
-        levelModel.setIndex(level.getIndex() == 0 ? -1 : level.getIndex());
+        levelModel.setValue(level.getValue());
         if (!level.getCompetence().isEmpty()) {
             Competence levelCompetence = level.getCompetence().get(0);
             EList<CompetenceValue> competenceValues = levelCompetence.getCompetenceValues();
