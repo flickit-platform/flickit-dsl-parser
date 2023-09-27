@@ -10,4 +10,5 @@ import java.util.Map;
 public class LevelModel extends BaseAssessmentModel {
 
     private Map<String, Integer> levelCompetence;
+    private Integer value;
 }
