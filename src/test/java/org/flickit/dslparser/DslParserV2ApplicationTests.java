@@ -91,7 +91,7 @@ class DslParserV2ApplicationTests {
 		AttributeModel attributeModel = attributeModels.get(ATTRIBUTE_TEAM_REFLECTION_INDEX);
 		assertEquals("Team Reflection", attributeModel.getTitle());
 		assertEquals("This is a test Description for Team Reflection", attributeModel.getDescription());
-		assertEquals(2, attributeModel.getIndex());
+		assertEquals(1, attributeModel.getIndex());
 		assertEquals(resp.getSubjectModels().get(SUBJECT_TEAM_INDEX).getCode(), attributeModel.getSubjectCode());
 		assertEquals(3, attributeModel.getWeight());
 
