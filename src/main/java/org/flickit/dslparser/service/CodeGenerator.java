@@ -1,56 +1,16 @@
 package org.flickit.dslparser.service;
 
-import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
+@RequestScope
 public class CodeGenerator {
 
-    @Value("${code_file_path}")
-    private String codeFilePath;
+    private long code = 0;
 
     public String generate() {
-        String newCode = generateNewCode();
-        saveNewCodeToFile(newCode);
-        return newCode;
+        code++;
+        return String.valueOf(code);
     }
-
-    private String generateNewCode() {
-        Long lastValue = readLastCodeFromFile();
-        if (lastValue == null) {
-            lastValue = Long.valueOf(0);
-        }
-        lastValue++;
-        String code = String.format("%010d", lastValue);
-        saveNewCodeToFile(String.valueOf(lastValue));
-        return code;
-    }
-
-    public Long readLastCodeFromFile() {
-        try {
-            File file = new File(codeFilePath);
-            if (file.exists()) {
-                return Long.valueOf(FileUtils.readFileToString(file, Charset.defaultCharset()).trim());
-            }
-        } catch (IOException e) {
-            // handle exception
-        }
-        return null;
-    }
-
-
-
-    public void saveNewCodeToFile(String newCode) {
-        try {
-            FileUtils.write(new File(codeFilePath), newCode, Charset.defaultCharset());
-        } catch (IOException e) {
-            // handle exception
-        }
-    }
-
 }

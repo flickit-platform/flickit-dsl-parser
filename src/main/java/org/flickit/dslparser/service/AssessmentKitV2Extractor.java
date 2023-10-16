@@ -40,12 +40,8 @@ public class AssessmentKitV2Extractor {
     @Autowired
     LevelV2Extractor levelExtractor;
 
-    @Autowired
-    CodeGenerator codeGenerator;
-
 
     public AssessmentKitResponse extract(String dslContent) {
-        Long lastCode = codeGenerator.readLastCodeFromFile();
         try {
             Resource resource = resourceService.setupResource(dslContent);
             RootImpl assessmentKit = (RootImpl) resource.getContents().get(0);
@@ -53,7 +49,6 @@ public class AssessmentKitV2Extractor {
         } catch (Exception ex) {
             AssessmentKitResponse response = new AssessmentKitResponse();
             response.setHasError(true);
-            codeGenerator.saveNewCodeToFile(String.valueOf(lastCode));
             log.error("Error in parsing dsl to assessment kit", ex);
             return response;
         }
