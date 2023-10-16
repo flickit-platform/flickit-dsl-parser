@@ -12,6 +12,7 @@ import org.flickit.dsl.editor.AssessmentKitDslStandaloneSetup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,6 +38,8 @@ public class ResourceService {
         String generatedString = RandomStringUtils.randomAlphabetic(10);
         Path path = Path.of(dslFilePath + "//" + generatedString + ".ak");
         try {
+            File file = new File(path.toString());
+            file.createNewFile();
             Files.writeString(path, dslContent);
         } catch (Exception ex) {
             log.info("Error in writing dsl content into the file", ex);
