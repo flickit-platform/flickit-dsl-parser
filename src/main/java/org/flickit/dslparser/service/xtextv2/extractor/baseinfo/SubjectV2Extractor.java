@@ -5,8 +5,6 @@ import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.Subject;
 import org.flickit.dslparser.model.assessmentkit.SubjectModel;
 import org.flickit.dslparser.model.xtext.XtextV2Model;
-import org.flickit.dslparser.service.CodeGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,9 +12,6 @@ import java.util.List;
 
 @Component
 public class SubjectV2Extractor implements BaseInfoExtractor<SubjectModel, Subject> {
-
-    @Autowired
-    CodeGenerator codeGenerator;
 
     private static void setupWeight(SubjectModel subjectModel) {
         subjectModel.setWeight(subjectModel.getWeight() == null ? 1 : subjectModel.getWeight());
@@ -41,7 +36,6 @@ public class SubjectV2Extractor implements BaseInfoExtractor<SubjectModel, Subje
         for (BaseInfo element : elements) {
             if (Subject.class.isAssignableFrom(element.getClass())) {
                 Subject model = (Subject) element;
-                model.setName(codeGenerator.generate());
                 models.add(model);
             }
         }

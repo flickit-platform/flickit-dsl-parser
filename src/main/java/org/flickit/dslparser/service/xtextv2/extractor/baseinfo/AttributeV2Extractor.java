@@ -5,8 +5,6 @@ import org.flickit.dsl.editor.v2.assessmentKitDsl.Attribute;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dslparser.model.assessmentkit.AttributeModel;
 import org.flickit.dslparser.model.xtext.XtextV2Model;
-import org.flickit.dslparser.service.CodeGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,9 +12,6 @@ import java.util.List;
 
 @Component
 public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, Attribute> {
-
-    @Autowired
-    CodeGenerator codeGenerator;
 
     @Override
     public List<AttributeModel> extractList(EList<BaseInfo> elements) {
@@ -38,7 +33,6 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
         for (BaseInfo element : elements) {
             if (Attribute.class.isAssignableFrom(element.getClass())) {
                 Attribute model = (Attribute) element;
-                model.setName(codeGenerator.generate());
                 models.add(model);
             }
         }

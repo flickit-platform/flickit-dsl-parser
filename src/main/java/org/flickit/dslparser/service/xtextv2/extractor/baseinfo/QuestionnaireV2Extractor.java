@@ -5,8 +5,6 @@ import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.Questionnaire;
 import org.flickit.dslparser.model.assessmentkit.QuestionnaireModel;
 import org.flickit.dslparser.model.xtext.XtextV2Model;
-import org.flickit.dslparser.service.CodeGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,9 +13,6 @@ import java.util.List;
 
 @Component
 public class QuestionnaireV2Extractor implements BaseInfoExtractor<QuestionnaireModel, Questionnaire> {
-
-    @Autowired
-    CodeGenerator codeGenerator;
 
     @Override
     public List<QuestionnaireModel> extractList(EList<BaseInfo> elements) {
@@ -39,7 +34,6 @@ public class QuestionnaireV2Extractor implements BaseInfoExtractor<Questionnaire
         for (BaseInfo element : elements) {
             if (Questionnaire.class.isAssignableFrom(element.getClass())) {
                 Questionnaire model = (Questionnaire) element;
-                model.setName(codeGenerator.generate());
                 models.add(model);
             }
         }
