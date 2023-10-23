@@ -35,11 +35,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.flickit.dsl.editor</groupId>
-			<artifactId>org.flickit.dsl.editor</artifactId>
-			<version>0.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.flickit.dsl.editor</groupId>
 			<artifactId>org.flickit.dsl.editor.v2</artifactId>
 			<version>2.2.0</version>
 		</dependency>

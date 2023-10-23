@@ -1,7 +1,5 @@
-package org.flickit.dslparser.service.xtext.extractor.question;
+package org.flickit.dslparser.service.xtextv2.extractor.question;
 
-import static org.flickit.dslparser.service.xtext.extractor.question.QuestionOptionExtractor.MIN_OPTION_NUMBER;
-import static org.flickit.dslparser.service.xtext.extractor.question.QuestionOptionExtractor.MAX_OPTION_NUMBER;
 public enum OptionIndex {
     INDEX1(0), INDEX2(1), INDEX3(2), INDEX4(3), INDEX5(4);
 
@@ -16,10 +14,6 @@ public enum OptionIndex {
     }
 
     public static OptionIndex getOptionIndex(int optionNumber, int index) {
-        if (optionNumber < MIN_OPTION_NUMBER || optionNumber > MAX_OPTION_NUMBER) {
-            throw new IllegalArgumentException("Invalid option number.");
-        }
-
         if (index < 0 || index >= optionNumber) {
             throw new IllegalArgumentException("Invalid index.");
         }

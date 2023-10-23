@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.util.EList;
 import org.flickit.dslparser.model.assessmentkit.AnswerModel;
 import org.flickit.dslparser.model.assessmentkit.QuestionModel;
-import org.flickit.dslparser.service.xtext.extractor.question.OptionIndex;
-import org.flickit.dslparser.service.xtext.extractor.question.OptionValue;
 import org.springframework.stereotype.Component;
 
 @Slf4j
