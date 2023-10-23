@@ -22,9 +22,25 @@ public enum OptionIndex {
             case 2:
                 return index == 0 ? INDEX1 : INDEX5;
             case 3:
-                return index == 0 ? INDEX1 : (index == 1 ? INDEX3 : INDEX5);
+                switch (index) {
+                    case 0:
+                        return INDEX1;
+                    case 1:
+                        return INDEX3;
+                    default:
+                        return INDEX5;
+                }
             case 4:
-                return index == 0 ? INDEX1 : (index == 1 ? INDEX2 : (index == 2 ? INDEX4 : INDEX5));
+                switch (index) {
+                    case 0:
+                        return INDEX1;
+                    case 1:
+                        return INDEX2;
+                    case 2:
+                        return INDEX4;
+                    default:
+                        return INDEX5;
+                }
             case 5:
                 return values()[index];
             default:
