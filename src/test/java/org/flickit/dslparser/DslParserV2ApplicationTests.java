@@ -38,7 +38,10 @@ class DslParserV2ApplicationTests {
 
 	@BeforeEach
 	void extractKit() {
-		if (resp == null) resp = assessmentKitExtractor.extract(readDslContent());
+		String dslContent = readDslContent();
+		if (dslContent.isBlank())
+			throw new RuntimeException("dsl is empty");
+		if (resp == null) resp = assessmentKitExtractor.extract(dslContent);
 	}
 
 	@Test

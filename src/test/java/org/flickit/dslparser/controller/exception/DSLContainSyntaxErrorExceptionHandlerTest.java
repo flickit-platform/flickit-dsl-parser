@@ -36,6 +36,8 @@ class DSLContainSyntaxErrorExceptionHandlerTest {
         String dslContent = readDslContent();
         HashMap<String, String> request = new HashMap<>();
         request.put("dslContent", dslContent);
+        if (dslContent.isBlank())
+            throw new RuntimeException("dsl is empty");
 
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         ResponseEntity<Object> response = testRestTemplate.postForEntity(
