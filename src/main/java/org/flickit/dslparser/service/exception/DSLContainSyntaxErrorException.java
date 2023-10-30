@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 @Getter
 public class DSLContainSyntaxErrorException extends RuntimeException {
 
-    private final EList<Resource.Diagnostic> errors;
+    private final transient EList<Resource.Diagnostic> errors;
     private final String dslContent;
 
     public DSLContainSyntaxErrorException(String message, EList<Resource.Diagnostic> errors, String dslContent) {

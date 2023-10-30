@@ -1,7 +1,5 @@
 package org.flickit.dslparser.controller.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.flickit.dslparser.controller.exception.api.SyntaxError;
@@ -17,7 +15,7 @@ import java.util.regex.Pattern;
 @Component
 public class DSLContainSyntaxErrorExceptionHandlerHelper {
 
-    public final static String NOT_FOUND_FILE_NAME_NAME = "NOT_DETERMINED";
+    public static final String NOT_FOUND_FILE_NAME_NAME = "NOT_DETERMINED";
 
     @Value("${app.dsl-content.file-start-line-pattern}")
     private String fileStartLinePattern;
@@ -70,10 +68,9 @@ public class DSLContainSyntaxErrorExceptionHandlerHelper {
         return new FileErrorLine(fileName, errorLineInFile);
     }
 
-    @AllArgsConstructor
-    @Getter
-    private class FileErrorLine {
-        private String fileName;
-        private int line;
+    @lombok.Value
+    class FileErrorLine {
+        String fileName;
+        int line;
     }
 }
