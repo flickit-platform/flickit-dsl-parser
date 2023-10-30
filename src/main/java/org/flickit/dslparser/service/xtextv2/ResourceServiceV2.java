@@ -9,7 +9,6 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.flickit.dsl.editor.v2.AssessmentKitDslStandaloneSetup;
 import org.flickit.dslparser.service.xtext.ResourceService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
@@ -17,9 +16,6 @@ import java.nio.file.Path;
 @Component
 @Slf4j
 public class ResourceServiceV2 extends ResourceService {
-
-    @Value("${dsl_file_path}")
-    private String dslFilePath;
 
     @Override
     public Resource setupResource(String dslContent) {

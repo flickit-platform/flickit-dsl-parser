@@ -1,4 +1,4 @@
-package org.flickit.dslparser.service.xtext.extractor.question;
+package org.flickit.dslparser.service.xtextv2.extractor.question;
 
 public enum OptionValue {
     VALUE1(1), VALUE2(2), VALUE3(3), VALUE4(4), VALUE5(5);
