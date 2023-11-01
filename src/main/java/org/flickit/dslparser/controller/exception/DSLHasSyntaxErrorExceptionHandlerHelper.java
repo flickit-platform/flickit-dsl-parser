@@ -3,7 +3,7 @@ package org.flickit.dslparser.controller.exception;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.flickit.dslparser.controller.exception.api.SyntaxError;
-import org.flickit.dslparser.service.exception.DSLContainSyntaxErrorException;
+import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class DSLContainSyntaxErrorExceptionHandlerHelper {
+public class DSLHasSyntaxErrorExceptionHandlerHelper {
 
     public static final String NOT_FOUND_FILE_NAME_NAME = "NOT_DETERMINED";
 
@@ -23,7 +23,7 @@ public class DSLContainSyntaxErrorExceptionHandlerHelper {
     @Value("${app.dsl-content.file-name-pattern}")
     private String fileNamePattern;
 
-    public List<SyntaxError> extractErrors(DSLContainSyntaxErrorException ex) {
+    public List<SyntaxError> extractErrors(DSLHasSyntaxErrorException ex) {
         EList<Diagnostic> diagnostics = ex.getErrors();
         ArrayList<SyntaxError> errors = new ArrayList<>();
 

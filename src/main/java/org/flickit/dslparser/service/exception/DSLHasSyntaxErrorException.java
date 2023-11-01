@@ -5,12 +5,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 
 @Getter
-public class DSLContainSyntaxErrorException extends RuntimeException {
+public class DSLHasSyntaxErrorException extends RuntimeException {
 
     private final transient EList<Resource.Diagnostic> errors;
     private final String dslContent;
 
-    public DSLContainSyntaxErrorException(String message, EList<Resource.Diagnostic> errors, String dslContent) {
+    public DSLHasSyntaxErrorException(String message, EList<Resource.Diagnostic> errors, String dslContent) {
         super(message);
         this.errors = errors;
         this.dslContent = dslContent;

@@ -7,7 +7,7 @@ import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.impl.RootImpl;
 import org.flickit.dslparser.controller.AssessmentKitResponse;
 import org.flickit.dslparser.model.assessmentkit.*;
-import org.flickit.dslparser.service.exception.DSLContainSyntaxErrorException;
+import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
 import org.flickit.dslparser.service.xtextv2.ResourceServiceV2;
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.AttributeV2Extractor;
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.LevelV2Extractor;
@@ -51,13 +51,13 @@ public class AssessmentKitV2Extractor {
             Resource resource = resourceService.setupResource(dslContent);
             EList<Resource.Diagnostic> errors = resource.getErrors();
             if (!errors.isEmpty()) {
-                log.debug("DSL contain {} syntax error", errors.size());
-                throw new DSLContainSyntaxErrorException("DSL contain syntax error!", errors, dslContent);
+                log.debug("DSL has {} syntax error", errors.size());
+                throw new DSLHasSyntaxErrorException("DSL has syntax error!", errors, dslContent);
             }
             RootImpl assessmentKit = (RootImpl) resource.getContents().get(0);
             return convert(assessmentKit);
         } catch (Exception ex) {
-            if (ex instanceof DSLContainSyntaxErrorException)
+            if (ex instanceof DSLHasSyntaxErrorException)
                 throw ex;
             AssessmentKitResponse response = new AssessmentKitResponse();
             response.setHasError(true);

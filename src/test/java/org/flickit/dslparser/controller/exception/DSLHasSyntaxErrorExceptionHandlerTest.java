@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.flickit.dslparser.controller.exception.DSLContainSyntaxErrorExceptionHandlerHelper.NOT_FOUND_FILE_NAME_NAME;
+import static org.flickit.dslparser.controller.exception.DSLHasSyntaxErrorExceptionHandlerHelper.NOT_FOUND_FILE_NAME_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,13 +28,13 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles("test")
-class DSLContainSyntaxErrorExceptionHandlerTest {
+class DSLHasSyntaxErrorExceptionHandlerTest {
 
     @LocalServerPort
     private int port;
 
     @Test
-    void extractLevelTest() {
+    void extractSyntaxErrorsTest() {
         String dslContent = readDslContent();
         HashMap<String, String> request = new HashMap<>();
         request.put("dslContent", dslContent);
@@ -85,7 +85,7 @@ class DSLContainSyntaxErrorExceptionHandlerTest {
 
     private String readDslContent() {
         try {
-            byte[] encoded = Files.readAllBytes(Paths.get("src/test/resources/dsl-sample/sampleV2ConrainSyntaxError.ak"));
+            byte[] encoded = Files.readAllBytes(Paths.get("src/test/resources/dsl-sample/sampleV2HasSyntaxError.ak"));
             return new String(encoded, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();

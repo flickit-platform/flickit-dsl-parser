@@ -2,7 +2,7 @@ package org.flickit.dslparser.controller.exception;
 
 import lombok.RequiredArgsConstructor;
 import org.flickit.dslparser.controller.exception.api.SyntaxErrorResponseDto;
-import org.flickit.dslparser.service.exception.DSLContainSyntaxErrorException;
+import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,14 +13,14 @@ import static org.flickit.dslparser.controller.exception.api.ErrorCodes.SYNTAX_E
 
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class DSLContainSyntaxErrorExceptionHandler {
+public class DSLHasSyntaxErrorExceptionHandler {
 
-    private final DSLContainSyntaxErrorExceptionHandlerHelper helper;
+    private final DSLHasSyntaxErrorExceptionHandlerHelper helper;
 
     @ResponseBody
-    @ExceptionHandler(DSLContainSyntaxErrorException.class)
+    @ExceptionHandler(DSLHasSyntaxErrorException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    SyntaxErrorResponseDto handle(DSLContainSyntaxErrorException ex) {
+    SyntaxErrorResponseDto handle(DSLHasSyntaxErrorException ex) {
         return new SyntaxErrorResponseDto(SYNTAX_ERROR, helper.extractErrors(ex));
     }
 }
