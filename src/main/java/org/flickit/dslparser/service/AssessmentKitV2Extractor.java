@@ -7,6 +7,7 @@ import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.impl.RootImpl;
 import org.flickit.dslparser.controller.AssessmentKitResponse;
 import org.flickit.dslparser.model.assessmentkit.*;
+import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
 import org.flickit.dslparser.service.xtextv2.ResourceServiceV2;
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.AttributeV2Extractor;
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.LevelV2Extractor;
@@ -48,13 +49,20 @@ public class AssessmentKitV2Extractor {
         Long lastCode = codeGenerator.readLastCodeFromFile();
         try {
             Resource resource = resourceService.setupResource(dslContent);
+            EList<Resource.Diagnostic> errors = resource.getErrors();
+            if (!errors.isEmpty()) {
+                log.debug("DSL has {} syntax error", errors.size());
+                throw new DSLHasSyntaxErrorException("DSL has syntax error!", errors, dslContent);
+            }
             RootImpl assessmentKit = (RootImpl) resource.getContents().get(0);
             return convert(assessmentKit);
         } catch (Exception ex) {
+            if (ex instanceof DSLHasSyntaxErrorException)
+                throw ex;
             AssessmentKitResponse response = new AssessmentKitResponse();
             response.setHasError(true);
             codeGenerator.saveNewCodeToFile(String.valueOf(lastCode));
-            log.error("Error in parsing dsl to assessment kit", ex);
+            log.error("Unexpected error in parsing dsl to assessment kit", ex);
             return response;
         }
     }
