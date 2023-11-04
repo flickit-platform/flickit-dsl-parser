@@ -1,13 +1,13 @@
 package org.flickit.dslparser.controller.exception;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
+import org.eclipse.xtext.validation.Issue;
 import org.flickit.dslparser.controller.exception.api.SyntaxError;
 import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,18 +23,18 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
     @Value("${app.dsl-content.file-name-pattern}")
     private String fileNamePattern;
 
-    public List<SyntaxError> extractErrors(DSLHasSyntaxErrorException ex) {
-        EList<Diagnostic> diagnostics = ex.getErrors();
-        ArrayList<SyntaxError> errors = new ArrayList<>();
+    public LinkedHashSet<SyntaxError> extractErrors(DSLHasSyntaxErrorException ex) {
+        List<Issue> issues = ex.getErrors();
+        LinkedHashSet<SyntaxError> errors = new LinkedHashSet<>();
 
         ArrayList<Integer> filesStartLine = extractFilesStartLine(ex.getDslContent());
         String[] dslLines = ex.getDslContent().split("\n");
-        for (Diagnostic diagnostic : diagnostics) {
-            FileErrorLine fileErrorLine = extractError(diagnostic.getLine(), filesStartLine, dslLines);
-            SyntaxError error = new SyntaxError(diagnostic.getMessage(),
+        for (Issue issue : issues) {
+            FileErrorLine fileErrorLine = extractError(issue.getLineNumber(), filesStartLine, dslLines);
+            SyntaxError error = new SyntaxError(issue.getMessage(),
                     fileErrorLine.getFileName(),
                     fileErrorLine.getLine(),
-                    diagnostic.getColumn());
+                    issue.getColumn());
             errors.add(error);
         }
         return errors;

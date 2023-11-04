@@ -3,6 +3,11 @@ package org.flickit.dslparser.service;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.diagnostics.Severity;
+import org.eclipse.xtext.util.CancelIndicator;
+import org.eclipse.xtext.validation.CheckMode;
+import org.eclipse.xtext.validation.IResourceValidator;
+import org.eclipse.xtext.validation.Issue;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.impl.RootImpl;
 import org.flickit.dslparser.controller.AssessmentKitResponse;
@@ -24,36 +29,35 @@ import java.util.List;
 public class AssessmentKitV2Extractor {
 
     @Autowired
-    ResourceServiceV2 resourceService;
+    private ResourceServiceV2 resourceService;
 
     @Autowired
-    SubjectV2Extractor subjectExtractor;
+    private SubjectV2Extractor subjectExtractor;
 
     @Autowired
-    AttributeV2Extractor attributeExtractor;
+    private AttributeV2Extractor attributeExtractor;
 
     @Autowired
-    QuestionnaireV2Extractor questionnaireExtractor;
+    private QuestionnaireV2Extractor questionnaireExtractor;
 
     @Autowired
-    QuestionV2Extractor questionExtractor;
+    private QuestionV2Extractor questionExtractor;
 
     @Autowired
-    LevelV2Extractor levelExtractor;
+    private LevelV2Extractor levelExtractor;
 
     @Autowired
-    CodeGenerator codeGenerator;
+    private CodeGenerator codeGenerator;
+
+    @Autowired
+    private IResourceValidator validator;
 
 
     public AssessmentKitResponse extract(String dslContent) {
         Long lastCode = codeGenerator.readLastCodeFromFile();
         try {
             Resource resource = resourceService.setupResource(dslContent);
-            EList<Resource.Diagnostic> errors = resource.getErrors();
-            if (!errors.isEmpty()) {
-                log.debug("DSL has {} syntax error", errors.size());
-                throw new DSLHasSyntaxErrorException("DSL has syntax error!", errors, dslContent);
-            }
+            validateKit(dslContent, resource);
             RootImpl assessmentKit = (RootImpl) resource.getContents().get(0);
             return convert(assessmentKit);
         } catch (Exception ex) {
@@ -64,6 +68,14 @@ public class AssessmentKitV2Extractor {
             codeGenerator.saveNewCodeToFile(String.valueOf(lastCode));
             log.error("Unexpected error in parsing dsl to assessment kit", ex);
             return response;
+        }
+    }
+
+    private void validateKit(String dslContent, Resource resource) {
+        List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
+        if (issues.stream().anyMatch(i -> i.getSeverity().equals(Severity.ERROR))) {
+            log.debug("DSL has {} syntax error", issues.size());
+            throw new DSLHasSyntaxErrorException("DSL has syntax error!", issues, dslContent);
         }
     }
 
