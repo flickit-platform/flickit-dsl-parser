@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.flickit.dslparser.controller.exception.DSLHasSyntaxErrorExceptionHandlerHelper.NOT_FOUND_FILE_NAME_NAME;
@@ -45,7 +47,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         );
         SyntaxErrorResponseDto syntaxErrorResponseDto = mapToResponseDto(response.getBody());
 
-        LinkedHashSet<SyntaxError> errors = syntaxErrorResponseDto.getErrors();
+        List<SyntaxError> errors = syntaxErrorResponseDto.getErrors();
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
         assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.getMessage());
 
@@ -59,8 +61,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
             assertThat(syntaxError.getColumn(), is(greaterThan(0)));
         }
 
-        ArrayList<SyntaxError> errorList = new ArrayList<>(errors);
-        SyntaxError error = errorList.get(0);
+        SyntaxError error = errors.get(0);
         assertThat(error.getMessage(), is(equalTo("mismatched input 'index:' expecting 'value:'")));
         assertThat(error.getFileName(), is(equalTo("levels.ak")));
         assertThat(error.getLine(), is(equalTo(8)));
@@ -81,7 +82,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         );
         SyntaxErrorResponseDto syntaxErrorResponseDto = mapToResponseDto(response.getBody());
 
-        LinkedHashSet<SyntaxError> errors = syntaxErrorResponseDto.getErrors();
+        List<SyntaxError> errors = syntaxErrorResponseDto.getErrors();
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
         assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.getMessage());
 
@@ -95,8 +96,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
             assertThat(syntaxError.getColumn(), is(greaterThan(0)));
         }
 
-        ArrayList<SyntaxError> errorList = new ArrayList<>(errors);
-        SyntaxError error = errorList.get(0);
+        SyntaxError error = errors.get(0);
         assertThat(error.getMessage(), is(equalTo("'Title' may not be empty!")));
         assertThat(error.getFileName(), is(equalTo("levels.ak")));
         assertThat(error.getLine(), is(equalTo(7)));
@@ -115,7 +115,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
                 (Integer) e.get("column"))
         ).collect(Collectors.toList());
 
-        return new SyntaxErrorResponseDto(message, new LinkedHashSet<>(syntaxErrors));
+        return new SyntaxErrorResponseDto(message, syntaxErrors);
     }
 
     private String readDslContent(String fileName) {
