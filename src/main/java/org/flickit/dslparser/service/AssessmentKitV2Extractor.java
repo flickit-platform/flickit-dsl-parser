@@ -1,5 +1,6 @@
 package org.flickit.dslparser.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -19,39 +20,23 @@ import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.LevelV2Extractor
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.QuestionnaireV2Extractor;
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.SubjectV2Extractor;
 import org.flickit.dslparser.service.xtextv2.extractor.question.QuestionV2Extractor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AssessmentKitV2Extractor {
 
-    @Autowired
-    private ResourceServiceV2 resourceService;
-
-    @Autowired
-    private SubjectV2Extractor subjectExtractor;
-
-    @Autowired
-    private AttributeV2Extractor attributeExtractor;
-
-    @Autowired
-    private QuestionnaireV2Extractor questionnaireExtractor;
-
-    @Autowired
-    private QuestionV2Extractor questionExtractor;
-
-    @Autowired
-    private LevelV2Extractor levelExtractor;
-
-    @Autowired
-    private CodeGenerator codeGenerator;
-
-    @Autowired
-    private IResourceValidator validator;
-
+    private final ResourceServiceV2 resourceService;
+    private final SubjectV2Extractor subjectExtractor;
+    private final AttributeV2Extractor attributeExtractor;
+    private final QuestionnaireV2Extractor questionnaireExtractor;
+    private final QuestionV2Extractor questionExtractor;
+    private final LevelV2Extractor levelExtractor;
+    private final CodeGenerator codeGenerator;
+    private final IResourceValidator validator;
 
     public AssessmentKitResponse extract(String dslContent) {
         Long lastCode = codeGenerator.readLastCodeFromFile();
