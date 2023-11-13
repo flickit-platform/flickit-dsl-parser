@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.flickit.dslparser.controller.exception.DSLHasSyntaxErrorExceptionHandlerHelper.NOT_FOUND_FILE_NAME_NAME;
+import static org.flickit.dslparser.common.Message.NOT_FOUND_FILE_NAME_MESSAGE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,7 +55,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         for (SyntaxError syntaxError : errors) {
             assertThat(syntaxError.getMessage(), is(not(emptyOrNullString())));
             assertThat(syntaxError.getFileName(), is(not(emptyOrNullString())));
-            assertThat(syntaxError.getFileName(), is(not(NOT_FOUND_FILE_NAME_NAME)));
+            assertThat(syntaxError.getFileName(), is(not(NOT_FOUND_FILE_NAME_MESSAGE)));
             assertThat(syntaxError.getFileName(), containsString(".ak"));
             assertThat(syntaxError.getLine(), is(greaterThan(0)));
             assertThat(syntaxError.getColumn(), is(greaterThan(0)));
@@ -90,7 +90,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         for (SyntaxError syntaxError : errors) {
             assertThat(syntaxError.getMessage(), is(not(emptyOrNullString())));
             assertThat(syntaxError.getFileName(), is(not(emptyOrNullString())));
-            assertThat(syntaxError.getFileName(), is(not(NOT_FOUND_FILE_NAME_NAME)));
+            assertThat(syntaxError.getFileName(), is(not(NOT_FOUND_FILE_NAME_MESSAGE)));
             assertThat(syntaxError.getFileName(), containsString(".ak"));
             assertThat(syntaxError.getLine(), is(greaterThan(0)));
             assertThat(syntaxError.getColumn(), is(greaterThan(0)));

@@ -11,6 +11,7 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.impl.RootImpl;
+import org.flickit.dslparser.common.Message;
 import org.flickit.dslparser.controller.AssessmentKitResponse;
 import org.flickit.dslparser.model.assessmentkit.*;
 import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
@@ -51,7 +52,7 @@ public class AssessmentKitV2Extractor {
             AssessmentKitResponse response = new AssessmentKitResponse();
             response.setHasError(true);
             codeGenerator.saveNewCodeToFile(String.valueOf(lastCode));
-            log.error("Unexpected error in parsing dsl to assessment kit", ex);
+            log.error(Message.PARSE_KIT_UNEXPECTED_ERROR_MESSAGE, ex);
             return response;
         }
     }
@@ -60,7 +61,7 @@ public class AssessmentKitV2Extractor {
         List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
         if (issues.stream().anyMatch(i -> i.getSeverity().equals(Severity.ERROR))) {
             log.debug("DSL has {} syntax error", issues.size());
-            throw new DSLHasSyntaxErrorException("DSL has syntax error!", issues, dslContent);
+            throw new DSLHasSyntaxErrorException(Message.PARSE_KIT_SYNTAX_ERROR_MESSAGE, issues, dslContent);
         }
     }
 

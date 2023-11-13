@@ -1,6 +1,7 @@
 package org.flickit.dslparser.controller.exception;
 
 import org.eclipse.xtext.validation.Issue;
+import org.flickit.dslparser.common.Message;
 import org.flickit.dslparser.controller.exception.api.SyntaxError;
 import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +15,6 @@ import java.util.regex.Pattern;
 
 @Component
 public class DSLHasSyntaxErrorExceptionHandlerHelper {
-
-    public static final String NOT_FOUND_FILE_NAME_NAME = "NOT_DETERMINED";
 
     @Value("${app.dsl-content.file-start-line-pattern}")
     private String fileStartLinePattern;
@@ -63,7 +62,7 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
         if (fileNameMather.find()) {
             fileName = fileNameMather.group();
         } else {
-            fileName = NOT_FOUND_FILE_NAME_NAME;
+            fileName = Message.NOT_FOUND_FILE_NAME_MESSAGE;
         }
         return new FileErrorLine(fileName, errorLineInFile);
     }
