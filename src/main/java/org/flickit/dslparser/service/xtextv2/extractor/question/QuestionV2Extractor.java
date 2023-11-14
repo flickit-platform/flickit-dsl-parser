@@ -39,6 +39,7 @@ public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Que
     @Override
     public QuestionModel extract(Question question) {
         QuestionModel questionModel = new QuestionModel();
+        questionModel.setCode(question.getName());
         questionModel.setQuestionnaireCode(question.getQuestionnaire().getName());
         questionModel.setDescription(question.getHint());
         questionModel.setTitle(question.getTitle());

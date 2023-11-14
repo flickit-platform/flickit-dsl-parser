@@ -53,6 +53,7 @@ class DslParserV2ApplicationTests {
 		assertEquals(3, levelModels.size());
 
 		LevelModel levelModel = levelModels.get(LEVEL_MODERATE_INDEX);
+		assertEquals("Moderate", levelModel.getCode());
 		assertEquals("Moderate", levelModel.getTitle());
 		assertEquals(3, levelModel.getIndex());
 		assertEquals(2, levelModel.getValue());
@@ -108,6 +109,7 @@ class DslParserV2ApplicationTests {
 		assertEquals(3, questionModels.size());
 
 		QuestionModel questionModel = questionModels.get(1);
+		assertEquals("q2", questionModel.getCode());
 		assertEquals(resp.getQuestionnaireModels().get(QUESTIONNAIRE_DEV_OPS_INDEX).getCode(), questionModel.getQuestionnaireCode());
 		assertEquals("metric question test m2?", questionModel.getTitle());
 		assertEquals("This metric has impact on 3 attributes.", questionModel.getDescription());
