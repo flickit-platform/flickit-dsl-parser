@@ -24,8 +24,12 @@ public abstract class ResourceService {
         Path path = Path.of(dslFilePath + "//" + generatedString + ".ak");
         try {
             File file = new File(path.toString());
-            file.createNewFile();
-            Files.writeString(path, dslContent);
+            boolean isCreated = file.createNewFile();
+            if (isCreated) {
+                Files.writeString(path, dslContent);
+            } else {
+                log.info("Error in writing dsl content into the file: {}", path);
+            }
         } catch (Exception ex) {
             log.info("Error in writing dsl content into the file", ex);
         }
