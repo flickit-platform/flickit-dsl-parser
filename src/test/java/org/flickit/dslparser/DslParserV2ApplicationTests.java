@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class DslParserV2ApplicationTests {
 
 	private static final int SUBJECT_TEAM_INDEX = 0;
@@ -93,7 +95,7 @@ class DslParserV2ApplicationTests {
 		AttributeModel attributeModel = attributeModels.get(ATTRIBUTE_TEAM_REFLECTION_INDEX);
 		assertEquals("Team Reflection", attributeModel.getTitle());
 		assertEquals("This is a test Description for Team Reflection", attributeModel.getDescription());
-		assertEquals(2, attributeModel.getIndex());
+		assertEquals(1, attributeModel.getIndex());
 		assertEquals(resp.getSubjectModels().get(SUBJECT_TEAM_INDEX).getCode(), attributeModel.getSubjectCode());
 		assertEquals(3, attributeModel.getWeight());
 		assertEquals("TeamReflection", attributeModel.getCode());

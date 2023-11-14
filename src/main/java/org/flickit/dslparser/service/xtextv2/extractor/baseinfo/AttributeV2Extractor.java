@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, Attribute> {
@@ -23,6 +25,7 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
             setupIndex(i, attributeModel);
             attributeModels.add(attributeModel);
         }
+        setupAttributeIndex(attributeModels);
         return attributeModels;
     }
 
@@ -50,5 +53,16 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
         attributeModel.setSubjectCode(qualityAttribute.getSubject().getName());
         attributeModel.setWeight(qualityAttribute.getWeight() != 0 ? qualityAttribute.getWeight() : 1);
         return attributeModel;
+    }
+
+    private static void setupAttributeIndex(List<AttributeModel> attributeModels) {
+        Map<String, List<AttributeModel>> attributeBySubjectMap = attributeModels.stream().collect(Collectors.groupingBy(AttributeModel::getSubjectCode));
+        for (List<AttributeModel> models : attributeBySubjectMap.values()) {
+            int index = 1;
+            for (AttributeModel model : models) {
+                model.setIndex(index);
+                index++;
+            }
+        }
     }
 }
