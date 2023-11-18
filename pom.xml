@@ -14,7 +14,7 @@
 	<name>dsl-parser</name>
 	<description>An Assessment Kit dsl parser</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<sonar.organization>avansoft</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
@@ -113,7 +113,7 @@
 						</labels>
 					</container>
 					<from>
-						<image>ghcr.io/avansoft/flickit-dsl-parser/jdk:11.0.19</image>
+						<image>ghcr.io/avansoft/flickit-assessment-core/jdk:17.0.7</image>
 					</from>
 				</configuration>
 			</plugin>
