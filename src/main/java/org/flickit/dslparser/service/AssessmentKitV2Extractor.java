@@ -36,11 +36,9 @@ public class AssessmentKitV2Extractor {
     private final QuestionnaireV2Extractor questionnaireExtractor;
     private final QuestionV2Extractor questionExtractor;
     private final LevelV2Extractor levelExtractor;
-    private final CodeGenerator codeGenerator;
     private final IResourceValidator validator;
 
     public AssessmentKitResponse extract(String dslContent) {
-        Long lastCode = codeGenerator.readLastCodeFromFile();
         try {
             Resource resource = resourceService.setupResource(dslContent);
             validateKit(dslContent, resource);
@@ -51,7 +49,6 @@ public class AssessmentKitV2Extractor {
                 throw ex;
             AssessmentKitResponse response = new AssessmentKitResponse();
             response.setHasError(true);
-            codeGenerator.saveNewCodeToFile(String.valueOf(lastCode));
             log.error(Message.PARSE_KIT_UNEXPECTED_ERROR_MESSAGE, ex);
             return response;
         }

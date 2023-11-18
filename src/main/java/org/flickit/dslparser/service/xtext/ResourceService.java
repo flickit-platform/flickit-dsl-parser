@@ -6,6 +6,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +23,13 @@ public abstract class ResourceService {
         String generatedString = RandomStringUtils.randomAlphabetic(10);
         Path path = Path.of(dslFilePath + "//" + generatedString + ".ak");
         try {
-            Files.writeString(path, dslContent);
+            File file = new File(path.toString());
+            boolean isCreated = file.createNewFile();
+            if (isCreated) {
+                Files.writeString(path, dslContent);
+            } else {
+                log.info("Error in writing dsl content into the file: {}", path);
+            }
         } catch (Exception ex) {
             log.info("Error in writing dsl content into the file", ex);
         }

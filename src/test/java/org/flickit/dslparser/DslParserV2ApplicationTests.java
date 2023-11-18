@@ -71,6 +71,7 @@ class DslParserV2ApplicationTests {
 		assertEquals("This is a test Description for Team Subject", subjectModel.getDescription());
 		assertEquals(1, subjectModel.getIndex());
 		assertEquals(1, subjectModel.getWeight());
+		assertEquals("team", subjectModel.getCode());
 	}
 
 	@Test
@@ -83,6 +84,7 @@ class DslParserV2ApplicationTests {
 		assertEquals("DEV OPS", questionnaireModel.getTitle());
 		assertEquals("This is a test Description for DEV OPS category", questionnaireModel.getDescription());
 		assertEquals(1, questionnaireModel.getIndex());
+		assertEquals("DevOps", questionnaireModel.getCode());
 	}
 
 	@Test
@@ -97,6 +99,7 @@ class DslParserV2ApplicationTests {
 		assertEquals(1, attributeModel.getIndex());
 		assertEquals(resp.getSubjectModels().get(SUBJECT_TEAM_INDEX).getCode(), attributeModel.getSubjectCode());
 		assertEquals(3, attributeModel.getWeight());
+		assertEquals("TeamReflection", attributeModel.getCode());
 
 	}
 
