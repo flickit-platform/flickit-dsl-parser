@@ -57,6 +57,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
             assertThat(syntaxError.getFileName(), is(not(emptyOrNullString())));
             assertThat(syntaxError.getFileName(), is(not(NOT_FOUND_FILE_NAME_MESSAGE)));
             assertThat(syntaxError.getFileName(), containsString(".ak"));
+            assertThat(syntaxError.getErrorLine(), is(not(emptyOrNullString())));
             assertThat(syntaxError.getLine(), is(greaterThan(0)));
             assertThat(syntaxError.getColumn(), is(greaterThan(0)));
         }
@@ -64,6 +65,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         SyntaxError error = errors.get(0);
         assertThat(error.getMessage(), is(equalTo("mismatched input 'index:' expecting 'value:'")));
         assertThat(error.getFileName(), is(equalTo("levels.ak")));
+        assertThat(error.getErrorLine(), is(equalTo("    index: 1")));
         assertThat(error.getLine(), is(equalTo(8)));
         assertThat(error.getColumn(), is(equalTo(5)));
     }
@@ -92,6 +94,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
             assertThat(syntaxError.getFileName(), is(not(emptyOrNullString())));
             assertThat(syntaxError.getFileName(), is(not(NOT_FOUND_FILE_NAME_MESSAGE)));
             assertThat(syntaxError.getFileName(), containsString(".ak"));
+            assertThat(syntaxError.getErrorLine(), is(not(emptyOrNullString())));
             assertThat(syntaxError.getLine(), is(greaterThan(0)));
             assertThat(syntaxError.getColumn(), is(greaterThan(0)));
         }
@@ -99,6 +102,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         SyntaxError error = errors.get(0);
         assertThat(error.getMessage(), is(equalTo("'Title' may not be empty!")));
         assertThat(error.getFileName(), is(equalTo("levels.ak")));
+        assertThat(error.getErrorLine(), is(equalTo("    title:\"\"")));
         assertThat(error.getLine(), is(equalTo(7)));
         assertThat(error.getColumn(), is(equalTo(11)));
     }
@@ -111,6 +115,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         List<SyntaxError> syntaxErrors = errors.stream().map(e -> new SyntaxError(
                 String.valueOf(e.get("message")),
                 String.valueOf(e.get("fileName")),
+                String.valueOf(e.get("errorLine")),
                 (Integer) e.get("line"),
                 (Integer) e.get("column"))
         ).collect(Collectors.toList());

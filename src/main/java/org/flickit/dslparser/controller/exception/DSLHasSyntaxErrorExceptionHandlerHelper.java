@@ -30,8 +30,10 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
         String[] dslLines = ex.getDslContent().split("\n");
         for (Issue issue : issues) {
             FileErrorLine fileErrorLine = extractError(issue.getLineNumber(), filesStartLine, dslLines);
+            String errorLine = dslLines[issue.getLineNumber() - 1];
             SyntaxError error = new SyntaxError(issue.getMessage(),
                     fileErrorLine.getFileName(),
+                    errorLine,
                     fileErrorLine.getLine(),
                     issue.getColumn());
             errors.add(error);
