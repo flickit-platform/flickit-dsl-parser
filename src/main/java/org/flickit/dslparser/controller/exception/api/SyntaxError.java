@@ -7,6 +7,7 @@ public class SyntaxError {
 
     String message;
     String fileName;
+    String errorLine;
     int line;
     int column;
 }
