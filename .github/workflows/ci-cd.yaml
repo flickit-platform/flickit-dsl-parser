@@ -149,7 +149,7 @@ jobs:
       contains( needs.build.outputs.project_version , 'SNAPSHOT') }}
 
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
