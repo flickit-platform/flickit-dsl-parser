@@ -25,7 +25,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/avansoft/flickit-dsl-editor</url>
+			<url>https://maven.pkg.github.com/flickit-platform/flickit-dsl-editor</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -144,7 +144,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/avansoft/flickit-dsl-parser</url>
+			<url>https://maven.pkg.github.com/flickit-platform/flickit-dsl-parser</url>
 		</repository>
 	</distributionManagement>
 </project>
