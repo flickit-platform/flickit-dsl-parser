@@ -20,6 +20,7 @@
 		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
 		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sentry.version>7.3.0</sentry.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -49,39 +50,38 @@
 			<version>2.27.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext</artifactId>
-			<version>2.29.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.mwe.utils</artifactId>
 			<version>1.7.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext</artifactId>
+			<version>2.29.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.11.0</version>
 		</dependency>
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>io.sentry</groupId>
+			<artifactId>sentry-spring-boot-starter-jakarta</artifactId>
+			<version>${sentry.version}</version>
 		</dependency>
 	</dependencies>
 
