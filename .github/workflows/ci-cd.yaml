@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'main'
+    tags:
+      - 'v**'
   pull_request:
     branches:
       - '*'
@@ -191,29 +193,11 @@ jobs:
           DARKUBE_DEPLOY_TOKEN: ${{ secrets.DSL_PARSER_DEPLOY_TOKEN_STAGING }}
           DARKUBE_APP_ID: ${{ secrets.DSL_PARSER_APP_ID_STAGING }}
 
-  tag-and-release:
-    needs: [ sonar ]
-    name: tag and release
-    runs-on: ubuntu-latest
-    if: ${{ ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) &&
-      !contains( needs.sonar.outputs.project_version , 'SNAPSHOT') }}
-
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-        with:
-          tag: v${{ needs.sonar.outputs.project_version }}
-          name: Release ${{ needs.sonar.outputs.project_version }}
-          makeLatest: true
-
   deploy-package:
-    needs: [ tag-and-release ]
+    needs: [ sonar ]
     name: deploy package
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
 
     steps:
       - name: Checkout Repository
@@ -240,9 +224,10 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   build-and-push-image:
-    needs: [ tag-and-release ]
+    needs: [ sonar ]
     name: deploy image
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
 
     permissions:
       contents: read
