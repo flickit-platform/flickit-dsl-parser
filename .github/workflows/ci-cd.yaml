@@ -203,6 +203,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
         with:
           tag: v${{ needs.sonar.outputs.project_version }}
           name: Release ${{ needs.sonar.outputs.project_version }}
