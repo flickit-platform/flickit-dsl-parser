@@ -88,6 +88,10 @@ jobs:
       - name: Extract Maven project version
         run: echo version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec) >> $GITHUB_OUTPUT
         id: project
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+          MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Check output
         env:
