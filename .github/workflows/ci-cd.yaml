@@ -110,6 +110,54 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
 
+  test-1:
+    needs: [ sonar]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ needs.sonar.outputs.project_version }}
+        run: |
+          echo $RELEASE_VERSION
+
+  test-2:
+    needs: [test-1]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ needs.sonar.outputs.project_version }}
+        run: |
+          echo $RELEASE_VERSION
+
+  test-3:
+    needs: [sonar, test-1]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ needs.sonar.outputs.project_version }}
+        run: |
+          echo $RELEASE_VERSION
+
   deploy-snapshot-package:
     needs: [ sonar ]
     name: deploy snapshot package
