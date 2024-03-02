@@ -119,6 +119,7 @@ class DslParserV2ApplicationTests {
 		List<String> actualAnswers = questionModel.getAnswers().stream().map(AnswerModel::getCaption).collect(Collectors.toList());
 		assertEquals(expectedAnswers, actualAnswers);
 		assertTrue(questionModel.isMayNotBeApplicable());
+		assertFalse(questionModel.isAdvisable());
 
 		ImpactModel impactModel = questionModel.getQuestionImpacts().get(0);
 
@@ -165,6 +166,28 @@ class DslParserV2ApplicationTests {
 		assertEquals(resp.getLevelModels().get(LEVEL_ELEMENTARY_INDEX).getTitle(), impactModel3.getLevel().getTitle());
 		assertTrue(Maps.difference(elementaryExpectedOptionValues, impactModel3.getOptionValues()).areEqual());
 		assertEquals(3, impactModel3.getWeight());
+	}
+
+	@Test
+	void extractQuestion_AdvisableDefaultValueShouldBeTrue() {
+		List<QuestionModel> questionModels = resp.getQuestionModels();
+
+		assertEquals(3, questionModels.size());
+
+		QuestionModel questionModel = questionModels.get(0);
+		assertEquals("q1", questionModel.getCode());
+		assertTrue(questionModel.isAdvisable());
+	}
+
+	@Test
+	void extractQuestion_MayNotBeApplicableDefaultValueShouldBeFalse() {
+		List<QuestionModel> questionModels = resp.getQuestionModels();
+
+		assertEquals(3, questionModels.size());
+
+		QuestionModel questionModel = questionModels.get(0);
+		assertEquals("q1", questionModel.getCode());
+		assertFalse(questionModel.isMayNotBeApplicable());
 	}
 
 	private Map<Integer, Double> createOptionValueWith(double... values) {

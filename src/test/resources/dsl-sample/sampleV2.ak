@@ -77,6 +77,7 @@ question q2 {
     affects TeamSecurity on level Elementary
 
     mayNotBeApplicable: true
+    advisable: false
  }
 
 question q3 {

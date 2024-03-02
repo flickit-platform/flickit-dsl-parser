@@ -1,5 +1,6 @@
 package org.flickit.dslparser.service.xtextv2.extractor.question;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.util.EList;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
@@ -7,7 +8,6 @@ import org.flickit.dsl.editor.v2.assessmentKitDsl.Question;
 import org.flickit.dslparser.model.assessmentkit.QuestionModel;
 import org.flickit.dslparser.model.xtext.XtextV2Model;
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.BaseInfoExtractor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,15 +15,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.Boolean.parseBoolean;
+import static org.flickit.dslparser.utils.BooleanUtil.parseBooleanOrDefaultTrue;
+
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Question> {
 
-    @Autowired
-    QuestionOptionV2Extractor questionOptionExtractor;
-
-    @Autowired
-    QuestionImpactV2Extractor questionImpactExtractor;
+    private final QuestionOptionV2Extractor questionOptionExtractor;
+    private final QuestionImpactV2Extractor questionImpactExtractor;
 
     private static void setupQuestionIndex(List<QuestionModel> questionModels) {
         Map<String, List<QuestionModel>> questionByCategoryMap = questionModels.stream().collect(Collectors.groupingBy(QuestionModel::getQuestionnaireCode));
@@ -43,7 +44,8 @@ public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Que
         questionModel.setQuestionnaireCode(question.getQuestionnaire().getName());
         questionModel.setDescription(question.getHint());
         questionModel.setTitle(question.getTitle());
-        questionModel.setMayNotBeApplicable(Boolean.valueOf(question.getMayNotBeApplicable()));
+        questionModel.setMayNotBeApplicable(parseBoolean(question.getMayNotBeApplicable()));
+        questionModel.setAdvisable(parseBooleanOrDefaultTrue(question.getAdvisable()));
         questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions());
         questionImpactExtractor.setupQuestionImpacts(questionModel, question);
         return questionModel;
