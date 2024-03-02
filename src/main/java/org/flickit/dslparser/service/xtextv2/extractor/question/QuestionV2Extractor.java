@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.Boolean.parseBoolean;
+import static org.flickit.dslparser.utils.BooleanUtil.parseBooleanOrDefaultTrue;
+
 @Component
 @Slf4j
 public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Question> {
@@ -43,7 +46,8 @@ public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Que
         questionModel.setQuestionnaireCode(question.getQuestionnaire().getName());
         questionModel.setDescription(question.getHint());
         questionModel.setTitle(question.getTitle());
-        questionModel.setMayNotBeApplicable(Boolean.valueOf(question.getMayNotBeApplicable()));
+        questionModel.setMayNotBeApplicable(parseBoolean(question.getMayNotBeApplicable()));
+        questionModel.setAdvisable(parseBooleanOrDefaultTrue(question.getAdvisable()));
         questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions());
         questionImpactExtractor.setupQuestionImpacts(questionModel, question);
         return questionModel;
