@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class QuestionImpactV2Extractor {
@@ -44,7 +43,7 @@ public class QuestionImpactV2Extractor {
         if (onLevel.getValues() == null || onLevel.getValues().isEmpty()) {
             values = getDefaultImpact(questionModel.getAnswers().size());
         } else {
-            values = onLevel.getValues().stream().map(Double::valueOf).collect(Collectors.toList());
+            values = onLevel.getValues().stream().map(Double::valueOf).toList();
         }
         int j = 1;
         for (Double value : values) {
@@ -55,17 +54,12 @@ public class QuestionImpactV2Extractor {
     }
 
     private List<Double> getDefaultImpact(int optionNumber) {
-        switch (optionNumber) {
-            case 2:
-                return DEFAULT_2_OPTION_VALUES;
-            case 3:
-                return DEFAULT_3_OPTION_VALUES;
-            case 4:
-                return DEFAULT_4_OPTION_VALUES;
-            case 5:
-                return DEFAULT_5_OPTION_VALUES;
-            default:
-                throw new IllegalArgumentException("Invalid option number.");
-        }
+        return switch (optionNumber) {
+            case 2 -> DEFAULT_2_OPTION_VALUES;
+            case 3 -> DEFAULT_3_OPTION_VALUES;
+            case 4 -> DEFAULT_4_OPTION_VALUES;
+            case 5 -> DEFAULT_5_OPTION_VALUES;
+            default -> throw new IllegalArgumentException("Invalid option number.");
+        };
     }
 }
