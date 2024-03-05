@@ -72,12 +72,13 @@ question q2 {
 
     title: "metric question test m2?"
     options: "Cap1", "Cap2", "Cap3"
+        cost: 3
+        advisable: false
 
     affects TeamReflection on level Moderate with values [0, 1, 1] with weight 2
     affects TeamSecurity on level Elementary
 
     mayNotBeApplicable: true
-    advisable: false
  }
 
 question q3 {

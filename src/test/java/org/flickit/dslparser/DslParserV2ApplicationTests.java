@@ -118,6 +118,7 @@ class DslParserV2ApplicationTests {
 		assertEquals("This metric has impact on 3 attributes.", questionModel.getDescription());
 		List<String> actualAnswers = questionModel.getAnswers().stream().map(AnswerModel::getCaption).collect(Collectors.toList());
 		assertEquals(expectedAnswers, actualAnswers);
+		assertEquals(3, questionModel.getCost());
 		assertTrue(questionModel.isMayNotBeApplicable());
 		assertFalse(questionModel.isAdvisable());
 
@@ -177,6 +178,17 @@ class DslParserV2ApplicationTests {
 		QuestionModel questionModel = questionModels.get(0);
 		assertEquals("q1", questionModel.getCode());
 		assertTrue(questionModel.isAdvisable());
+	}
+
+	@Test
+	void extractQuestion_CostDefaultValueShouldBeOne() {
+		List<QuestionModel> questionModels = resp.getQuestionModels();
+
+		assertEquals(3, questionModels.size());
+
+		QuestionModel questionModel = questionModels.get(0);
+		assertEquals("q1", questionModel.getCode());
+		assertEquals(1, questionModel.getCost());
 	}
 
 	@Test
