@@ -2,6 +2,7 @@ package org.flickit.dslparser.service.xtextv2.extractor.question;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.eclipse.emf.common.util.EList;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.Question;
@@ -46,6 +47,7 @@ public class QuestionV2Extractor implements BaseInfoExtractor<QuestionModel, Que
         questionModel.setTitle(question.getTitle());
         questionModel.setMayNotBeApplicable(parseBoolean(question.getMayNotBeApplicable()));
         questionModel.setAdvisable(parseBooleanOrDefaultTrue(question.getAdvisable()));
+        questionModel.setCost(NumberUtils.toInt(question.getCost(), 1));
         questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions());
         questionImpactExtractor.setupQuestionImpacts(questionModel, question);
         return questionModel;
