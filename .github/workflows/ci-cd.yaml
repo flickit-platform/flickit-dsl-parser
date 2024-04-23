@@ -11,8 +11,8 @@ on:
 env:
   SONAR_PROJECT_KEY: flickit-dsl-parser
   REGISTRY: ghcr.io
-  IMAGE_NAME: flickit-platform/flickit-dsl-parser
-  MAVEN_USERNAME: flickit-platform
+  IMAGE_NAME: flickit-platform-dev/flickit-dsl-parser
+  MAVEN_USERNAME: flickit-platform-dev
   JIB_OPT: -Djib.httpTimeout=240000 -Dmaven.test.skip=true
   JIB_CMD: clean install jib:build
 
@@ -166,7 +166,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          username: flickit-platform
+          username: flickit-platform-dev
           password: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Set up JDK 17
@@ -262,7 +262,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          username: flickit-platform
+          username: flickit-platform-dev
           password: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Set up JDK 17

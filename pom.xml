@@ -27,7 +27,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/flickit-platform/flickit-dsl-editor</url>
+			<url>https://maven.pkg.github.com/flickit-platform-dev/flickit-dsl-editor</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -114,12 +114,12 @@
 						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
 						<labels>
 							<org.opencontainers.image.source>
-								https://github.com/flickit-platform/flickit-dsl-parser
+								https://github.com/flickit-platform-dev/flickit-dsl-parser
 							</org.opencontainers.image.source>
 						</labels>
 					</container>
 					<from>
-						<image>ghcr.io/flickit-platform/jdk:17.0.7</image>
+						<image>ghcr.io/flickit-platform-dev/jdk:17.0.7</image>
 					</from>
 				</configuration>
 			</plugin>
@@ -150,7 +150,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/flickit-platform/flickit-dsl-parser</url>
+			<url>https://maven.pkg.github.com/flickit-platform-dev/flickit-dsl-parser</url>
 		</repository>
 	</distributionManagement>
 </project>
