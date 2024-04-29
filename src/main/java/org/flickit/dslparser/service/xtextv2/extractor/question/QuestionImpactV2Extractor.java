@@ -28,6 +28,7 @@ public class QuestionImpactV2Extractor {
             for (OnLevel onLevel : affects.getOnLevel()) {
                 ImpactModel impactModel = new ImpactModel();
                 LevelModel levelModel = new LevelModel();
+                levelModel.setCode(onLevel.getLevel().getName());
                 levelModel.setTitle(onLevel.getLevel().getTitle());
                 impactModel.setLevel(levelModel);
                 impactModel.setAttributeCode(attribute.getName());
