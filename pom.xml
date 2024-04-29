@@ -27,7 +27,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/flickit-platform-dev/flickit-dsl-editor</url>
+			<url>https://maven.pkg.github.com/flickit-platform/flickit-dsl-editor</url>
 		</repository>
 	</repositories>
 	<dependencies>
