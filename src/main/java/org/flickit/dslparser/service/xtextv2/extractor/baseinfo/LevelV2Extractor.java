@@ -55,7 +55,7 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
             EList<CompetenceValue> competenceValues = levelCompetence.getCompetenceValues();
             Map<String, Integer> levelCompetenceMap = new HashMap<>();
             for (CompetenceValue competenceValue : competenceValues) {
-                levelCompetenceMap.put(competenceValue.getLevel().getTitle(), competenceValue.getValue());
+                levelCompetenceMap.put(competenceValue.getLevel().getName(), competenceValue.getValue());
             }
             levelModel.setLevelCompetence(levelCompetenceMap);
         }
