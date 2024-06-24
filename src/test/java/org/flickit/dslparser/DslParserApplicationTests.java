@@ -3,7 +3,7 @@ package org.flickit.dslparser;
 import com.google.common.collect.Maps;
 import org.flickit.dslparser.controller.AssessmentKitResponse;
 import org.flickit.dslparser.model.assessmentkit.*;
-import org.flickit.dslparser.service.AssessmentKitV2Extractor;
+import org.flickit.dslparser.service.xtext.AssessmentKitExtractor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class DslParserV2ApplicationTests {
+class DslParserApplicationTests {
 
 	private static final int SUBJECT_TEAM_INDEX = 0;
 	private static final int QUESTIONNAIRE_DEV_OPS_INDEX = 0;
@@ -34,7 +34,7 @@ class DslParserV2ApplicationTests {
 	private static final int LEVEL_MODERATE_INDEX = 2;
 
 	@Autowired
-	private AssessmentKitV2Extractor assessmentKitExtractor;
+	private AssessmentKitExtractor assessmentKitExtractor;
 
 	private AssessmentKitResponse resp;
 
@@ -213,7 +213,7 @@ class DslParserV2ApplicationTests {
 
 	private String readDslContent() {
 		try {
-			byte[] encoded = Files.readAllBytes(Paths.get("src/test/resources/dsl-sample/sampleV2.ak"));
+			byte[] encoded = Files.readAllBytes(Paths.get("src/test/resources/dsl-sample/sample.ak"));
 			return new String(encoded, StandardCharsets.UTF_8);
 		} catch (IOException ex) {
 			ex.printStackTrace();

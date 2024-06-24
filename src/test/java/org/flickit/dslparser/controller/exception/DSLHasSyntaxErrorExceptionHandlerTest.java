@@ -35,7 +35,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
 
     @Test
     void extractSyntaxErrorsTest() {
-        String dslContent = readDslContent("sampleV2HasSyntaxError.ak");
+        String dslContent = readDslContent("sampleHasSyntaxError.ak");
         HashMap<String, String> request = new HashMap<>();
         request.put("dslContent", dslContent);
 
@@ -53,26 +53,26 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
 
         assertEquals(12, errors.size());
         for (SyntaxError syntaxError : errors) {
-            assertThat(syntaxError.getMessage(), is(not(emptyOrNullString())));
-            assertThat(syntaxError.getFileName(), is(not(emptyOrNullString())));
-            assertThat(syntaxError.getFileName(), is(not(NOT_FOUND_FILE_NAME_MESSAGE)));
-            assertThat(syntaxError.getFileName(), containsString(".ak"));
-            assertThat(syntaxError.getErrorLine(), is(not(emptyOrNullString())));
-            assertThat(syntaxError.getLine(), is(greaterThan(0)));
-            assertThat(syntaxError.getColumn(), is(greaterThan(0)));
+            assertThat(syntaxError.message(), is(not(emptyOrNullString())));
+            assertThat(syntaxError.fileName(), is(not(emptyOrNullString())));
+            assertThat(syntaxError.fileName(), is(not(NOT_FOUND_FILE_NAME_MESSAGE)));
+            assertThat(syntaxError.fileName(), containsString(".ak"));
+            assertThat(syntaxError.errorLine(), is(not(emptyOrNullString())));
+            assertThat(syntaxError.line(), is(greaterThan(0)));
+            assertThat(syntaxError.column(), is(greaterThan(0)));
         }
 
         SyntaxError error = errors.get(0);
-        assertThat(error.getMessage(), is(equalTo("mismatched input 'index:' expecting 'value:'")));
-        assertThat(error.getFileName(), is(equalTo("levels.ak")));
-        assertThat(error.getErrorLine(), is(equalTo("    index: 1")));
-        assertThat(error.getLine(), is(equalTo(8)));
-        assertThat(error.getColumn(), is(equalTo(5)));
+        assertThat(error.message(), is(equalTo("mismatched input 'index:' expecting 'value:'")));
+        assertThat(error.fileName(), is(equalTo("levels.ak")));
+        assertThat(error.errorLine(), is(equalTo("    index: 1")));
+        assertThat(error.line(), is(equalTo(8)));
+        assertThat(error.column(), is(equalTo(5)));
     }
 
     @Test
     void extractCustomSyntaxErrorsTest() {
-        String dslContent = readDslContent("sampleV2HasCustomSyntaxError.ak");
+        String dslContent = readDslContent("sampleHasCustomSyntaxError.ak");
         HashMap<String, String> request = new HashMap<>();
         request.put("dslContent", dslContent);
 
@@ -90,21 +90,45 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
 
         assertEquals(5, errors.size());
         for (SyntaxError syntaxError : errors) {
-            assertThat(syntaxError.getMessage(), is(not(emptyOrNullString())));
-            assertThat(syntaxError.getFileName(), is(not(emptyOrNullString())));
-            assertThat(syntaxError.getFileName(), is(not(NOT_FOUND_FILE_NAME_MESSAGE)));
-            assertThat(syntaxError.getFileName(), containsString(".ak"));
-            assertThat(syntaxError.getErrorLine(), is(not(emptyOrNullString())));
-            assertThat(syntaxError.getLine(), is(greaterThan(0)));
-            assertThat(syntaxError.getColumn(), is(greaterThan(0)));
+            assertThat(syntaxError.message(), is(not(emptyOrNullString())));
+            assertThat(syntaxError.fileName(), is(not(emptyOrNullString())));
+            assertThat(syntaxError.fileName(), is(not(NOT_FOUND_FILE_NAME_MESSAGE)));
+            assertThat(syntaxError.fileName(), containsString(".ak"));
+            assertThat(syntaxError.errorLine(), is(not(emptyOrNullString())));
+            assertThat(syntaxError.line(), is(greaterThan(0)));
+            assertThat(syntaxError.column(), is(greaterThan(0)));
         }
 
         SyntaxError error = errors.get(0);
-        assertThat(error.getMessage(), is(equalTo("'Title' may not be empty!")));
-        assertThat(error.getFileName(), is(equalTo("levels.ak")));
-        assertThat(error.getErrorLine(), is(equalTo("    title:\"\"")));
-        assertThat(error.getLine(), is(equalTo(7)));
-        assertThat(error.getColumn(), is(equalTo(11)));
+        assertThat(error.message(), is(equalTo("'Title' may not be empty!")));
+        assertThat(error.fileName(), is(equalTo("levels.ak")));
+        assertThat(error.errorLine(), is(equalTo("    title:\"\"")));
+        assertThat(error.line(), is(equalTo(7)));
+        assertThat(error.column(), is(equalTo(11)));
+    }
+
+    @Test
+    void extractParserErrorsTest() {
+        String dslContent = readDslContent("sampleWithSubjectWithoutAttributeError.ak");
+        HashMap<String, String> request = new HashMap<>();
+        request.put("dslContent", dslContent);
+
+        TestRestTemplate testRestTemplate = new TestRestTemplate();
+        ResponseEntity<Object> response = testRestTemplate.postForEntity(
+                "http://localhost:" + port + "/extract",
+                request,
+                Object.class
+        );
+        SyntaxErrorResponseDto syntaxErrorResponseDto = mapToResponseDto(response.getBody());
+
+        List<SyntaxError> errors = syntaxErrorResponseDto.getErrors();
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
+        assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.getMessage());
+
+        assertEquals(1, errors.size());
+
+        SyntaxError error = errors.get(0);
+        assertThat(error.message(), is(equalTo("Subject with [security] id should have at least one Attribute")));
     }
 
     private SyntaxErrorResponseDto mapToResponseDto(Object responseBody) {
