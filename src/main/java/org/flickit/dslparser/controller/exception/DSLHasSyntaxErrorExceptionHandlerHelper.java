@@ -32,9 +32,9 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
             FileErrorLine fileErrorLine = extractError(issue.getLineNumber(), filesStartLine, dslLines);
             String errorLine = dslLines[issue.getLineNumber() - 1];
             SyntaxError error = new SyntaxError(issue.getMessage(),
-                    fileErrorLine.getFileName(),
+                    fileErrorLine.fileName(),
                     errorLine,
-                    fileErrorLine.getLine(),
+                    fileErrorLine.line(),
                     issue.getColumn());
             errors.add(error);
         }
@@ -71,9 +71,6 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
         return new FileErrorLine(fileName, errorLineInFile);
     }
 
-    @lombok.Value
-    class FileErrorLine {
-        String fileName;
-        int line;
+    record FileErrorLine(String fileName, int line) {
     }
 }

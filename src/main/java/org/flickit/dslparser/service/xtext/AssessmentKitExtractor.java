@@ -47,8 +47,7 @@ public class AssessmentKitExtractor {
         } catch (DSLHasSyntaxErrorException ex) {
             throw ex;
         } catch (Exception ex) {
-            AssessmentKitResponse response = new AssessmentKitResponse();
-            response.setHasError(true);
+            AssessmentKitResponse response = new AssessmentKitResponse(true);
             log.error(Message.PARSE_KIT_UNEXPECTED_ERROR_MESSAGE, ex);
             return response;
         }
@@ -71,12 +70,11 @@ public class AssessmentKitExtractor {
         List<QuestionModel> questionModels = questionExtractor.extractList(elements);
         List<LevelModel> levelModels = levelExtractor.extractList(elements);
 
-        AssessmentKitResponse response = new AssessmentKitResponse();
-        response.setSubjectModels(subjectModels);
-        response.setAttributeModels(attributeModels);
-        response.setQuestionnaireModels(questionnaireModels);
-        response.setQuestionModels(questionModels);
-        response.setLevelModels(levelModels);
-        return response;
+        return new AssessmentKitResponse(questionnaireModels,
+                attributeModels,
+                questionModels,
+                subjectModels,
+                levelModels,
+                false);
     }
 }

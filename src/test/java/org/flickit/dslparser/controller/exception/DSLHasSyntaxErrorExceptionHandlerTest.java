@@ -47,9 +47,9 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         );
         SyntaxErrorResponseDto syntaxErrorResponseDto = mapToResponseDto(response.getBody());
 
-        List<SyntaxError> errors = syntaxErrorResponseDto.getErrors();
+        List<SyntaxError> errors = syntaxErrorResponseDto.errors();
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
-        assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.getMessage());
+        assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.message());
 
         assertEquals(12, errors.size());
         for (SyntaxError syntaxError : errors) {
@@ -84,9 +84,9 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         );
         SyntaxErrorResponseDto syntaxErrorResponseDto = mapToResponseDto(response.getBody());
 
-        List<SyntaxError> errors = syntaxErrorResponseDto.getErrors();
+        List<SyntaxError> errors = syntaxErrorResponseDto.errors();
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
-        assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.getMessage());
+        assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.message());
 
         assertEquals(5, errors.size());
         for (SyntaxError syntaxError : errors) {
@@ -121,9 +121,9 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         );
         SyntaxErrorResponseDto syntaxErrorResponseDto = mapToResponseDto(response.getBody());
 
-        List<SyntaxError> errors = syntaxErrorResponseDto.getErrors();
+        List<SyntaxError> errors = syntaxErrorResponseDto.errors();
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
-        assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.getMessage());
+        assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.message());
 
         assertEquals(1, errors.size());
 

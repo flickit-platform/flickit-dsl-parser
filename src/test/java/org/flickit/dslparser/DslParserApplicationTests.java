@@ -45,7 +45,7 @@ class DslParserApplicationTests {
 
 	@Test
 	void extractLevelTest() {
-		List<LevelModel> levelModels = resp.getLevelModels();
+		List<LevelModel> levelModels = resp.levelModels();
 		Map<String, Integer> expectedLevelCompetence = new HashMap<>();
 		expectedLevelCompetence.put("Weak", 75);
 		expectedLevelCompetence.put("Moderate", 60);
@@ -62,7 +62,7 @@ class DslParserApplicationTests {
 
 	@Test
 	void extractSubjectTest() {
-		List<SubjectModel> subjectModels = resp.getSubjectModels();
+		List<SubjectModel> subjectModels = resp.subjectModels();
 
 		assertEquals(2, subjectModels.size());
 
@@ -76,7 +76,7 @@ class DslParserApplicationTests {
 
 	@Test
 	void extractQuestionnaireTest() {
-		List<QuestionnaireModel> questionnaireModels = resp.getQuestionnaireModels();
+		List<QuestionnaireModel> questionnaireModels = resp.questionnaireModels();
 
 		assertEquals(2, questionnaireModels.size());
 
@@ -89,7 +89,7 @@ class DslParserApplicationTests {
 
 	@Test
 	void extractAttributeTest() {
-		List<AttributeModel> attributeModels = resp.getAttributeModels();
+		List<AttributeModel> attributeModels = resp.attributeModels();
 
 		assertEquals(2, attributeModels.size());
 
@@ -97,7 +97,7 @@ class DslParserApplicationTests {
 		assertEquals("Team Reflection", attributeModel.getTitle());
 		assertEquals("This is a test Description for Team Reflection", attributeModel.getDescription());
 		assertEquals(1, attributeModel.getIndex());
-		assertEquals(resp.getSubjectModels().get(SUBJECT_TEAM_INDEX).getCode(), attributeModel.getSubjectCode());
+		assertEquals(resp.subjectModels().get(SUBJECT_TEAM_INDEX).getCode(), attributeModel.getSubjectCode());
 		assertEquals(3, attributeModel.getWeight());
 		assertEquals("TeamReflection", attributeModel.getCode());
 
@@ -105,7 +105,7 @@ class DslParserApplicationTests {
 
 	@Test
 	void extractQuestionTest() {
-		List<QuestionModel> questionModels = resp.getQuestionModels();
+		List<QuestionModel> questionModels = resp.questionModels();
 		List<String> expectedAnswers = Arrays.asList("Cap1", "Cap2", "Cap3");
 		Map<Integer, Double> expectedOptionValues = createOptionValueWith(0, 1, 1);
 
@@ -113,7 +113,7 @@ class DslParserApplicationTests {
 
 		QuestionModel questionModel = questionModels.get(1);
 		assertEquals("q2", questionModel.getCode());
-		assertEquals(resp.getQuestionnaireModels().get(QUESTIONNAIRE_DEV_OPS_INDEX).getCode(), questionModel.getQuestionnaireCode());
+		assertEquals(resp.questionnaireModels().get(QUESTIONNAIRE_DEV_OPS_INDEX).getCode(), questionModel.getQuestionnaireCode());
 		assertEquals("metric question test m2?", questionModel.getTitle());
 		assertEquals("This metric has impact on 3 attributes.", questionModel.getDescription());
 		List<String> actualAnswers = questionModel.getAnswers().stream().map(AnswerModel::getCaption).collect(Collectors.toList());
@@ -124,15 +124,15 @@ class DslParserApplicationTests {
 
 		ImpactModel impactModel = questionModel.getQuestionImpacts().get(0);
 
-		assertEquals(resp.getAttributeModels().get(ATTRIBUTE_TEAM_REFLECTION_INDEX).getCode(), impactModel.getAttributeCode());
-		assertEquals(resp.getLevelModels().get(LEVEL_MODERATE_INDEX).getTitle(), impactModel.getLevel().getTitle());
+		assertEquals(resp.attributeModels().get(ATTRIBUTE_TEAM_REFLECTION_INDEX).getCode(), impactModel.getAttributeCode());
+		assertEquals(resp.levelModels().get(LEVEL_MODERATE_INDEX).getTitle(), impactModel.getLevel().getTitle());
 		assertTrue(Maps.difference(expectedOptionValues, impactModel.getOptionValues()).areEqual());
 		assertEquals(2, impactModel.getWeight());
 	}
 
 	@Test
 	void extractQuestionWithMultipleImpactTest() {
-		List<QuestionModel> questionModels = resp.getQuestionModels();
+		List<QuestionModel> questionModels = resp.questionModels();
 		List<String> expectedAnswers = Arrays.asList("cap1", "cap2", "cap3", "cap4", "cap5");
 		Map<Integer, Double> weakExpectedOptionValues = createOptionValueWith(0, 1, 1, 1, 1);
 		Map<Integer, Double> moderateExpectedOptionValues = createOptionValueWith(0, 0, 0.5, 1, 1);
@@ -141,37 +141,37 @@ class DslParserApplicationTests {
 		assertEquals(3, questionModels.size());
 
 		QuestionModel questionModel = questionModels.get(2);
-		assertEquals(resp.getQuestionnaireModels().get(QUESTIONNAIRE_DEV_OPS_INDEX).getCode(), questionModel.getQuestionnaireCode());
+		assertEquals(resp.questionnaireModels().get(QUESTIONNAIRE_DEV_OPS_INDEX).getCode(), questionModel.getQuestionnaireCode());
 		assertEquals("metric question test m1?", questionModel.getTitle());
 
 		List<String> actualAnswers = questionModel.getAnswers().stream().map(AnswerModel::getCaption).collect(Collectors.toList());
 		assertEquals(expectedAnswers, actualAnswers);
 		assertFalse(questionModel.isMayNotBeApplicable());
 
-		String attributeTeamReflectionCode = resp.getAttributeModels().get(ATTRIBUTE_TEAM_REFLECTION_INDEX).getCode();
+		String attributeTeamReflectionCode = resp.attributeModels().get(ATTRIBUTE_TEAM_REFLECTION_INDEX).getCode();
 
 		ImpactModel impactModel1 = questionModel.getQuestionImpacts().get(0);
 		assertEquals(attributeTeamReflectionCode, impactModel1.getAttributeCode());
-		assertEquals(resp.getLevelModels().get(LEVEL_WEAK_INDEX).getTitle(), impactModel1.getLevel().getTitle());
+		assertEquals(resp.levelModels().get(LEVEL_WEAK_INDEX).getTitle(), impactModel1.getLevel().getTitle());
 		assertTrue(Maps.difference(weakExpectedOptionValues, impactModel1.getOptionValues()).areEqual());
 		assertEquals(1, impactModel1.getWeight());
 
 		ImpactModel impactModel2 = questionModel.getQuestionImpacts().get(1);
 		assertEquals(attributeTeamReflectionCode, impactModel2.getAttributeCode());
-		assertEquals(resp.getLevelModels().get(LEVEL_MODERATE_INDEX).getTitle(), impactModel2.getLevel().getTitle());
+		assertEquals(resp.levelModels().get(LEVEL_MODERATE_INDEX).getTitle(), impactModel2.getLevel().getTitle());
 		assertTrue(Maps.difference(moderateExpectedOptionValues, impactModel2.getOptionValues()).areEqual());
 		assertEquals(2, impactModel2.getWeight());
 
 		ImpactModel impactModel3 = questionModel.getQuestionImpacts().get(2);
 		assertEquals(attributeTeamReflectionCode, impactModel3.getAttributeCode());
-		assertEquals(resp.getLevelModels().get(LEVEL_ELEMENTARY_INDEX).getTitle(), impactModel3.getLevel().getTitle());
+		assertEquals(resp.levelModels().get(LEVEL_ELEMENTARY_INDEX).getTitle(), impactModel3.getLevel().getTitle());
 		assertTrue(Maps.difference(elementaryExpectedOptionValues, impactModel3.getOptionValues()).areEqual());
 		assertEquals(3, impactModel3.getWeight());
 	}
 
 	@Test
 	void extractQuestion_AdvisableDefaultValueShouldBeTrue() {
-		List<QuestionModel> questionModels = resp.getQuestionModels();
+		List<QuestionModel> questionModels = resp.questionModels();
 
 		assertEquals(3, questionModels.size());
 
@@ -182,7 +182,7 @@ class DslParserApplicationTests {
 
 	@Test
 	void extractQuestion_CostDefaultValueShouldBeOne() {
-		List<QuestionModel> questionModels = resp.getQuestionModels();
+		List<QuestionModel> questionModels = resp.questionModels();
 
 		assertEquals(3, questionModels.size());
 
@@ -193,7 +193,7 @@ class DslParserApplicationTests {
 
 	@Test
 	void extractQuestion_MayNotBeApplicableDefaultValueShouldBeFalse() {
-		List<QuestionModel> questionModels = resp.getQuestionModels();
+		List<QuestionModel> questionModels = resp.questionModels();
 
 		assertEquals(3, questionModels.size());
 

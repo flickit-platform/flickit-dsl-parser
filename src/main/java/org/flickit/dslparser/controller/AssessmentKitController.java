@@ -14,7 +14,7 @@ public class AssessmentKitController {
 
     @PostMapping(path= "/extract", consumes = "application/json", produces = "application/json")
     public AssessmentKitResponse extractAssessmentKit(@RequestBody AssessmentKitRequest request) {
-        String dslContent = request.getDslContent();
+        String dslContent = request.dslContent();
         return extractor.extract(dslContent);
     }
 }
