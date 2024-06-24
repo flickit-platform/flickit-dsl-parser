@@ -18,33 +18,21 @@ public enum OptionIndex {
             throw new IllegalArgumentException("Invalid index.");
         }
 
-        switch (optionNumber) {
-            case 2:
-                return index == 0 ? INDEX1 : INDEX5;
-            case 3:
-                switch (index) {
-                    case 0:
-                        return INDEX1;
-                    case 1:
-                        return INDEX3;
-                    default:
-                        return INDEX5;
-                }
-            case 4:
-                switch (index) {
-                    case 0:
-                        return INDEX1;
-                    case 1:
-                        return INDEX2;
-                    case 2:
-                        return INDEX4;
-                    default:
-                        return INDEX5;
-                }
-            case 5:
-                return values()[index];
-            default:
-                throw new IllegalArgumentException("Invalid option number.");
-        }
+        return switch (optionNumber) {
+            case 2 -> index == 0 ? INDEX1 : INDEX5;
+            case 3 -> switch (index) {
+                case 0 -> INDEX1;
+                case 1 -> INDEX3;
+                default -> INDEX5;
+            };
+            case 4 -> switch (index) {
+                case 0 -> INDEX1;
+                case 1 -> INDEX2;
+                case 2 -> INDEX4;
+                default -> INDEX5;
+            };
+            case 5 -> values()[index];
+            default -> throw new IllegalArgumentException("Invalid option number.");
+        };
     }
 }

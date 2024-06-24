@@ -14,19 +14,13 @@ public enum OptionValue {
     }
 
     public static OptionValue getOptionValue(OptionIndex optionIndex) {
-        switch (optionIndex) {
-            case INDEX1:
-                return VALUE1;
-            case INDEX2:
-                return VALUE2;
-            case INDEX3:
-                return VALUE3;
-            case INDEX4:
-                return VALUE4;
-            case INDEX5:
-                return VALUE5;
-            default:
-                throw new IllegalArgumentException("Invalid option index.");
-        }
+        return switch (optionIndex) {
+            case INDEX1 -> VALUE1;
+            case INDEX2 -> VALUE2;
+            case INDEX3 -> VALUE3;
+            case INDEX4 -> VALUE4;
+            case INDEX5 -> VALUE5;
+            default -> throw new IllegalArgumentException("Invalid option index.");
+        };
     }
 }

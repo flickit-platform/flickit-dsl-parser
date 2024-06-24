@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.lang.Boolean.parseBoolean;
+import static java.util.stream.Collectors.groupingBy;
 import static org.flickit.dslparser.utils.BooleanUtil.parseBooleanOrDefaultTrue;
 
 @Component
@@ -28,12 +28,12 @@ public class QuestionExtractor implements BaseInfoExtractor<QuestionModel, Quest
     private final QuestionImpactExtractor questionImpactExtractor;
 
     private static void setupQuestionIndex(List<QuestionModel> questionModels) {
-        Map<String, List<QuestionModel>> questionByCategoryMap = questionModels.stream().collect(Collectors.groupingBy(QuestionModel::getQuestionnaireCode));
+        Map<String, List<QuestionModel>> questionByCategoryMap = questionModels.stream()
+                .collect(groupingBy(QuestionModel::getQuestionnaireCode));
         for (List<QuestionModel> models : questionByCategoryMap.values()) {
-            int index = 1;
-            for (QuestionModel model : models) {
-                model.setIndex(index);
-                index++;
+            for (int i = 0; i < models.size(); i++) {
+                QuestionModel model = models.get(i);
+                model.setIndex(i + 1);
             }
         }
     }
@@ -58,8 +58,8 @@ public class QuestionExtractor implements BaseInfoExtractor<QuestionModel, Quest
         XtextModel<Question> xtextModel = extractModel(elements);
         List<Question> xtextQuestions = xtextModel.getModels();
         List<QuestionModel> questionModels = new ArrayList<>();
-        for (int i = 0; i < xtextQuestions.size(); i++) {
-            QuestionModel questionModel = extract(xtextQuestions.get(i));
+        for (Question xtextQuestion : xtextQuestions) {
+            QuestionModel questionModel = extract(xtextQuestion);
             questionModels.add(questionModel);
         }
         setupQuestionIndex(questionModels);
