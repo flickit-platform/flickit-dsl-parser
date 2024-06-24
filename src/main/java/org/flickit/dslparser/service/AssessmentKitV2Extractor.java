@@ -8,7 +8,6 @@ import org.eclipse.xtext.diagnostics.Severity;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
-import org.eclipse.xtext.validation.Issue;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.impl.RootImpl;
 import org.flickit.dslparser.common.Message;
@@ -21,6 +20,7 @@ import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.LevelV2Extractor
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.QuestionnaireV2Extractor;
 import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.SubjectV2Extractor;
 import org.flickit.dslparser.service.xtextv2.extractor.question.QuestionV2Extractor;
+import org.flickit.dslparser.service.xtextv2.validator.ParserValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +36,8 @@ public class AssessmentKitV2Extractor {
     private final QuestionnaireV2Extractor questionnaireExtractor;
     private final QuestionV2Extractor questionExtractor;
     private final LevelV2Extractor levelExtractor;
-    private final IResourceValidator validator;
+    private final IResourceValidator xTextValidator;
+    private final ParserValidator parserValidator;
 
     public AssessmentKitResponse extract(String dslContent) {
         try {
@@ -44,9 +45,9 @@ public class AssessmentKitV2Extractor {
             validateKit(dslContent, resource);
             RootImpl assessmentKit = (RootImpl) resource.getContents().get(0);
             return convert(assessmentKit);
+        } catch (DSLHasSyntaxErrorException ex) {
+            throw ex;
         } catch (Exception ex) {
-            if (ex instanceof DSLHasSyntaxErrorException)
-                throw ex;
             AssessmentKitResponse response = new AssessmentKitResponse();
             response.setHasError(true);
             log.error(Message.PARSE_KIT_UNEXPECTED_ERROR_MESSAGE, ex);
@@ -55,10 +56,11 @@ public class AssessmentKitV2Extractor {
     }
 
     private void validateKit(String dslContent, Resource resource) {
-        List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
-        if (issues.stream().anyMatch(i -> i.getSeverity().equals(Severity.ERROR))) {
-            log.debug("DSL has {} syntax error", issues.size());
-            throw new DSLHasSyntaxErrorException(Message.PARSE_KIT_SYNTAX_ERROR_MESSAGE, issues, dslContent);
+        var issues = xTextValidator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
+        var syntaxErrors = parserValidator.validate((RootImpl) resource.getContents().get(0));
+        if (issues.stream().anyMatch(i -> i.getSeverity().equals(Severity.ERROR)) || !syntaxErrors.isEmpty()) {
+            log.debug("DSL has {} syntax error", issues.size() + syntaxErrors.size());
+            throw new DSLHasSyntaxErrorException(Message.PARSE_KIT_SYNTAX_ERROR_MESSAGE, issues, syntaxErrors, dslContent);
         }
     }
 

@@ -23,7 +23,7 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
     private String fileNamePattern;
 
     public List<SyntaxError> extractErrors(DSLHasSyntaxErrorException ex) {
-        List<Issue> issues = ex.getErrors();
+        List<Issue> issues = ex.getIssues();
         LinkedHashSet<SyntaxError> errors = new LinkedHashSet<>();
 
         ArrayList<Integer> filesStartLine = extractFilesStartLine(ex.getDslContent());
@@ -38,7 +38,9 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
                     issue.getColumn());
             errors.add(error);
         }
-        return new ArrayList<>(errors);
+        ArrayList<SyntaxError> errorList = new ArrayList<>(errors);
+        errorList.addAll(ex.getSyntaxErrors());
+        return errorList;
     }
 
     private ArrayList<Integer> extractFilesStartLine(String dslContent) {
