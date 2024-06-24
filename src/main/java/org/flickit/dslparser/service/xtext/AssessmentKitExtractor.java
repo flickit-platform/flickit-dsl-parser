@@ -1,4 +1,4 @@
-package org.flickit.dslparser.service;
+package org.flickit.dslparser.service.xtext;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +14,12 @@ import org.flickit.dslparser.common.Message;
 import org.flickit.dslparser.controller.AssessmentKitResponse;
 import org.flickit.dslparser.model.assessmentkit.*;
 import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
-import org.flickit.dslparser.service.xtextv2.ResourceServiceV2;
-import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.AttributeV2Extractor;
-import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.LevelV2Extractor;
-import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.QuestionnaireV2Extractor;
-import org.flickit.dslparser.service.xtextv2.extractor.baseinfo.SubjectV2Extractor;
-import org.flickit.dslparser.service.xtextv2.extractor.question.QuestionV2Extractor;
-import org.flickit.dslparser.service.xtextv2.validator.ParserValidator;
+import org.flickit.dslparser.service.xtext.extractor.baseinfo.AttributeExtractor;
+import org.flickit.dslparser.service.xtext.extractor.baseinfo.LevelExtractor;
+import org.flickit.dslparser.service.xtext.extractor.baseinfo.QuestionnaireExtractor;
+import org.flickit.dslparser.service.xtext.extractor.baseinfo.SubjectExtractor;
+import org.flickit.dslparser.service.xtext.extractor.question.QuestionExtractor;
+import org.flickit.dslparser.service.xtext.validator.ParserValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,14 +27,14 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AssessmentKitV2Extractor {
+public class AssessmentKitExtractor {
 
-    private final ResourceServiceV2 resourceService;
-    private final SubjectV2Extractor subjectExtractor;
-    private final AttributeV2Extractor attributeExtractor;
-    private final QuestionnaireV2Extractor questionnaireExtractor;
-    private final QuestionV2Extractor questionExtractor;
-    private final LevelV2Extractor levelExtractor;
+    private final ResourceServiceImpl resourceService;
+    private final SubjectExtractor subjectExtractor;
+    private final AttributeExtractor attributeExtractor;
+    private final QuestionnaireExtractor questionnaireExtractor;
+    private final QuestionExtractor questionExtractor;
+    private final LevelExtractor levelExtractor;
     private final IResourceValidator xTextValidator;
     private final ParserValidator parserValidator;
 

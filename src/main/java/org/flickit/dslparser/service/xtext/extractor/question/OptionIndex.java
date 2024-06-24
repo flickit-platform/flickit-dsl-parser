@@ -1,4 +1,4 @@
-package org.flickit.dslparser.service.xtextv2.extractor.question;
+package org.flickit.dslparser.service.xtext.extractor.question;
 
 public enum OptionIndex {
     INDEX1(0), INDEX2(1), INDEX3(2), INDEX4(3), INDEX5(4);

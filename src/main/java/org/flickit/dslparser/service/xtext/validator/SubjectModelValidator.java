@@ -1,4 +1,4 @@
-package org.flickit.dslparser.service.xtextv2.validator;
+package org.flickit.dslparser.service.xtext.validator;
 
 import lombok.RequiredArgsConstructor;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;

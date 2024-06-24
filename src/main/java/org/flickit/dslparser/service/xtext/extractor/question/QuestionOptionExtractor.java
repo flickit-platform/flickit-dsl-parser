@@ -1,4 +1,4 @@
-package org.flickit.dslparser.service.xtextv2.extractor.question;
+package org.flickit.dslparser.service.xtext.extractor.question;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.util.EList;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class QuestionOptionV2Extractor {
+public class QuestionOptionExtractor {
 
     public static final int MIN_OPTION_NUMBER = 2;
     public static final int MAX_OPTION_NUMBER = 5;

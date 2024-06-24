@@ -1,10 +1,10 @@
-package org.flickit.dslparser.service.xtextv2.extractor.baseinfo;
+package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
 import org.eclipse.emf.common.util.EList;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.Attribute;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dslparser.model.assessmentkit.AttributeModel;
-import org.flickit.dslparser.model.xtext.XtextV2Model;
+import org.flickit.dslparser.model.xtext.XtextModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, Attribute> {
+public class AttributeExtractor implements BaseInfoExtractor<AttributeModel, Attribute> {
 
     @Override
     public List<AttributeModel> extractList(EList<BaseInfo> elements) {
-        XtextV2Model<Attribute> xtextV2Model = extractModel(elements);
-        List<Attribute> xtextAtts = xtextV2Model.getModels();
+        XtextModel<Attribute> xtextModel = extractModel(elements);
+        List<Attribute> xtextAtts = xtextModel.getModels();
         List<AttributeModel> attributeModels = new ArrayList<>();
         for (int i = 0; i < xtextAtts.size(); i++) {
             AttributeModel attributeModel = extract(xtextAtts.get(i));
@@ -30,8 +30,8 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
     }
 
     @Override
-    public XtextV2Model<Attribute> extractModel(EList<BaseInfo> elements) {
-        XtextV2Model<Attribute> xtextV2Model = new XtextV2Model<>();
+    public XtextModel<Attribute> extractModel(EList<BaseInfo> elements) {
+        XtextModel<Attribute> xtextModel = new XtextModel<>();
         List<Attribute> models = new ArrayList<>();
         for (BaseInfo element : elements) {
             if (Attribute.class.isAssignableFrom(element.getClass())) {
@@ -39,8 +39,8 @@ public class AttributeV2Extractor implements BaseInfoExtractor<AttributeModel, A
                 models.add(model);
             }
         }
-        xtextV2Model.setModels(models);
-        return xtextV2Model;
+        xtextModel.setModels(models);
+        return xtextModel;
     }
 
     @Override

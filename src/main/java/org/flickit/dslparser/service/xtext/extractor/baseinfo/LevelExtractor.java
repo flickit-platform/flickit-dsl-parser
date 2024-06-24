@@ -1,4 +1,4 @@
-package org.flickit.dslparser.service.xtextv2.extractor.baseinfo;
+package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
 import org.eclipse.emf.common.util.EList;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
@@ -6,7 +6,7 @@ import org.flickit.dsl.editor.v2.assessmentKitDsl.Competence;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.CompetenceValue;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.Level;
 import org.flickit.dslparser.model.assessmentkit.LevelModel;
-import org.flickit.dslparser.model.xtext.XtextV2Model;
+import org.flickit.dslparser.model.xtext.XtextModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
+public class LevelExtractor implements BaseInfoExtractor<LevelModel, Level> {
 
     @Override
     public List<LevelModel> extractList(EList<BaseInfo> elements) {
-        XtextV2Model<Level> xtextV2Model = extractModel(elements);
-        List<Level> xtextLevels = xtextV2Model.getModels();
+        XtextModel<Level> xtextModel = extractModel(elements);
+        List<Level> xtextLevels = xtextModel.getModels();
         List<LevelModel> levelModels = new ArrayList<>();
         for (int i = 0; i < xtextLevels.size(); i++) {
             LevelModel levelModel = extract(xtextLevels.get(i));
@@ -31,8 +31,8 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
     }
 
     @Override
-    public XtextV2Model<Level> extractModel(EList<BaseInfo> elements) {
-        XtextV2Model<Level> xtextV2Model = new XtextV2Model<>();
+    public XtextModel<Level> extractModel(EList<BaseInfo> elements) {
+        XtextModel<Level> xtextModel = new XtextModel<>();
         List<Level> models = new ArrayList<>();
         for (BaseInfo element : elements) {
             if (Level.class.isAssignableFrom(element.getClass())) {
@@ -40,8 +40,8 @@ public class LevelV2Extractor implements BaseInfoExtractor<LevelModel, Level> {
                 models.add(model);
             }
         }
-        xtextV2Model.setModels(models);
-        return xtextV2Model;
+        xtextModel.setModels(models);
+        return xtextModel;
     }
 
     @Override
