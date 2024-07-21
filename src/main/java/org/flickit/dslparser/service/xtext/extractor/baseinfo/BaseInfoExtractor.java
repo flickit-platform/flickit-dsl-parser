@@ -1,9 +1,9 @@
-package org.flickit.dslparser.service.xtextv2.extractor.baseinfo;
+package org.flickit.dslparser.service.xtext.extractor.baseinfo;
 
 import org.eclipse.emf.common.util.EList;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.BaseInfo;
 import org.flickit.dslparser.model.assessmentkit.BaseAssessmentModel;
-import org.flickit.dslparser.model.xtext.XtextV2Model;
+import org.flickit.dslparser.model.xtext.XtextModel;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ public interface BaseInfoExtractor<T extends BaseAssessmentModel, X extends Base
 
     List<T> extractList(EList<BaseInfo> elements);
 
-    XtextV2Model<X> extractModel(EList<BaseInfo> elements);
+    XtextModel<X> extractModel(EList<BaseInfo> elements);
 
-    public default void setupIndex(int i, T model) {
+    default void setupIndex(int i, T model) {
         if (model.getIndex() == null || model.getIndex() == -1) {
             model.setIndex(i + 1);
         }

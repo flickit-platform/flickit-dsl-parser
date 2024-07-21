@@ -23,7 +23,7 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
     private String fileNamePattern;
 
     public List<SyntaxError> extractErrors(DSLHasSyntaxErrorException ex) {
-        List<Issue> issues = ex.getErrors();
+        List<Issue> issues = ex.getIssues();
         LinkedHashSet<SyntaxError> errors = new LinkedHashSet<>();
 
         ArrayList<Integer> filesStartLine = extractFilesStartLine(ex.getDslContent());
@@ -32,13 +32,15 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
             FileErrorLine fileErrorLine = extractError(issue.getLineNumber(), filesStartLine, dslLines);
             String errorLine = dslLines[issue.getLineNumber() - 1];
             SyntaxError error = new SyntaxError(issue.getMessage(),
-                    fileErrorLine.getFileName(),
+                    fileErrorLine.fileName(),
                     errorLine,
-                    fileErrorLine.getLine(),
+                    fileErrorLine.line(),
                     issue.getColumn());
             errors.add(error);
         }
-        return new ArrayList<>(errors);
+        ArrayList<SyntaxError> errorList = new ArrayList<>(errors);
+        errorList.addAll(ex.getSyntaxErrors());
+        return errorList;
     }
 
     private ArrayList<Integer> extractFilesStartLine(String dslContent) {
@@ -69,9 +71,6 @@ public class DSLHasSyntaxErrorExceptionHandlerHelper {
         return new FileErrorLine(fileName, errorLineInFile);
     }
 
-    @lombok.Value
-    class FileErrorLine {
-        String fileName;
-        int line;
+    record FileErrorLine(String fileName, int line) {
     }
 }

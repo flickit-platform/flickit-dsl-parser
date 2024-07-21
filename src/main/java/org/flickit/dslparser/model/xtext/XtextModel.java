@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class XtextV2Model<T extends BaseInfo> {
+public class XtextModel<T extends BaseInfo> {
 
     private List<T> models;
 }
