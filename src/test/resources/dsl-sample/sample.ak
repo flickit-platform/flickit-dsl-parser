@@ -1,16 +1,19 @@
 level Elementary {
     title: "Elementary"
+    description: "This is a test Description for Elementary level"
     value: 0
 }
 
 level Weak {
     title:"Weak"
+    description: "This is a test Description for Weak level"
     value: 1
     competence: [Weak:60%]
 }
 
 level Moderate {
     title:"Moderate"
+    description: "This is a test Description for Moderate level"
     value: 2
     competence: [Weak:75%, Moderate: 60%]
 }
