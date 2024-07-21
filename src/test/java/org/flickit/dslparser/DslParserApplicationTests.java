@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class DslParserApplicationTest {
+class DslParserApplicationTests {
 
 	private static final int SUBJECT_TEAM_INDEX = 0;
 	private static final int QUESTIONNAIRE_DEV_OPS_INDEX = 0;
