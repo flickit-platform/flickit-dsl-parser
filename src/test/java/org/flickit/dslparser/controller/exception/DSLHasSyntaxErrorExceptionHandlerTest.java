@@ -51,7 +51,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
         assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.message());
 
-        assertEquals(12, errors.size());
+        assertEquals(13, errors.size());
         for (SyntaxError syntaxError : errors) {
             assertThat(syntaxError.message(), is(not(emptyOrNullString())));
             assertThat(syntaxError.fileName(), is(not(emptyOrNullString())));
@@ -66,7 +66,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         assertThat(error.message(), is(equalTo("mismatched input 'index:' expecting 'value:'")));
         assertThat(error.fileName(), is(equalTo("levels.ak")));
         assertThat(error.errorLine(), is(equalTo("    index: 1")));
-        assertThat(error.line(), is(equalTo(8)));
+        assertThat(error.line(), is(equalTo(10)));
         assertThat(error.column(), is(equalTo(5)));
     }
 
@@ -103,7 +103,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         assertThat(error.message(), is(equalTo("'Title' may not be empty!")));
         assertThat(error.fileName(), is(equalTo("levels.ak")));
         assertThat(error.errorLine(), is(equalTo("    title:\"\"")));
-        assertThat(error.line(), is(equalTo(7)));
+        assertThat(error.line(), is(equalTo(8)));
         assertThat(error.column(), is(equalTo(11)));
     }
 
