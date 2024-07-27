@@ -56,6 +56,7 @@ class DslParserApplicationTest {
 		assertEquals("Moderate", levelModel.getCode());
 		assertEquals("Moderate", levelModel.getTitle());
 		assertEquals(3, levelModel.getIndex());
+		assertEquals("This is a test Description for Moderate level", levelModel.getDescription());
 		assertEquals(2, levelModel.getValue());
 		assertTrue(Maps.difference(expectedLevelCompetence, levelModel.getLevelCompetence()).areEqual());
 	}
