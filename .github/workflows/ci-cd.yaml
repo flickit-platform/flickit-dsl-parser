@@ -9,7 +9,7 @@ on:
       - '*'
 
 env:
-  SONAR_PROJECT_KEY: Flickit-Platform-Dev_flickit-dsl-parser
+  SONAR_PROJECT_KEY: dev-flickit-dsl-parser
   REGISTRY: ghcr.io
   IMAGE_NAME: flickit-platform-dev/flickit-dsl-parser
   MAVEN_USERNAME: flickit-platform-dev
