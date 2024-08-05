@@ -9,7 +9,7 @@ on:
       - '*'
 
 env:
-  SONAR_PROJECT_KEY: flickit-dsl-parser
+  SONAR_PROJECT_KEY: Flickit-Platform-Dev_flickit-dsl-parser
   REGISTRY: ghcr.io
   IMAGE_NAME: flickit-platform-dev/flickit-dsl-parser
   MAVEN_USERNAME: flickit-platform-dev
@@ -82,7 +82,6 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
   sonar:
-    if: false
     needs: [test]
     runs-on: ubuntu-latest
     outputs:
@@ -128,7 +127,7 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
 
   deploy-snapshot-package:
-    needs: [test]
+    needs: [sonar]
     name: deploy snapshot package
     runs-on: ubuntu-latest
     if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -161,7 +160,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   build-and-push-latest-image:
-    needs: [test]
+    needs: [sonar]
     name: deploy latest image
     runs-on: ubuntu-latest
     if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -223,7 +222,7 @@ jobs:
           DARKUBE_APP_ID: ${{ secrets.DSL_PARSER_APP_ID_STAGING }}
 
   tag-and-release:
-    needs: [test]
+    needs: [sonar]
     name: tag and release
     runs-on: ubuntu-latest
     if: ${{ ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) &&
@@ -269,7 +268,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   build-and-push-image:
-    needs: [test, tag-and-release]
+    needs: [sonar, tag-and-release]
     name: deploy image
     runs-on: ubuntu-latest
 
@@ -306,7 +305,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   darkube-deploy:
-    needs: [test, build-and-push-image]
+    needs: [sonar, build-and-push-image]
     name: darkube deploy
     container: hamravesh.hamdocker.ir/public/darkube-cli:v1.1
     runs-on: ubuntu-latest
