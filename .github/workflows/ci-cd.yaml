@@ -40,9 +40,7 @@ jobs:
   test:
     needs: [build]
     runs-on: ubuntu-latest
-    outputs:
-      project_version: ${{ steps.project.outputs.version }}
-
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
