@@ -1,4 +1,4 @@
-package org.flickit.dslparser.service.xtextv2.extractor.question;
+package org.flickit.dslparser.service.xtext.extractor.question;
 
 import org.flickit.dsl.editor.v2.assessmentKitDsl.AffectsAttribute;
 import org.flickit.dsl.editor.v2.assessmentKitDsl.Attribute;
@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class QuestionImpactV2Extractor {
+public class QuestionImpactExtractor {
 
     protected static final List<Double> DEFAULT_2_OPTION_VALUES = Arrays.asList(0d, 1d);
     protected static final List<Double> DEFAULT_3_OPTION_VALUES = Arrays.asList(0d, 0.5d, 1d);
     protected static final List<Double> DEFAULT_4_OPTION_VALUES = Arrays.asList(0d, 0.5d, 0.7d, 1.0d);
-    protected static final List<Double> DEFAULT_5_OPTION_VALUES = Arrays.asList(0d, 0.2d, 0.5d, 0.9d, 1d);
+    protected static final List<Double> DEFAULT_5_OPTION_VALUES = Arrays.asList(0d, 0.1d, 0.5d, 0.9d, 1d);
 
     public void setupQuestionImpacts(QuestionModel questionModel, Question question) {
         for (AffectsAttribute affects : question.getAffectsAttribute()) {
@@ -28,6 +28,7 @@ public class QuestionImpactV2Extractor {
             for (OnLevel onLevel : affects.getOnLevel()) {
                 ImpactModel impactModel = new ImpactModel();
                 LevelModel levelModel = new LevelModel();
+                levelModel.setCode(onLevel.getLevel().getName());
                 levelModel.setTitle(onLevel.getLevel().getTitle());
                 impactModel.setLevel(levelModel);
                 impactModel.setAttributeCode(attribute.getName());

@@ -1,13 +1,12 @@
 package org.flickit.dslparser.controller.exception.api;
 
-import lombok.Value;
+public record SyntaxError(String message,
+                          String fileName,
+                          String errorLine,
+                          Integer line,
+                          Integer column) {
 
-@Value
-public class SyntaxError {
-
-    String message;
-    String fileName;
-    String errorLine;
-    int line;
-    int column;
+    public SyntaxError(String message) {
+        this(message, null, null, null, null);
+    }
 }

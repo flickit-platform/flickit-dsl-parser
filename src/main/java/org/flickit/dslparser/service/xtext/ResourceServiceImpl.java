@@ -1,4 +1,4 @@
-package org.flickit.dslparser.service.xtextv2;
+package org.flickit.dslparser.service.xtext;
 
 
 import com.google.inject.Injector;
@@ -8,14 +8,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.flickit.dsl.editor.v2.AssessmentKitDslStandaloneSetup;
-import org.flickit.dslparser.service.xtext.ResourceService;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 
 @Component
 @Slf4j
-public class ResourceServiceV2 extends ResourceService {
+public class ResourceServiceImpl extends ResourceService {
 
     @Override
     public Resource setupResource(String dslContent) {
