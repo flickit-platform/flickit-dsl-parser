@@ -195,15 +195,18 @@ jobs:
   darkube-deploy-latest:
     needs: [build-and-push-latest-image]
     name: darkube deploy latest
-    container: hamravesh.hamdocker.ir/public/darkube-cli:v1.1
+    container:
+      image: registry.hectora.cloud/hectora-public/darkube-cli:v1.1
+      env:
+        CONSOLE_API_BASE_URL: "https://api.hectora.cloud"
     runs-on: ubuntu-latest
 
     steps:
       - name: Run script
-        run: darkube deploy --ref main --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "${GITHUB_SHA:0:7}" --job-id "$GITHUB_RUN_ID" --stateless-app true
+        run: darkube deploy --ref main --token ${DEPLOY_TOKEN} --app-id ${APP_ID}  --image-tag "${GITHUB_SHA:0:7}" --job-id "$GITHUB_RUN_ID" --stateless-app true
         env:
-          DARKUBE_DEPLOY_TOKEN: ${{ secrets.DSL_PARSER_DEPLOY_TOKEN_STAGING }}
-          DARKUBE_APP_ID: ${{ secrets.DSL_PARSER_APP_ID_STAGING }}
+          DEPLOY_TOKEN: ${{ secrets.DSL_PARSER_DEPLOY_TOKEN_STAGING }}
+          APP_ID: ${{ secrets.DSL_PARSER_APP_ID_STAGING }}
 
   tag-and-release:
     needs: [sonar]
@@ -291,13 +294,15 @@ jobs:
   darkube-deploy:
     needs: [sonar, build-and-push-image]
     name: darkube deploy
-    container: hamravesh.hamdocker.ir/public/darkube-cli:v1.1
+    container:
+      image: registry.hectora.cloud/hectora-public/darkube-cli:v1.1
+      env:
+        CONSOLE_API_BASE_URL: "https://api.hectora.cloud"
     runs-on: ubuntu-latest
-
     steps:
       - name: Run script
-        run: darkube deploy --ref main --token ${DARKUBE_DEPLOY_TOKEN} --app-id ${DARKUBE_APP_ID}  --image-tag "${PROJECT_VERSION}" --job-id "$GITHUB_RUN_ID" --stateless-app true
+        run: darkube deploy --ref main --token ${DEPLOY_TOKEN} --app-id ${APP_ID}  --image-tag "${PROJECT_VERSION}" --job-id "$GITHUB_RUN_ID" --stateless-app true
         env:
-          DARKUBE_DEPLOY_TOKEN: ${{ secrets.DLS_PARSER_DEPLOY_TOKEN_PROD }}
-          DARKUBE_APP_ID: ${{ secrets.DSL_PARSER_APP_ID_PROD }}
+          DEPLOY_TOKEN: ${{ secrets.DLS_PARSER_DEPLOY_TOKEN_PROD }}
+          APP_ID: ${{ secrets.DSL_PARSER_APP_ID_PROD }}
           PROJECT_VERSION: ${{ needs.sonar.outputs.project_version }}
