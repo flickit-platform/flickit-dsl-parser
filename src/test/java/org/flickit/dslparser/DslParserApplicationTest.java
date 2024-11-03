@@ -119,6 +119,7 @@ class DslParserApplicationTest {
 		assertEquals("This metric has impact on 3 attributes.", questionModel.getDescription());
 		List<String> actualAnswers = questionModel.getAnswers().stream().map(AnswerModel::getCaption).collect(Collectors.toList());
 		assertEquals(expectedAnswers, actualAnswers);
+		assertEquals(0.5, questionModel.getAnswers().get(1).getValue());
 		assertEquals(3, questionModel.getCost());
 		assertTrue(questionModel.isMayNotBeApplicable());
 		assertFalse(questionModel.isAdvisable());
@@ -150,6 +151,12 @@ class DslParserApplicationTest {
 		assertFalse(questionModel.isMayNotBeApplicable());
 
 		String attributeTeamReflectionCode = resp.attributeModels().get(ATTRIBUTE_TEAM_REFLECTION_INDEX).getCode();
+		List<AnswerModel> answers = questionModel.getAnswers();
+		assertEquals(0, answers.get(0).getValue());
+		assertEquals(0.1, answers.get(1).getValue());
+		assertEquals(0.5, answers.get(2).getValue());
+		assertEquals(0.9, answers.get(3).getValue());
+		assertEquals(1, answers.get(4).getValue());
 
 		ImpactModel impactModel1 = questionModel.getQuestionImpacts().get(0);
 		assertEquals(attributeTeamReflectionCode, impactModel1.getAttributeCode());

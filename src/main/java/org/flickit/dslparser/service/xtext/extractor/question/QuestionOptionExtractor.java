@@ -21,7 +21,7 @@ public class QuestionOptionExtractor {
             answerModel.setCaption(options.get(i));
             int index = i + 1;
             answerModel.setIndex(index);
-            answerModel.setValue(OptionValue.getOptionValue(OptionIndex.getOptionIndex(optionNumber, i)).getValue());
+            answerModel.setValue(QuestionImpactExtractor.getDefaultImpact(optionNumber, i));
             questionModel.addToAnswers(answerModel);
         }
     }
