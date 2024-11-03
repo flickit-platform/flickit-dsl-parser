@@ -54,7 +54,13 @@ public class QuestionImpactExtractor {
         questionModel.addToImpacts(impactModel);
     }
 
-    private List<Double> getDefaultImpact(int optionNumber) {
+    public static Double getDefaultImpact(int optionNumber, int optionIndex) {
+        if (optionIndex >= optionNumber)
+            throw new IllegalArgumentException("Invalid option number.");
+        return getDefaultImpact(optionNumber).get(optionIndex);
+    }
+
+    private static List<Double> getDefaultImpact(int optionNumber) {
         return switch (optionNumber) {
             case 2 -> DEFAULT_2_OPTION_VALUES;
             case 3 -> DEFAULT_3_OPTION_VALUES;
