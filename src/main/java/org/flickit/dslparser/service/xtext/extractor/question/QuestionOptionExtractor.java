@@ -13,7 +13,7 @@ public class QuestionOptionExtractor {
     public static final int MIN_OPTION_NUMBER = 2;
     public static final int MAX_OPTION_NUMBER = 5;
 
-    public void setupQuestionOptions(QuestionModel questionModel, EList<String> options) {
+    public void setupQuestionOptions(QuestionModel questionModel, EList<String> options, EList<String> values) {
         int optionNumber = options.size();
         validateOptions(optionNumber);
         for (int i = 0; i < optionNumber; i++) {
@@ -21,7 +21,7 @@ public class QuestionOptionExtractor {
             answerModel.setCaption(options.get(i));
             int index = i + 1;
             answerModel.setIndex(index);
-            answerModel.setValue(QuestionImpactExtractor.getDefaultImpact(optionNumber, i));
+            answerModel.setValue(Double.valueOf(values.get(i)));
             questionModel.addToAnswers(answerModel);
         }
     }

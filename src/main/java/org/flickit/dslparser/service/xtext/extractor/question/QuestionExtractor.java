@@ -48,7 +48,12 @@ public class QuestionExtractor implements BaseInfoExtractor<QuestionModel, Quest
         questionModel.setMayNotBeApplicable(parseBoolean(question.getMayNotBeApplicable()));
         questionModel.setAdvisable(parseBooleanOrDefaultTrue(question.getAdvisable()));
         questionModel.setCost(NumberUtils.toInt(question.getCost(), 1));
-        questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions());
+
+        if (question.getOptions() != null && !question.getOptions().isEmpty())
+            questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions(), question.getValues());
+        else
+            questionModel.setAnswerRangeCode(question.getAnswerRange().getName());
+
         questionImpactExtractor.setupQuestionImpacts(questionModel, question);
         return questionModel;
     }

@@ -13,6 +13,7 @@ public class QuestionModel extends BaseAssessmentModel{
     private String questionnaireCode;
     private List<ImpactModel> questionImpacts;
     private List<AnswerModel> answers;
+    private String answerRangeCode;
     private boolean mayNotBeApplicable;
     private boolean advisable;
     private int cost;
