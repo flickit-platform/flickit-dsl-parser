@@ -14,10 +14,7 @@ import org.flickit.dslparser.common.Message;
 import org.flickit.dslparser.controller.AssessmentKitResponse;
 import org.flickit.dslparser.model.assessmentkit.*;
 import org.flickit.dslparser.service.exception.DSLHasSyntaxErrorException;
-import org.flickit.dslparser.service.xtext.extractor.baseinfo.AttributeExtractor;
-import org.flickit.dslparser.service.xtext.extractor.baseinfo.LevelExtractor;
-import org.flickit.dslparser.service.xtext.extractor.baseinfo.QuestionnaireExtractor;
-import org.flickit.dslparser.service.xtext.extractor.baseinfo.SubjectExtractor;
+import org.flickit.dslparser.service.xtext.extractor.baseinfo.*;
 import org.flickit.dslparser.service.xtext.extractor.question.QuestionExtractor;
 import org.flickit.dslparser.service.xtext.validator.ParserValidator;
 import org.springframework.stereotype.Service;
@@ -33,6 +30,7 @@ public class AssessmentKitExtractor {
     private final SubjectExtractor subjectExtractor;
     private final AttributeExtractor attributeExtractor;
     private final QuestionnaireExtractor questionnaireExtractor;
+    private final AnswerRangeExtractor answerRangeExtractor;
     private final QuestionExtractor questionExtractor;
     private final LevelExtractor levelExtractor;
     private final IResourceValidator xTextValidator;
@@ -67,11 +65,13 @@ public class AssessmentKitExtractor {
         List<QuestionnaireModel> questionnaireModels = questionnaireExtractor.extractList(elements);
         List<SubjectModel> subjectModels = subjectExtractor.extractList(elements);
         List<AttributeModel> attributeModels = attributeExtractor.extractList(elements);
+        List<AnswerRangeModel> answerRangeModels = answerRangeExtractor.extractList(elements);
         List<QuestionModel> questionModels = questionExtractor.extractList(elements);
         List<LevelModel> levelModels = levelExtractor.extractList(elements);
 
         return new AssessmentKitResponse(questionnaireModels,
                 attributeModels,
+                answerRangeModels,
                 questionModels,
                 subjectModels,
                 levelModels,
