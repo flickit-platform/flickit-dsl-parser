@@ -54,8 +54,8 @@ public class AnswerRangeExtractor implements BaseInfoExtractor<AnswerRangeModel,
 
     private void validateOptionsSize(int optionNumber) {
         if (optionNumber < MIN_OPTION_NUMBER || optionNumber > MAX_OPTION_NUMBER) {
-            log.error("The number of option for question is invalid");
-            throw new RuntimeException("The number of option is invalid");
+            log.error("The number of options for question's answer range is invalid");
+            throw new RuntimeException("The number of options is invalid");
         }
     }
 
