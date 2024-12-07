@@ -48,7 +48,17 @@ public class QuestionExtractor implements BaseInfoExtractor<QuestionModel, Quest
         questionModel.setMayNotBeApplicable(parseBoolean(question.getMayNotBeApplicable()));
         questionModel.setAdvisable(parseBooleanOrDefaultTrue(question.getAdvisable()));
         questionModel.setCost(NumberUtils.toInt(question.getCost(), 1));
-        questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions());
+
+        if (question.getOptions() != null && !question.getOptions().isEmpty())
+            questionOptionExtractor.setupQuestionOptions(questionModel, question.getOptions(), question.getValues());
+        else if (question.getAnswerRange() != null)
+            questionModel.setAnswerRangeCode(question.getAnswerRange().getName());
+        else {
+            log.error("Question does not have any answer range or options");
+            throw new RuntimeException("Question does not have any answer range or options");
+        }
+
+
         questionImpactExtractor.setupQuestionImpacts(questionModel, question);
         return questionModel;
     }

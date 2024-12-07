@@ -51,7 +51,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
         assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.message());
 
-        assertEquals(13, errors.size());
+        assertEquals(14, errors.size());
         for (SyntaxError syntaxError : errors) {
             assertThat(syntaxError.message(), is(not(emptyOrNullString())));
             assertThat(syntaxError.fileName(), is(not(emptyOrNullString())));
@@ -88,7 +88,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
         assertEquals(ErrorCodes.SYNTAX_ERROR, syntaxErrorResponseDto.message());
 
-        assertEquals(5, errors.size());
+        assertEquals(4, errors.size());
         for (SyntaxError syntaxError : errors) {
             assertThat(syntaxError.message(), is(not(emptyOrNullString())));
             assertThat(syntaxError.fileName(), is(not(emptyOrNullString())));

@@ -6,12 +6,13 @@ import java.util.List;
 
 public record AssessmentKitResponse(List<QuestionnaireModel> questionnaireModels,
                                     List<AttributeModel> attributeModels,
+                                    List<AnswerRangeModel> answerRangeModels,
                                     List<QuestionModel> questionModels,
                                     List<SubjectModel> subjectModels,
                                     List<LevelModel> levelModels,
                                     boolean hasError) {
 
     public AssessmentKitResponse(boolean hasError) {
-        this(null, null, null, null, null, hasError);
+        this(null, null, null, null, null, null, hasError);
     }
 }
