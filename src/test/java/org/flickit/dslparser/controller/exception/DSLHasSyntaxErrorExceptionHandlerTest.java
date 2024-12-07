@@ -65,7 +65,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         SyntaxError error = errors.get(0);
         assertThat(error.message(), is(equalTo("mismatched input 'index:' expecting 'value:'")));
         assertThat(error.fileName(), is(equalTo("levels.ak")));
-        assertThat(error.errorLine(), is(equalTo("    index: 1\r")));
+        assertThat(error.errorLine(), is(equalTo("    index: 1")));
         assertThat(error.line(), is(equalTo(10)));
         assertThat(error.column(), is(equalTo(5)));
     }
@@ -102,7 +102,7 @@ class DSLHasSyntaxErrorExceptionHandlerTest {
         SyntaxError error = errors.get(0);
         assertThat(error.message(), is(equalTo("'Title' may not be empty!")));
         assertThat(error.fileName(), is(equalTo("levels.ak")));
-        assertThat(error.errorLine(), is(equalTo("    title:\"\"\r")));
+        assertThat(error.errorLine(), is(equalTo("    title:\"\"")));
         assertThat(error.line(), is(equalTo(8)));
         assertThat(error.column(), is(equalTo(11)));
     }
