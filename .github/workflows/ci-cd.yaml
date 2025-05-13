@@ -192,25 +192,9 @@ jobs:
           MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
 
-  darkube-deploy-latest:
+  deploy_latest:
     needs: [build-and-push-latest-image]
-    name: darkube deploy latest
-    container:
-      image: registry.hectora.cloud/hectora-public/darkube-cli:v1.1
-      env:
-        CONSOLE_API_BASE_URL: "https://api.hectora.cloud"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Run script
-        run: darkube deploy --ref main --token ${DEPLOY_TOKEN} --app-id ${APP_ID}  --image-tag "${GITHUB_SHA:0:7}" --job-id "$GITHUB_RUN_ID" --stateless-app true
-        env:
-          DEPLOY_TOKEN: ${{ secrets.DSL_PARSER_DEPLOY_TOKEN_STAGING }}
-          APP_ID: ${{ secrets.DSL_PARSER_APP_ID_STAGING }}
-
-  deploy_latest_with_webhook:
-    needs: [build-and-push-latest-image]
-    name: deploy latest with webhook
+    name: deploy latest
     runs-on: ubuntu-latest
     steps:
       - name: Deploy service on Webhook
